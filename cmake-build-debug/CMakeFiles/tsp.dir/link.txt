@@ -1,0 +1,1 @@
+/usr/bin/c++  -g   CMakeFiles/tsp.dir/main.cpp.o  -o tsp 
