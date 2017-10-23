@@ -6,31 +6,44 @@
 
 using namespace std;
 int const n_cities = 4;
-typedef struct tour_t {
+
+
+/* I refactored the typedef struct definitions.
+  Code works fine right now.
+  I'l add the deconstructors after I test for other arrays.
+  I'm gonna try to add a clock and check the time increase for different types of arrays.
+  Should I use chronos for the clock or regular clock_t works fine?
+*/
+
+typedef struct {
     int cities[n_cities + 1];  // graph
     int size;  // number of cities
     int cost;  // cost of cities
-    ~tour_t(){}  // Deconstrutor
+   // ~tour_t(){}  // Deconstrutor
 
-};
-typedef struct stack_t {
+} tour_t;
+
+
+// Conflicting typedef name with some xcode stuff
+typedef struct {
     // todo check if stack is n * n ?
     tour_t* list[n_cities * n_cities];
     int size;
-    ~stack_t(){} // Deconstrutor
+    // ~strack_t(){} // Deconstrutor
+} strack_t;
 
-};
-typedef struct freed_tours_t {
+
+typedef struct {
     vector<tour_t*> *list;
     int size;
     int limit;
-    ~freed_tours_t(){
+    /* ~freed_tours_t(){
         for(int i= 0; i< size; i++)
             delete(list->at(i));
         delete list;
     } // Deconstrutor
-
-};
+    */
+} freed_tours_t;
 
 void print_tour(tour_t* tour){
     assert(tour != NULL);
@@ -78,7 +91,7 @@ void resize_freed_tour(freed_tours_t* freed_tour, int new_size){
 }
 
 void push_freed_tour(freed_tours_t* freed_tours ,tour_t* tour){
-    assert(freed_tours != NULL);
+   assert(freed_tours != NULL);
     assert(tour != NULL);
 
     // Make freed tour larger
@@ -104,15 +117,15 @@ tour_t* pop_freed_tour(freed_tours_t* freed_tours){
     return tour;
 }
 
-stack_t* new_stack(){
-    stack_t* stack = new stack_t;
+strack_t* new_stack(){
+    strack_t* stack = new strack_t;
     stack->size = 0;
     for(int i=0; i < n_cities + 1; i++)
         stack->list[i] = NULL;
     return stack;
 }
 
-tour_t* pop(stack_t* stack){
+tour_t* pop(strack_t* stack){
     assert(stack != NULL);
     assert(stack->size >0);
 
@@ -120,7 +133,7 @@ tour_t* pop(stack_t* stack){
     return stack->list[--stack->size];
 }
 
-void push_copy(stack_t* stack, tour_t* tour, freed_tours_t* freed_tours){
+void push_copy(strack_t* stack, tour_t* tour, freed_tours_t* freed_tours){
     assert(stack != NULL);
     assert(tour != NULL);
     assert(stack->size < n_cities * n_cities);
@@ -214,7 +227,7 @@ int main() {
 
     tour_t* best_tour = new_tour();
     tour_t* tour = new_tour();
-    stack_t* stack = new_stack();
+    strack_t* stack = new_stack();
     freed_tours_t* freed_tours = new_freed_tour();
     int home_city = 0;
     tour->cities[0] = home_city;
