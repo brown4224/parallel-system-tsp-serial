@@ -1,6 +1,7 @@
 #include <iostream>
 #include <assert.h>
 #include <climits>
+#include <vector>
 
 
 using namespace std;
@@ -17,6 +18,17 @@ typedef struct stack_t {
     tour_t* list[n_cities * n_cities];
     int size;
     ~stack_t(){} // Deconstrutor
+
+};
+typedef struct freed_tours_t {
+    vector<tour_t*> *list;
+    int size;
+    int limit;
+    ~freed_tours_t(){
+        for(int i= 0; i< size; i++)
+            delete(list->at(i));
+        delete list;
+    } // Deconstrutor
 
 };
 
@@ -45,12 +57,52 @@ tour_t* new_tour(){
     tour->cost = 0;
     for(int i=0; i< n_cities; i++)
         tour->cities[i] = -1;
+    return tour;
 }
 void free_cities(tour_t* tour){
     tour->size = 0;
     tour->cost = 0;
 }
+freed_tours_t* new_freed_tour(){
+    freed_tours_t* freed_tour = new freed_tours_t;
+    freed_tour->size = 0;
+    freed_tour->limit = n_cities;
+    freed_tour->list = new vector<tour_t*>(freed_tour->limit, NULL);
 
+    return  freed_tour;
+}
+void resize_freed_tour(freed_tours_t* freed_tour, int new_size){
+    assert(freed_tour != NULL);
+    freed_tour->list->resize(new_size, NULL);
+    freed_tour->limit = new_size;
+}
+
+void push_freed_tour(freed_tours_t* freed_tours ,tour_t* tour){
+    assert(freed_tours != NULL);
+    assert(tour != NULL);
+
+    // Make freed tour larger
+    if(freed_tours->size >= freed_tours->limit)
+        resize_freed_tour(freed_tours, freed_tours->limit + n_cities);
+
+    // zero out tour & push on array
+    free_cities(tour);
+    freed_tours->list->push_back(tour);
+    freed_tours->size++;
+}
+tour_t* pop_freed_tour(freed_tours_t* freed_tours){
+    assert(freed_tours != NULL);
+    tour_t* tour = NULL;
+    if(freed_tours->size > 0){
+        tour = freed_tours->list->back();
+        freed_tours->list->pop_back();
+        freed_tours->size--;
+    } else{
+        tour = new_tour();
+    }
+
+    return tour;
+}
 
 stack_t* new_stack(){
     stack_t* stack = new stack_t;
@@ -68,14 +120,14 @@ tour_t* pop(stack_t* stack){
     return stack->list[--stack->size];
 }
 
-void push_copy(stack_t* stack, tour_t* tour){
+void push_copy(stack_t* stack, tour_t* tour, freed_tours_t* freed_tours){
     assert(stack != NULL);
     assert(tour != NULL);
     assert(stack->size < n_cities * n_cities);
 
     //todo error handling if stack is less then n * n
     int i = stack->size;
-    tour_t* temp = new_tour();
+    tour_t* temp = pop_freed_tour(freed_tours);  // Reuse tours or create new one
     copy_tour(tour, temp);
     stack->list[i] = temp;
     stack->size++;
@@ -93,10 +145,7 @@ int get_current_city(tour_t* tour){
     return tour->cities[tour->size - 1 ];
 }
 
-//int get_city(tour_t* tour, int i){
-//    assert(tour != NULL);
-//    return tour->cities[i];
-//}
+
 void add_city(int* graph, tour_t* tour,  int dest){
     assert(tour != NULL);
     assert(graph != NULL);
@@ -166,12 +215,13 @@ int main() {
     tour_t* best_tour = new_tour();
     tour_t* tour = new_tour();
     stack_t* stack = new_stack();
+    freed_tours_t* freed_tours = new_freed_tour();
     int home_city = 0;
     tour->cities[0] = home_city;
     tour->size = 1;
     best_tour->cost = INT_MAX;
 
-    push_copy(stack, tour);
+    push_copy(stack, tour, freed_tours);
     while (stack->size > 0){
         tour = pop(stack);
         if(tour->size == n_cities){
@@ -185,39 +235,22 @@ int main() {
                 if(is_neighbor(graph, tour->cities[tour->size - 1], neighbor)){
                     if(!is_visited(tour, neighbor)){  // not in books code
                         add_city(graph, tour, neighbor );
-                        push_copy(stack, tour);
+                        push_copy(stack, tour, freed_tours);
                         remove_city(graph, tour);
                     }
 
                 }
             }
         }
-        delete tour;
-//        free_cities(tour);  // todo make it dynamic
+        push_freed_tour(freed_tours, tour);
     }
     print_tour(best_tour);
 
 
-/*  CODE FROM BOOK */
-//    Push copy(stack, cities); // Tour that visits only the hometown
-//    while (!Empty(stack)) {
-//        curr cities = Pop(stack);
-//        if (City count(curr cities) == n) {
-//            if (Best cities(curr cities))
-//                Update best cities(curr cities);
-//        } else {
-//            for (nbr = n − 1; nbr >= 1; nbr −− )
-//            if (Feasible(curr cities, nbr)) {
-//                Add city(curr cities, nbr);
-//                Push copy(stack, curr cities);
-//                Remove last city(curr cities);
-//            }
-//        }
-//        Free cities(curr cities);
-//    }
-
-
     delete[] graph;
+    delete freed_tours;
+    delete best_tour;
+    delete tour;
     delete stack;
     return 0;
 }
