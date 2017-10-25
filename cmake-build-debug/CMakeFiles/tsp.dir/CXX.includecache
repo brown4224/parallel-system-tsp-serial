@@ -6,6 +6,16 @@
 
 #IncludeRegexTransform: 
 
+/home/sean/Desktop/school/parralel-systems/tsp/graphs.cpp
+graphs.h
+/home/sean/Desktop/school/parralel-systems/tsp/graphs.h
+iostream
+-
+assert.h
+-
+
+/home/sean/Desktop/school/parralel-systems/tsp/graphs.h
+
 /home/sean/Desktop/school/parralel-systems/tsp/main.cpp
 iostream
 -
@@ -13,6 +23,28 @@ assert.h
 -
 climits
 -
+vector
+-
+chrono
+-
+ctime
+-
+stack.h
+/home/sean/Desktop/school/parralel-systems/tsp/stack.h
+graphs.h
+/home/sean/Desktop/school/parralel-systems/tsp/graphs.h
+
+/home/sean/Desktop/school/parralel-systems/tsp/stack.cpp
+vector
+-
+iostream
+-
+assert.h
+-
+stack.h
+/home/sean/Desktop/school/parralel-systems/tsp/stack.h
+
+/home/sean/Desktop/school/parralel-systems/tsp/stack.h
 vector
 -
 

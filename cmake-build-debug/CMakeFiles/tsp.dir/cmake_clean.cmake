@@ -1,5 +1,7 @@
 file(REMOVE_RECURSE
   "CMakeFiles/tsp.dir/main.cpp.o"
+  "CMakeFiles/tsp.dir/stack.cpp.o"
+  "CMakeFiles/tsp.dir/graphs.cpp.o"
   "tsp.pdb"
   "tsp"
 )

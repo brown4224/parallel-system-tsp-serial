@@ -6,11 +6,11 @@
 #include <chrono>
 #include <ctime>
 #include "stack.h"
+#include "graphs.h"
 
 
 using namespace std;
 using namespace std::chrono;
-//int const n_cities = 4;
 
 int main() {
 
@@ -19,43 +19,9 @@ int main() {
       Time taken : 0.00011 seconds
     */
 
-    int* graph = new int[n_cities * n_cities]
-    {
-            0, 1,  3,  8,
-            5, 0,  2,  6,
-            1, 18, 0, 10,
-            7, 4,  12, 0,
-    };
 
-/*
+    int* graph = build_graph(n_cities);
 
-    int* graph = new int[n_cities * n_cities];
-
-    graph[0] = 0;
-
-    for(int i = 1 ; i < (n_cities * n_cities), i++)
-    {
-        temp = rand() %50 + 1;
-
-        if(temp%9 == 0)
-        {
-            temp = -temp;
-        }
-
-        if( ((n_cities + 1) % i) == 0 )
-        {
-            temp = 0;
-        }
-        graph[i] = temp;
-    }
-
-
-    OR
-
-
-    int* lists = new int[graph];
-    Make a array with different graphs, use a randomizer to choose a graph.
-*/
 
     tour_t* best_tour = new_tour();
     tour_t* tour = new_tour();
@@ -89,7 +55,14 @@ int main() {
         }
         push_freed_tour(freed_tours, tour);
     }
+    high_resolution_clock::time_point t2 = high_resolution_clock::now();
+    duration<double> time_span = duration_cast<duration<double> >(t2 - t1);
+
+    std::cout << "\nTime taken : " << time_span.count() << " seconds.";
+    std::cout << std::endl;
+
     print_tour(best_tour);
+    print_graph(graph);
 
 
     delete[] graph;
@@ -98,10 +71,7 @@ int main() {
     delete tour;
     delete stack;
 
-    high_resolution_clock::time_point t2 = high_resolution_clock::now();
-    duration<double> time_span = duration_cast<duration<double> >(t2 - t1);
 
-    std::cout << "\nTime taken : " << time_span.count() << " seconds.";
-    std::cout << std::endl;
+
     return 0;
 }

@@ -123,6 +123,33 @@ tsp/fast:
 	$(MAKE) -f CMakeFiles/tsp.dir/build.make CMakeFiles/tsp.dir/build
 .PHONY : tsp/fast
 
+graphs.o: graphs.cpp.o
+
+.PHONY : graphs.o
+
+# target to build an object file
+graphs.cpp.o:
+	$(MAKE) -f CMakeFiles/tsp.dir/build.make CMakeFiles/tsp.dir/graphs.cpp.o
+.PHONY : graphs.cpp.o
+
+graphs.i: graphs.cpp.i
+
+.PHONY : graphs.i
+
+# target to preprocess a source file
+graphs.cpp.i:
+	$(MAKE) -f CMakeFiles/tsp.dir/build.make CMakeFiles/tsp.dir/graphs.cpp.i
+.PHONY : graphs.cpp.i
+
+graphs.s: graphs.cpp.s
+
+.PHONY : graphs.s
+
+# target to generate assembly for a file
+graphs.cpp.s:
+	$(MAKE) -f CMakeFiles/tsp.dir/build.make CMakeFiles/tsp.dir/graphs.cpp.s
+.PHONY : graphs.cpp.s
+
 main.o: main.cpp.o
 
 .PHONY : main.o
@@ -150,6 +177,33 @@ main.cpp.s:
 	$(MAKE) -f CMakeFiles/tsp.dir/build.make CMakeFiles/tsp.dir/main.cpp.s
 .PHONY : main.cpp.s
 
+stack.o: stack.cpp.o
+
+.PHONY : stack.o
+
+# target to build an object file
+stack.cpp.o:
+	$(MAKE) -f CMakeFiles/tsp.dir/build.make CMakeFiles/tsp.dir/stack.cpp.o
+.PHONY : stack.cpp.o
+
+stack.i: stack.cpp.i
+
+.PHONY : stack.i
+
+# target to preprocess a source file
+stack.cpp.i:
+	$(MAKE) -f CMakeFiles/tsp.dir/build.make CMakeFiles/tsp.dir/stack.cpp.i
+.PHONY : stack.cpp.i
+
+stack.s: stack.cpp.s
+
+.PHONY : stack.s
+
+# target to generate assembly for a file
+stack.cpp.s:
+	$(MAKE) -f CMakeFiles/tsp.dir/build.make CMakeFiles/tsp.dir/stack.cpp.s
+.PHONY : stack.cpp.s
+
 # Help Target
 help:
 	@echo "The following are some of the valid targets for this Makefile:"
@@ -159,9 +213,15 @@ help:
 	@echo "... rebuild_cache"
 	@echo "... edit_cache"
 	@echo "... tsp"
+	@echo "... graphs.o"
+	@echo "... graphs.i"
+	@echo "... graphs.s"
 	@echo "... main.o"
 	@echo "... main.i"
 	@echo "... main.s"
+	@echo "... stack.o"
+	@echo "... stack.i"
+	@echo "... stack.s"
 .PHONY : help
 
 

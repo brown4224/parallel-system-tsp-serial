@@ -80,7 +80,19 @@
 				</MakeCommands>
 			</Target>
 		</Build>
+		<Unit filename="/home/sean/Desktop/school/parralel-systems/tsp/graphs.cpp">
+			<Option target="tsp"/>
+		</Unit>
+		<Unit filename="/home/sean/Desktop/school/parralel-systems/tsp/graphs.h">
+			<Option target="tsp"/>
+		</Unit>
 		<Unit filename="/home/sean/Desktop/school/parralel-systems/tsp/main.cpp">
+			<Option target="tsp"/>
+		</Unit>
+		<Unit filename="/home/sean/Desktop/school/parralel-systems/tsp/stack.cpp">
+			<Option target="tsp"/>
+		</Unit>
+		<Unit filename="/home/sean/Desktop/school/parralel-systems/tsp/stack.h">
 			<Option target="tsp"/>
 		</Unit>
 		<Unit filename="/home/sean/Desktop/school/parralel-systems/tsp/CMakeLists.txt">
