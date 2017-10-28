@@ -29,6 +29,13 @@ typedef struct strack_t{
 } strack_t;
 
 
+// Making a set of partial tours to distribute to each thread.
+typedef struct list_of_cities{
+    strack_t* list[n_cities];
+    int size;
+    ~list_of_cities(){}
+} list_of_cities;
+
 typedef struct freed_tours_t{
     vector<tour_t*> *list;
     int size;
@@ -83,5 +90,3 @@ void remove_city(int* graph, tour_t* tour);
 bool is_best_tour(tour_t *current, tour_t *best, int *graph, int home_city);
 bool is_neighbor(int* graph, int current_city, int neighbor);
 bool is_visited(tour_t* tour, int city);
-
-
