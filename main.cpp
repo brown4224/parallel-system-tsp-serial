@@ -40,14 +40,13 @@ int get_number(char *s) {
 }
 
 void
-process_stack(int *graph, stack_t *stack, tour_t *tour, tour_t *best_tour, freed_tours_t *freed_tours, int home_city) {
-//    assert (graph != NULL);
-//    assert (stack != NULL);
-////    assert(tour != NULL);
-//    assert(best_tour != NULL);
-//    assert(freed_tours != NULL);
+process_stack(int *graph, stack_t *stack, tour_t *best_tour, freed_tours_t *freed_tours, int home_city) {
+    assert (graph != NULL);
+    assert (stack != NULL);
+    assert(best_tour != NULL);
+    assert(freed_tours != NULL);
     assert(home_city >= 0);
-    tour = pop(stack);
+    tour_t* tour = pop(stack);
     if (tour->size == n_cities) {
         if (is_best_tour(tour, best_tour, graph, home_city)) {
             // If best tour add home city and make new best tour
@@ -106,7 +105,7 @@ int main(int argc, char *argv[]) {
          * Create local variables for each thread
          * Private variables denoted: ts_   ==> thread safe
          */
-        tour_t *ts_tour = NULL;
+//        tour_t *ts_tour = NULL;  // <-- not needed.  kept in stack now
         stack_t *ts_stack = NULL;
         tour_t *ts_best_tour = new_tour();
         ts_best_tour->cost = INT_MAX;
@@ -118,40 +117,40 @@ int main(int argc, char *argv[]) {
 #pragma omp single
         {
             /**
-             * Single thread with implied bread statement
+             * Single thread with implied break statement
              * Creates a stack that will be copied to a global stack and distributed amongst threads
              */
 
-            ts_tour = new_tour();
+            tour_t* ts_tour = new_tour();
             ts_tour->cities[0] = home_city;
             ts_tour->size = 1;
             ts_stack = new_stack();
             push_copy(ts_stack, ts_tour, freed_tours);
 
             while (ts_stack->size < ts_thread_count) {
-                process_stack(graph, ts_stack, ts_tour, ts_best_tour, freed_tours, home_city);
+                process_stack(graph, ts_stack, ts_best_tour, freed_tours, home_city);
 
             }
-            local_stack = new vector<stack_t *>(ts_stack->size);
+            local_stack = new vector<stack_t *>(ts_stack->size, NULL);
             for (int j = 0; j < ts_stack->size; j++) {
-                for (int i = 0; i < ts_stack->list[j]->size; i++)
-                    local_stack->at(j) = new_stack();
+                local_stack->at(j) = new_stack();
                 local_stack->at(j)->list[0] = ts_stack->list[j];
                 local_stack->at(j)->size = 1;
             }
+            delete ts_stack;
         }
 
 
         /**
          * Each thread takes the stack and processes their section
          */
-#pragma omp for
+#pragma omp for schedule(static, local_stack->size() / ts_thread_count )
         for (int z = 0; z < local_stack->size(); z++) {
             ts_stack = local_stack->at(z);
 
 
             while (ts_stack->size > 0) {
-                process_stack(graph, ts_stack, ts_tour, ts_best_tour, freed_tours, home_city);
+                process_stack(graph, ts_stack, ts_best_tour, freed_tours, home_city);
             }
 
 #pragma omp critical
@@ -160,8 +159,7 @@ int main(int argc, char *argv[]) {
                     copy_tour(ts_best_tour, best_tour); // Reduce: best tour
                 }
             }
-            delete ts_best_tour;
-            delete ts_tour;
+//            delete ts_best_tour;   <--- throwing memory error when delete
             delete ts_stack;
 
         }
@@ -176,7 +174,7 @@ int main(int argc, char *argv[]) {
     print_tour(best_tour);
     print_graph(graph);
 
-    for (int i = 0; i < local_stack->size(); i++) delete (local_stack->at(i));
+//    for (int i = 0; i < local_stack->size(); i++) delete (local_stack->at(i));  // <--- error on delete
     delete local_stack;
     delete[] graph;
     delete freed_tours;

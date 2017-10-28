@@ -72,37 +72,39 @@ void resize_freed_tour(freed_tours_t* freed_tour, int new_size){
 }
 
 void push_freed_tour(freed_tours_t* freed_tours ,tour_t* tour){
-    assert(freed_tours != NULL);
-    assert(tour != NULL);
-#pragma omp critical
-    {
-        // Make freed tour larger
-        if(freed_tours->size >= freed_tours->limit)
-            resize_freed_tour(freed_tours, freed_tours->limit + n_cities);
-
-        // zero out tour & push on array
-        free_cities(tour);
-        freed_tours->list->push_back(tour);
-        freed_tours->size++;
-    }
+    delete(tour);
+//    assert(freed_tours != NULL);
+//    assert(tour != NULL);
+//#pragma omp critical
+//    {
+//        // Make freed tour larger
+//        if(freed_tours->size >= freed_tours->limit)
+//            resize_freed_tour(freed_tours, freed_tours->limit + n_cities);
+//
+//        // zero out tour & push on array
+//        free_cities(tour);
+//        freed_tours->list->push_back(tour);
+//        freed_tours->size++;
+//    }
 
 }
 tour_t* pop_freed_tour(freed_tours_t* freed_tours){
     assert(freed_tours != NULL);
     tour_t *tour = NULL;
 
-#pragma omp critical
-    {
-        if (freed_tours->size > 0) {
-
-            tour = freed_tours->list->back();
-            freed_tours->list->pop_back();
-            freed_tours->size--;
-
-        } else {
-            tour = new_tour();
-        }
-    }
+//#pragma omp critical
+//    {
+//        if (freed_tours->size > 0) {
+//
+//            tour = freed_tours->list->back();
+//            freed_tours->list->pop_back();
+//            freed_tours->size--;
+//
+//        } else {
+//            tour = new_tour();
+//        }
+//    }
+    tour = new_tour();
 
     return tour;
 }

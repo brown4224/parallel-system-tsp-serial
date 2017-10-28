@@ -4,7 +4,7 @@
 using namespace std;
 
 // use control values 4,6,15
-const int n_cities = 6;
+const int n_cities = 12;
 
 
 // +++++++++++++++++++++++++++++++++++++++++++++++++++ //
