@@ -74,23 +74,29 @@ void resize_freed_tour(freed_tours_t* freed_tour, int new_size){
 void push_freed_tour(freed_tours_t* freed_tours ,tour_t* tour){
     assert(freed_tours != NULL);
     assert(tour != NULL);
+#pragma omp critical
+    {
+        // Make freed tour larger
+        if(freed_tours->size >= freed_tours->limit)
+            resize_freed_tour(freed_tours, freed_tours->limit + n_cities);
 
-    // Make freed tour larger
-    if(freed_tours->size >= freed_tours->limit)
-        resize_freed_tour(freed_tours, freed_tours->limit + n_cities);
+        // zero out tour & push on array
+        free_cities(tour);
+        freed_tours->list->push_back(tour);
+        freed_tours->size++;
+    }
 
-    // zero out tour & push on array
-    free_cities(tour);
-    freed_tours->list->push_back(tour);
-    freed_tours->size++;
 }
 tour_t* pop_freed_tour(freed_tours_t* freed_tours){
     assert(freed_tours != NULL);
     tour_t* tour = NULL;
     if(freed_tours->size > 0){
-        tour = freed_tours->list->back();
-        freed_tours->list->pop_back();
-        freed_tours->size--;
+#pragma omp critical
+        {
+            tour = freed_tours->list->back();
+            freed_tours->list->pop_back();
+            freed_tours->size--;
+        }
     } else{
         tour = new_tour();
     }
@@ -103,22 +109,22 @@ tour_t* pop_freed_tour(freed_tours_t* freed_tours){
 // ****************** Stack       ******************** //
 // *************************************************** //
 
-strack_t* new_stack(){
-    strack_t* stack = new strack_t;
+stack_t* new_stack(){
+    stack_t* stack = new stack_t;
     stack->size = 0;
     for(int i=0; i < n_cities + 1; i++)
         stack->list[i] = NULL;
     return stack;
 }
 
-tour_t* pop(strack_t* stack){
+tour_t* pop(stack_t* stack){
     assert(stack != NULL);
     assert(stack->size >0);
 
     return stack->list[--stack->size];
 }
 
-void push_copy(strack_t* stack, tour_t* tour, freed_tours_t* freed_tours){
+void push_copy(stack_t* stack, tour_t* tour, freed_tours_t* freed_tours){
     assert(stack != NULL);
     assert(tour != NULL);
     assert(stack->size < n_cities * n_cities);
@@ -135,6 +141,21 @@ int get_cost(int* graph, int row, int col){
     assert(graph != NULL);
     return graph[row * n_cities + col];
 }
+
+
+// +++++++++++++++++++++++++++++++++++++++++++++++++++ //
+// ****************** List of Cities ***************** //
+// *************************************************** //
+
+//list_of_cities_t* new_list_of_cities(int num_threads) {
+//    list_of_cities_t *city_list = new list_of_cities_t;
+//    city_list->list = new stack_t[num_threads];
+//    city_list->size = 0;
+//    return city_list;
+//
+//}
+
+
 
 // +++++++++++++++++++++++++++++++++++++++++++++++++++ //
 // ****************** Cities       ******************** //

@@ -516,3 +516,51 @@ gmake[1]: Leaving directory `/home/sean/Desktop/school/parralel-systems/tsp/cmak
     Feature record: CXX_FEATURE:0cxx_variable_templates
     Feature record: CXX_FEATURE:0cxx_variadic_macros
     Feature record: CXX_FEATURE:0cxx_variadic_templates
+Performing C SOURCE FILE Test OpenMP_FLAG_DETECTED succeeded with the following output:
+Change Dir: /home/sean/Desktop/school/parralel-systems/tsp/cmake-build-debug/CMakeFiles/CMakeTmp
+
+Run Build Command:"/usr/bin/gmake" "cmTC_ba3b3/fast"
+/usr/bin/gmake -f CMakeFiles/cmTC_ba3b3.dir/build.make CMakeFiles/cmTC_ba3b3.dir/build
+gmake[1]: Entering directory `/home/sean/Desktop/school/parralel-systems/tsp/cmake-build-debug/CMakeFiles/CMakeTmp'
+Building C object CMakeFiles/cmTC_ba3b3.dir/src.c.o
+/usr/bin/cc   -DOpenMP_FLAG_DETECTED -fopenmp   -o CMakeFiles/cmTC_ba3b3.dir/src.c.o   -c /home/sean/Desktop/school/parralel-systems/tsp/cmake-build-debug/CMakeFiles/CMakeTmp/src.c
+Linking C executable cmTC_ba3b3
+/home/sean/Desktop/clion/bin/cmake/bin/cmake -E cmake_link_script CMakeFiles/cmTC_ba3b3.dir/link.txt --verbose=1
+/usr/bin/cc  -DOpenMP_FLAG_DETECTED -fopenmp    CMakeFiles/cmTC_ba3b3.dir/src.c.o  -o cmTC_ba3b3 
+gmake[1]: Leaving directory `/home/sean/Desktop/school/parralel-systems/tsp/cmake-build-debug/CMakeFiles/CMakeTmp'
+
+Source file was:
+
+#include <omp.h>
+int main() {
+#ifdef _OPENMP
+  return 0;
+#else
+  breaks_on_purpose
+#endif
+}
+
+Performing C++ SOURCE FILE Test OpenMP_FLAG_DETECTED succeeded with the following output:
+Change Dir: /home/sean/Desktop/school/parralel-systems/tsp/cmake-build-debug/CMakeFiles/CMakeTmp
+
+Run Build Command:"/usr/bin/gmake" "cmTC_65bfb/fast"
+/usr/bin/gmake -f CMakeFiles/cmTC_65bfb.dir/build.make CMakeFiles/cmTC_65bfb.dir/build
+gmake[1]: Entering directory `/home/sean/Desktop/school/parralel-systems/tsp/cmake-build-debug/CMakeFiles/CMakeTmp'
+Building CXX object CMakeFiles/cmTC_65bfb.dir/src.cxx.o
+/usr/bin/c++    -DOpenMP_FLAG_DETECTED -fopenmp   -std=gnu++11 -o CMakeFiles/cmTC_65bfb.dir/src.cxx.o -c /home/sean/Desktop/school/parralel-systems/tsp/cmake-build-debug/CMakeFiles/CMakeTmp/src.cxx
+Linking CXX executable cmTC_65bfb
+/home/sean/Desktop/clion/bin/cmake/bin/cmake -E cmake_link_script CMakeFiles/cmTC_65bfb.dir/link.txt --verbose=1
+/usr/bin/c++   -DOpenMP_FLAG_DETECTED -fopenmp    CMakeFiles/cmTC_65bfb.dir/src.cxx.o  -o cmTC_65bfb 
+gmake[1]: Leaving directory `/home/sean/Desktop/school/parralel-systems/tsp/cmake-build-debug/CMakeFiles/CMakeTmp'
+
+Source file was:
+
+#include <omp.h>
+int main() {
+#ifdef _OPENMP
+  return 0;
+#else
+  breaks_on_purpose
+#endif
+}
+

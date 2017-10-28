@@ -1,1 +1,1 @@
-/usr/bin/c++  -g   CMakeFiles/tsp.dir/main.cpp.o CMakeFiles/tsp.dir/stack.cpp.o CMakeFiles/tsp.dir/graphs.cpp.o  -o tsp 
+/usr/bin/c++   -fopenmp -g   CMakeFiles/tsp.dir/main.cpp.o CMakeFiles/tsp.dir/stack.cpp.o CMakeFiles/tsp.dir/graphs.cpp.o  -o tsp 

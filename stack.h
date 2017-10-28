@@ -4,7 +4,7 @@
 using namespace std;
 
 // use control values 4,6,15
-const int n_cities = 10;
+const int n_cities = 4;
 
 
 // +++++++++++++++++++++++++++++++++++++++++++++++++++ //
@@ -21,20 +21,20 @@ typedef struct tour_t{
 
 
 // Conflicting typedef name with some xcode stuff
-typedef struct strack_t{
+typedef struct stack_t{
     // todo check if stack is n * n ?
     tour_t* list[n_cities * n_cities];
     int size;
-    ~strack_t(){} // Deconstrutor
-} strack_t;
+    ~stack_t(){} // Deconstrutor
+} stack_t;
 
 
 // Making a set of partial tours to distribute to each thread.
-typedef struct list_of_cities{
-    strack_t* list[n_cities];
-    int size;
-    ~list_of_cities(){}
-} list_of_cities;
+//typedef struct list_of_cities_t{
+//    stack_t* list;
+//    int size;
+//    ~list_of_cities(){delete[] list}
+//} list_of_cities_t;
 
 typedef struct freed_tours_t{
     vector<tour_t*> *list;
@@ -71,9 +71,9 @@ tour_t* pop_freed_tour(freed_tours_t* freed_tours);
 // ****************** Stack       ******************** //
 // *************************************************** //
 
-strack_t* new_stack();
-tour_t* pop(strack_t* stack);
-void push_copy(strack_t* stack, tour_t* tour, freed_tours_t* freed_tours);
+stack_t* new_stack();
+tour_t* pop(stack_t* stack);
+void push_copy(stack_t* stack, tour_t* tour, freed_tours_t* freed_tours);
 int get_cost(int* graph, int row, int col);
 
 // +++++++++++++++++++++++++++++++++++++++++++++++++++ //

@@ -33,6 +33,10 @@ stack.h
 /home/sean/Desktop/school/parralel-systems/tsp/stack.h
 graphs.h
 /home/sean/Desktop/school/parralel-systems/tsp/graphs.h
+omp.h
+-
+deque
+-
 
 /home/sean/Desktop/school/parralel-systems/tsp/stack.cpp
 vector
