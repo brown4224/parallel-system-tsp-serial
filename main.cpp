@@ -41,6 +41,12 @@ int get_number(char *s) {
 
 void
 process_stack(int *graph, stack_t *stack, tour_t *tour, tour_t *best_tour, freed_tours_t *freed_tours, int home_city) {
+//    assert (graph != NULL);
+//    assert (stack != NULL);
+////    assert(tour != NULL);
+//    assert(best_tour != NULL);
+//    assert(freed_tours != NULL);
+    assert(home_city >= 0);
     tour = pop(stack);
     if (tour->size == n_cities) {
         if (is_best_tour(tour, best_tour, graph, home_city)) {
@@ -77,13 +83,8 @@ int main(int argc, char *argv[]) {
     }
     int thread_count_request = get_number(argv[1]);
     assert(thread_count_request < n_cities - 1);
+    assert(n_cities > thread_count_request);   //   <------- ????????????????????????????
     omp_set_dynamic(0);  // Turn off dynamic threads
-
-
-    // +++++++++++++++++++++++++++++++++++++++++++++++++++ //
-    // ****************** Serial ******************** //
-    // *************************************************** //
-
 
     int *graph = build_graph(n_cities);
     freed_tours_t *freed_tours = new_freed_tour();
@@ -91,152 +92,80 @@ int main(int argc, char *argv[]) {
     int home_city = 0;
     tour_t *best_tour = new_tour();
     best_tour->cost = INT_MAX;
-    vector<stack_t *> *city_list = NULL;
+    vector<stack_t *> *local_stack = NULL;
+
+
+    // +++++++++++++++++++++++++++++++++++++++++++++++++++ //
+    // ****************** Parallel  ******************** //
+    // *************************************************** //
 
     int z;
-# pragma omp parallel  num_threads(thread_count_request) default(none) private(z) shared(graph, city_list, best_tour, home_city, freed_tours)
+# pragma omp parallel  num_threads(thread_count_request) default(none) private(z) shared(graph, local_stack, best_tour, home_city, freed_tours)
     {
-        tour_t *tour = NULL;
-        stack_t *stack = NULL;
+        /**
+         * Create local variables for each thread
+         * Private variables denoted: ts_   ==> thread safe
+         */
+        tour_t *ts_tour = NULL;
+        stack_t *ts_stack = NULL;
         tour_t *ts_best_tour = new_tour();
         ts_best_tour->cost = INT_MAX;
 
 
-        int my_rank = 0;
-        int thread_count = 1;
-        get_rank_thread_count(&my_rank, &thread_count);
+        int ts_my_rank = 0;
+        int ts_thread_count = 1;
+        get_rank_thread_count(&ts_my_rank, &ts_thread_count);
 #pragma omp single
         {
+            /**
+             * Single thread with implied bread statement
+             * Creates a stack that will be copied to a global stack and distributed amongst threads
+             */
 
-            tour = new_tour();
-            tour->cities[0] = home_city;
-            tour->size = 1;
-            stack = new_stack();
-            push_copy(stack, tour, freed_tours);
+            ts_tour = new_tour();
+            ts_tour->cities[0] = home_city;
+            ts_tour->size = 1;
+            ts_stack = new_stack();
+            push_copy(ts_stack, ts_tour, freed_tours);
 
-            while (stack->size < thread_count) {
-//                process_stack(graph, stack, tour, best_tour, freed_tours, home_city);
-
-                tour = pop(stack);
-                if (tour->size == n_cities) {
-                    if (is_best_tour(tour, ts_best_tour, graph, home_city)) {
-                        // If best tour add home city and make new best tour
-                        add_city(graph, tour, home_city);
-                        copy_tour(tour, ts_best_tour);
-                    }
-                } else {
-                    for (int neighbor = n_cities - 1; neighbor >= 0; neighbor--) {
-                        if (is_neighbor(graph, tour->cities[tour->size - 1], neighbor)) {
-                            if (!is_visited(tour, neighbor)) {  // not in books code
-                                add_city(graph, tour, neighbor);
-                                push_copy(stack, tour, freed_tours);
-                                remove_city(graph, tour);
-                            }
-
-                        }
-                    }
-                }
-                push_freed_tour(freed_tours, tour);
+            while (ts_stack->size < ts_thread_count) {
+                process_stack(graph, ts_stack, ts_tour, ts_best_tour, freed_tours, home_city);
 
             }
-            city_list = new vector<stack_t *>(stack->size);
-            for (int j = 0; j < stack->size; j++) {
-                for (int i = 0; i < stack->list[j]->size; i++)
-                    city_list->at(j) = new_stack();
-                city_list->at(j)->list[0] = stack->list[j];
-                city_list->at(j)->size = 1;
+            local_stack = new vector<stack_t *>(ts_stack->size);
+            for (int j = 0; j < ts_stack->size; j++) {
+                for (int i = 0; i < ts_stack->list[j]->size; i++)
+                    local_stack->at(j) = new_stack();
+                local_stack->at(j)->list[0] = ts_stack->list[j];
+                local_stack->at(j)->size = 1;
             }
         }
 
 
+        /**
+         * Each thread takes the stack and processes their section
+         */
 #pragma omp for
-        for (int z = 0; z < city_list->size(); z++) {
-            stack = city_list->at(z);
+        for (int z = 0; z < local_stack->size(); z++) {
+            ts_stack = local_stack->at(z);
 
 
-            while (stack->size > 0) {
-//                process_stack(graph, stack, tour, ts_best_tour, freed_tours, home_city);
-
-                tour = pop(stack);
-                if (tour->size == n_cities) {
-                    if (is_best_tour(tour, ts_best_tour, graph, home_city)) {
-                        // If best tour add home city and make new best tour
-                        add_city(graph, tour, home_city);
-                        copy_tour(tour, ts_best_tour);
-                    }
-                } else {
-                    for (int neighbor = n_cities - 1; neighbor >= 0; neighbor--) {
-                        if (is_neighbor(graph, tour->cities[tour->size - 1], neighbor)) {
-                            if (!is_visited(tour, neighbor)) {  // not in books code
-                                add_city(graph, tour, neighbor);
-                                push_copy(stack, tour, freed_tours);
-                                remove_city(graph, tour);
-                            }
-
-                        }
-                    }
-                }
-                push_freed_tour(freed_tours, tour);
+            while (ts_stack->size > 0) {
+                process_stack(graph, ts_stack, ts_tour, ts_best_tour, freed_tours, home_city);
             }
-        }
 
 #pragma omp critical
-        {
-            if (ts_best_tour->cost > 0 &&  ts_best_tour->cost < best_tour->cost) {
-                copy_tour(ts_best_tour, best_tour); // Reduce: best tour
+            {
+                if (ts_best_tour->cost > 0 && ts_best_tour->cost < best_tour->cost) {
+                    copy_tour(ts_best_tour, best_tour); // Reduce: best tour
+                }
             }
+            delete ts_best_tour;
+            delete ts_tour;
+            delete ts_stack;
+
         }
-        delete ts_best_tour;
-        delete tour;
-        delete stack;
-
     }
-
-
-//                tour = pop(stack);
-//                if(tour->size == n_cities){
-//#pragma omp critical
-//                {
-//                    if(is_best_tour(tour, best_tour, graph, home_city)) {
-//
-//                        // If best tour add home city and make new best tour
-//                        add_city(graph, tour, home_city);
-//                        copy_tour(tour, best_tour);
-//                    }
-//                }
-//
-//
-//                } else{
-//                    for(int neighbor = n_cities -1; neighbor >= 0; neighbor--){
-//                        if(is_neighbor(graph, tour->cities[tour->size - 1], neighbor)){
-//                            if(!is_visited(tour, neighbor)){  // not in books code
-//                                add_city(graph, tour, neighbor );
-//                                push_copy(stack, tour, freed_tours);
-//                                remove_city(graph, tour);
-//                            }
-//
-//                        }
-//                    }
-//                }
-//                push_freed_tour(freed_tours, tour);
-//            }
-//
-//
-//
-//        }
-//        delete freed_tours;
-
-//        delete tour;
-//        delete stack;
-
-
-
-
-
-
-
-
-
 
     high_resolution_clock::time_point t2 = high_resolution_clock::now();
     duration<double> time_span = duration_cast<duration<double> >(t2 - t1);
@@ -247,8 +176,8 @@ int main(int argc, char *argv[]) {
     print_tour(best_tour);
     print_graph(graph);
 
-    for (int i = 0; i < city_list->size(); i++) delete (city_list->at(i));
-    delete city_list;
+    for (int i = 0; i < local_stack->size(); i++) delete (local_stack->at(i));
+    delete local_stack;
     delete[] graph;
     delete freed_tours;
     delete best_tour;

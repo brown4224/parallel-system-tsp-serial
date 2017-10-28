@@ -89,16 +89,19 @@ void push_freed_tour(freed_tours_t* freed_tours ,tour_t* tour){
 }
 tour_t* pop_freed_tour(freed_tours_t* freed_tours){
     assert(freed_tours != NULL);
-    tour_t* tour = NULL;
-    if(freed_tours->size > 0){
+    tour_t *tour = NULL;
+
 #pragma omp critical
-        {
+    {
+        if (freed_tours->size > 0) {
+
             tour = freed_tours->list->back();
             freed_tours->list->pop_back();
             freed_tours->size--;
+
+        } else {
+            tour = new_tour();
         }
-    } else{
-        tour = new_tour();
     }
 
     return tour;
