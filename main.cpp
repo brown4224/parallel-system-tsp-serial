@@ -1,3 +1,17 @@
+/*
+*
+* Sean Mcglincy and Kshitij Bantupalli
+* Parallel and Distributed Systems
+* Project (Serial Version)
+*
+* Dependencies : I am using CLION as an IDE Dependencies: I am using CLION as an IDE which uses CMAKE 3.8, and GCC, C+11
+* gcc (GCC) 4.8.5 20150623 (Red Hat 4.8.5-11)
+* Running on Cento 7
+*
+*
+*
+*/ 
+
 #include <iostream>
 #include <assert.h>
 #include <climits>
@@ -39,12 +53,11 @@ int get_number(char *s) {
     return number;
 }
 
-void
-process_stack(int *graph, stack_t *stack, tour_t *best_tour, freed_tours_t *freed_tours, int home_city) {
-    assert (graph != NULL);
-    assert (stack != NULL);
-    assert(best_tour != NULL);
-    assert(freed_tours != NULL);
+void process_stack(int *graph, stack_t1 *stack, tour_t *best_tour, freed_tours_t *freed_tours, int home_city) {
+    assert (graph != nullptr);
+    assert (stack != nullptr);
+    assert(best_tour != nullptr);
+    assert(freed_tours != nullptr);
     assert(home_city >= 0);
     tour_t* tour = pop(stack);
     if (tour->size == n_cities) {
@@ -82,7 +95,7 @@ int main(int argc, char *argv[]) {
     }
     int thread_count_request = get_number(argv[1]);
     assert(thread_count_request < n_cities - 1);
-    assert(n_cities > thread_count_request);   //   <------- ????????????????????????????
+    assert(n_cities > thread_count_request);  // Was mentioned in the book, to ensure equal load distribution?
     omp_set_dynamic(0);  // Turn off dynamic threads
 
     int *graph = build_graph(n_cities);
@@ -91,7 +104,7 @@ int main(int argc, char *argv[]) {
     int home_city = 0;
     tour_t *best_tour = new_tour();
     best_tour->cost = INT_MAX;
-    vector<stack_t *> *local_stack = NULL;
+    vector<stack_t1 *> *local_stack = nullptr;
 
 
     // +++++++++++++++++++++++++++++++++++++++++++++++++++ //
@@ -106,7 +119,7 @@ int main(int argc, char *argv[]) {
          * Private variables denoted: ts_   ==> thread safe
          */
 //        tour_t *ts_tour = NULL;  // <-- not needed.  kept in stack now
-        stack_t *ts_stack = NULL;
+        stack_t1 *ts_stack = nullptr;
         tour_t *ts_best_tour = new_tour();
         ts_best_tour->cost = INT_MAX;
 
@@ -131,7 +144,7 @@ int main(int argc, char *argv[]) {
                 process_stack(graph, ts_stack, ts_best_tour, freed_tours, home_city);
 
             }
-            local_stack = new vector<stack_t *>(ts_stack->size, NULL);
+            local_stack = new vector<stack_t1 *>(ts_stack->size, NULL);
             for (int j = 0; j < ts_stack->size; j++) {
                 local_stack->at(j) = new_stack();
                 local_stack->at(j)->list[0] = ts_stack->list[j];

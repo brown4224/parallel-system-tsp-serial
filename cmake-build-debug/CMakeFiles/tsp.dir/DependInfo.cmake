@@ -4,11 +4,11 @@ set(CMAKE_DEPENDS_LANGUAGES
   )
 # The set of files for implicit dependencies of each language:
 set(CMAKE_DEPENDS_CHECK_CXX
-  "/home/sean/Desktop/school/parralel-systems/tsp/graphs.cpp" "/home/sean/Desktop/school/parralel-systems/tsp/cmake-build-debug/CMakeFiles/tsp.dir/graphs.cpp.o"
-  "/home/sean/Desktop/school/parralel-systems/tsp/main.cpp" "/home/sean/Desktop/school/parralel-systems/tsp/cmake-build-debug/CMakeFiles/tsp.dir/main.cpp.o"
-  "/home/sean/Desktop/school/parralel-systems/tsp/stack.cpp" "/home/sean/Desktop/school/parralel-systems/tsp/cmake-build-debug/CMakeFiles/tsp.dir/stack.cpp.o"
+  "/Users/kshitijbantupalli/Documents/GitHub/parallel-system-tsp-serial/graphs.cpp" "/Users/kshitijbantupalli/Documents/GitHub/parallel-system-tsp-serial/cmake-build-debug/CMakeFiles/tsp.dir/graphs.cpp.o"
+  "/Users/kshitijbantupalli/Documents/GitHub/parallel-system-tsp-serial/main.cpp" "/Users/kshitijbantupalli/Documents/GitHub/parallel-system-tsp-serial/cmake-build-debug/CMakeFiles/tsp.dir/main.cpp.o"
+  "/Users/kshitijbantupalli/Documents/GitHub/parallel-system-tsp-serial/stack.cpp" "/Users/kshitijbantupalli/Documents/GitHub/parallel-system-tsp-serial/cmake-build-debug/CMakeFiles/tsp.dir/stack.cpp.o"
   )
-set(CMAKE_CXX_COMPILER_ID "GNU")
+set(CMAKE_CXX_COMPILER_ID "AppleClang")
 
 # The include file search paths:
 set(CMAKE_CXX_TARGET_INCLUDE_PATH

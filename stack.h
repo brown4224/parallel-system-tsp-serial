@@ -15,18 +15,18 @@ typedef struct tour_t{
     int cities[n_cities + 1];  // graph
     int size;  // number of cities
     int cost;  // cost of cities
-   ~tour_t(){};  // Deconstrutor
+   ~tour_t() = default;  // Deconstrutor
 
 } tour_t;
 
 
 // Conflicting typedef name with some xcode stuff
-typedef struct stack_t{
+typedef struct stack_t1 {
     // todo check if stack is n * n ?
     tour_t* list[n_cities * n_cities];
     int size;
-    ~stack_t(){} // Deconstrutor
-} stack_t;
+    ~stack_t1() = default; // Deconstrutor
+} stack_t1;
 
 
 // Making a set of partial tours to distribute to each thread.
@@ -71,9 +71,9 @@ tour_t* pop_freed_tour(freed_tours_t* freed_tours);
 // ****************** Stack       ******************** //
 // *************************************************** //
 
-stack_t* new_stack();
-tour_t* pop(stack_t* stack);
-void push_copy(stack_t* stack, tour_t* tour, freed_tours_t* freed_tours);
+stack_t1* new_stack();
+tour_t* pop(stack_t1* stack);
+void push_copy(stack_t1* stack, tour_t* tour, freed_tours_t* freed_tours);
 int get_cost(int* graph, int row, int col);
 
 // +++++++++++++++++++++++++++++++++++++++++++++++++++ //

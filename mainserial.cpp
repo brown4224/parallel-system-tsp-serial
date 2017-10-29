@@ -5,40 +5,19 @@
 //For calculating Time
 #include <chrono>
 #include <ctime>
-#include <mpi>
 #include "stack.h"
+#include "graphs.h"
+
 
 
 using namespace std;
 using namespace std::chrono;
 
-typedef struct {
-
-        // MPI Variables
-        int my_rank;
-        int comm_sz;
-
-        int* graph;
-        int* local_graph;
-
-        freed_tours_t* freed_tours;
-        strack_t* stack;
-        tour*t tour;
-        tour* best_tour;
-
-} data;
-
-void get_mpi_custom_data_type(freed_tour_t* datatype1, strack_t* datatype2, tour_t* datatype3, tour_t* datatype4)
-{
-    // Create custom data type here and broadcast data.
-}
 
 int main(int argc, char* argv[]) {
 
         high_resolution_clock::time_point t1 = high_resolution_clock::now();
 
-        // Possibly take cities from user?
-        assert(argc == 3);
 
         data node;
         tour_t* best_tour = new_tour();
@@ -61,8 +40,6 @@ int main(int argc, char* argv[]) {
         get_mpi_custom_data_type(&freed_tours, &stack, &tour, &best_tour);
     }
 
-    // Scatter the graph?
-    MPI_Scatter();
 
     push_copy(stack, tour, freed_tours);
     while (stack->size > 0){
@@ -87,7 +64,6 @@ int main(int argc, char* argv[]) {
         }
         push_freed_tour(freed_tours, tour);
     }
-    MPI_Reduce();
 
     if(my_rank == 0)
     {
