@@ -1,4 +1,4 @@
-*
+\*
  *
  * Sean Mcglincy and Kshitij Bantupalli
  * Parallel and Distributed Systems
@@ -27,7 +27,8 @@
  * 3: best_tour is updated.
  *
  * Error Handling : Used assert() in functions to ensure correct data is being passed.
- * */
+ * 
+ */
 #include <iostream>
 #include <assert.h>
 #include <climits>
