@@ -208,7 +208,7 @@ bool is_neighbor(int* graph, int current_city, int neighbor){
     return  flag;
 }
 
-// Checks if a city has alraedy been added to the stack.
+// Checks if a city has already been added to the stack.
 bool is_visited(tour_t* tour, int city){
     assert(tour != NULL);
     assert(city >= 0 );
