@@ -11,11 +11,10 @@
  * Program:
  * Running the file:
  * Run the script "compile_serial_code.sh" to ensure we are running the same commands.
- * arg 1 : number of cities in graph.
- * Example : ./main_program 4
+ * Example : ./main_program
  *
  * Description:
- * This program uses C++ for serial program. It takes the cities from the graph and calculates
+ * This program uses C++ for serial program. n_cities is set to 10. It takes the cities from the graph and calculates
  * partial tours. When the number of cities in stack reaches n_cities, it compares it to best_tour.
  * Subsequent comparision lead to the best_tour to be most optimal.
  *
@@ -47,9 +46,7 @@ using namespace std::chrono;
 int main() {
 
       high_resolution_clock::time_point t1 = high_resolution_clock::now();
-    /*
-      Time taken : 0.00011 seconds
-    */
+
 
 
     int* graph = build_graph(n_cities);
@@ -69,14 +66,14 @@ int main() {
         tour = pop(stack);
         if(tour->size == n_cities){
             if(is_best_tour(tour, best_tour, graph, home_city)) {
-                // If best tour add home city and make new best tour
+
                 add_city(graph, tour, home_city);
                 copy_tour(tour, best_tour);
             }
         } else{
-            for(int neighbor = n_cities -1; neighbor >= 0; neighbor--){  //  book uses int neighbor; neighbor >= 1; neighbor--)  Possible bug??
+            for(int neighbor = n_cities -1; neighbor >= 0; neighbor--){
                 if(is_neighbor(graph, tour->cities[tour->size - 1], neighbor)){
-                    if(!is_visited(tour, neighbor)){  // not in books code
+                    if(!is_visited(tour, neighbor)){
                         add_city(graph, tour, neighbor );
                         push_copy(stack, tour, freed_tours);
                         remove_city(graph, tour);
