@@ -34,19 +34,19 @@ cmake_force:
 SHELL = /bin/sh
 
 # The CMake executable.
-CMAKE_COMMAND = /home/sean/Desktop/clion/bin/cmake/bin/cmake
+CMAKE_COMMAND = /Applications/CLion.app/Contents/bin/cmake/bin/cmake
 
 # The command to remove a file.
-RM = /home/sean/Desktop/clion/bin/cmake/bin/cmake -E remove -f
+RM = /Applications/CLion.app/Contents/bin/cmake/bin/cmake -E remove -f
 
 # Escaping for special characters.
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /home/sean/Desktop/school/parralel-systems/tsp
+CMAKE_SOURCE_DIR = /Users/kshitijbantupalli/Documents/GitHub/parallel-system-tsp-serial
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /home/sean/Desktop/school/parralel-systems/tsp/cmake-build-debug
+CMAKE_BINARY_DIR = /Users/kshitijbantupalli/Documents/GitHub/parallel-system-tsp-serial/cmake-build-debug
 
 # Include any dependencies generated for this target.
 include CMakeFiles/tsp.dir/depend.make
@@ -59,16 +59,16 @@ include CMakeFiles/tsp.dir/flags.make
 
 CMakeFiles/tsp.dir/main.cpp.o: CMakeFiles/tsp.dir/flags.make
 CMakeFiles/tsp.dir/main.cpp.o: ../main.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/sean/Desktop/school/parralel-systems/tsp/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building CXX object CMakeFiles/tsp.dir/main.cpp.o"
-	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/tsp.dir/main.cpp.o -c /home/sean/Desktop/school/parralel-systems/tsp/main.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/Users/kshitijbantupalli/Documents/GitHub/parallel-system-tsp-serial/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building CXX object CMakeFiles/tsp.dir/main.cpp.o"
+	/Library/Developer/CommandLineTools/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/tsp.dir/main.cpp.o -c /Users/kshitijbantupalli/Documents/GitHub/parallel-system-tsp-serial/main.cpp
 
 CMakeFiles/tsp.dir/main.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/tsp.dir/main.cpp.i"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/sean/Desktop/school/parralel-systems/tsp/main.cpp > CMakeFiles/tsp.dir/main.cpp.i
+	/Library/Developer/CommandLineTools/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /Users/kshitijbantupalli/Documents/GitHub/parallel-system-tsp-serial/main.cpp > CMakeFiles/tsp.dir/main.cpp.i
 
 CMakeFiles/tsp.dir/main.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/tsp.dir/main.cpp.s"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/sean/Desktop/school/parralel-systems/tsp/main.cpp -o CMakeFiles/tsp.dir/main.cpp.s
+	/Library/Developer/CommandLineTools/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /Users/kshitijbantupalli/Documents/GitHub/parallel-system-tsp-serial/main.cpp -o CMakeFiles/tsp.dir/main.cpp.s
 
 CMakeFiles/tsp.dir/main.cpp.o.requires:
 
@@ -83,16 +83,16 @@ CMakeFiles/tsp.dir/main.cpp.o.provides.build: CMakeFiles/tsp.dir/main.cpp.o
 
 CMakeFiles/tsp.dir/stack.cpp.o: CMakeFiles/tsp.dir/flags.make
 CMakeFiles/tsp.dir/stack.cpp.o: ../stack.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/sean/Desktop/school/parralel-systems/tsp/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Building CXX object CMakeFiles/tsp.dir/stack.cpp.o"
-	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/tsp.dir/stack.cpp.o -c /home/sean/Desktop/school/parralel-systems/tsp/stack.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/Users/kshitijbantupalli/Documents/GitHub/parallel-system-tsp-serial/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Building CXX object CMakeFiles/tsp.dir/stack.cpp.o"
+	/Library/Developer/CommandLineTools/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/tsp.dir/stack.cpp.o -c /Users/kshitijbantupalli/Documents/GitHub/parallel-system-tsp-serial/stack.cpp
 
 CMakeFiles/tsp.dir/stack.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/tsp.dir/stack.cpp.i"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/sean/Desktop/school/parralel-systems/tsp/stack.cpp > CMakeFiles/tsp.dir/stack.cpp.i
+	/Library/Developer/CommandLineTools/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /Users/kshitijbantupalli/Documents/GitHub/parallel-system-tsp-serial/stack.cpp > CMakeFiles/tsp.dir/stack.cpp.i
 
 CMakeFiles/tsp.dir/stack.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/tsp.dir/stack.cpp.s"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/sean/Desktop/school/parralel-systems/tsp/stack.cpp -o CMakeFiles/tsp.dir/stack.cpp.s
+	/Library/Developer/CommandLineTools/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /Users/kshitijbantupalli/Documents/GitHub/parallel-system-tsp-serial/stack.cpp -o CMakeFiles/tsp.dir/stack.cpp.s
 
 CMakeFiles/tsp.dir/stack.cpp.o.requires:
 
@@ -107,16 +107,16 @@ CMakeFiles/tsp.dir/stack.cpp.o.provides.build: CMakeFiles/tsp.dir/stack.cpp.o
 
 CMakeFiles/tsp.dir/graphs.cpp.o: CMakeFiles/tsp.dir/flags.make
 CMakeFiles/tsp.dir/graphs.cpp.o: ../graphs.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/sean/Desktop/school/parralel-systems/tsp/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Building CXX object CMakeFiles/tsp.dir/graphs.cpp.o"
-	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/tsp.dir/graphs.cpp.o -c /home/sean/Desktop/school/parralel-systems/tsp/graphs.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/Users/kshitijbantupalli/Documents/GitHub/parallel-system-tsp-serial/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Building CXX object CMakeFiles/tsp.dir/graphs.cpp.o"
+	/Library/Developer/CommandLineTools/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/tsp.dir/graphs.cpp.o -c /Users/kshitijbantupalli/Documents/GitHub/parallel-system-tsp-serial/graphs.cpp
 
 CMakeFiles/tsp.dir/graphs.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/tsp.dir/graphs.cpp.i"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/sean/Desktop/school/parralel-systems/tsp/graphs.cpp > CMakeFiles/tsp.dir/graphs.cpp.i
+	/Library/Developer/CommandLineTools/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /Users/kshitijbantupalli/Documents/GitHub/parallel-system-tsp-serial/graphs.cpp > CMakeFiles/tsp.dir/graphs.cpp.i
 
 CMakeFiles/tsp.dir/graphs.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/tsp.dir/graphs.cpp.s"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/sean/Desktop/school/parralel-systems/tsp/graphs.cpp -o CMakeFiles/tsp.dir/graphs.cpp.s
+	/Library/Developer/CommandLineTools/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /Users/kshitijbantupalli/Documents/GitHub/parallel-system-tsp-serial/graphs.cpp -o CMakeFiles/tsp.dir/graphs.cpp.s
 
 CMakeFiles/tsp.dir/graphs.cpp.o.requires:
 
@@ -143,7 +143,7 @@ tsp: CMakeFiles/tsp.dir/stack.cpp.o
 tsp: CMakeFiles/tsp.dir/graphs.cpp.o
 tsp: CMakeFiles/tsp.dir/build.make
 tsp: CMakeFiles/tsp.dir/link.txt
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/home/sean/Desktop/school/parralel-systems/tsp/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Linking CXX executable tsp"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/Users/kshitijbantupalli/Documents/GitHub/parallel-system-tsp-serial/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Linking CXX executable tsp"
 	$(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/tsp.dir/link.txt --verbose=$(VERBOSE)
 
 # Rule to build all files generated by this target.
@@ -162,6 +162,6 @@ CMakeFiles/tsp.dir/clean:
 .PHONY : CMakeFiles/tsp.dir/clean
 
 CMakeFiles/tsp.dir/depend:
-	cd /home/sean/Desktop/school/parralel-systems/tsp/cmake-build-debug && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" /home/sean/Desktop/school/parralel-systems/tsp /home/sean/Desktop/school/parralel-systems/tsp /home/sean/Desktop/school/parralel-systems/tsp/cmake-build-debug /home/sean/Desktop/school/parralel-systems/tsp/cmake-build-debug /home/sean/Desktop/school/parralel-systems/tsp/cmake-build-debug/CMakeFiles/tsp.dir/DependInfo.cmake --color=$(COLOR)
+	cd /Users/kshitijbantupalli/Documents/GitHub/parallel-system-tsp-serial/cmake-build-debug && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" /Users/kshitijbantupalli/Documents/GitHub/parallel-system-tsp-serial /Users/kshitijbantupalli/Documents/GitHub/parallel-system-tsp-serial /Users/kshitijbantupalli/Documents/GitHub/parallel-system-tsp-serial/cmake-build-debug /Users/kshitijbantupalli/Documents/GitHub/parallel-system-tsp-serial/cmake-build-debug /Users/kshitijbantupalli/Documents/GitHub/parallel-system-tsp-serial/cmake-build-debug/CMakeFiles/tsp.dir/DependInfo.cmake --color=$(COLOR)
 .PHONY : CMakeFiles/tsp.dir/depend
 

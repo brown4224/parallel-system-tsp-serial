@@ -8,7 +8,7 @@ using namespace std;
 // ****************** TOUR FUNCTIONS ***************** //
 // *************************************************** //
 
-
+// Prints the cost and size of the optimal solution of the the graph.
 void print_tour(tour_t* tour){
     assert(tour != NULL);
 
@@ -20,6 +20,7 @@ void print_tour(tour_t* tour){
     printf("Size: %d\n", tour->size);
 }
 
+// Prints the problem graph of travelling salesman.
 void print_graph(int* graph){
     printf("Printing Graph...\n");
     for(int i = 0; i< n_cities * n_cities; i++){
@@ -30,6 +31,7 @@ void print_graph(int* graph){
     printf("\n");
 }
 
+// Copy's the tour onto another instance of a tour.
 void copy_tour(tour_t* original, tour_t* target){
     assert(original != NULL);
     target->size = original->size;
@@ -38,6 +40,8 @@ void copy_tour(tour_t* original, tour_t* target){
         target->cities[i] = original->cities[i];
 }
 
+
+// Creates a new instance of a tour.
 tour_t* new_tour(){
     tour_t* tour = new tour_t;
     tour->size = 0;
@@ -46,6 +50,8 @@ tour_t* new_tour(){
         tour->cities[i] = -1;
     return tour;
 }
+
+// Zero's out the size and cost of the tour instance passed.
 void free_cities(tour_t* tour){
     tour->size = 0;
     tour->cost = 0;
@@ -56,7 +62,7 @@ void free_cities(tour_t* tour){
 // ****************** FREED TOURS ******************** //
 // *************************************************** //
 
-
+// Generates a freed_tour instance.
 freed_tours_t* new_freed_tour(){
     freed_tours_t* freed_tour = new freed_tours_t;
     freed_tour->size = 0;
@@ -65,12 +71,15 @@ freed_tours_t* new_freed_tour(){
 
     return  freed_tour;
 }
+
+// Resizes the freed_tour to increase freed_tour.
 void resize_freed_tour(freed_tours_t* freed_tour, int new_size){
     assert(freed_tour != NULL);
     freed_tour->list->resize(new_size, NULL);
     freed_tour->limit = new_size;
 }
 
+// Push the freed_tour instance onto stack.
 void push_freed_tour(freed_tours_t* freed_tours ,tour_t* tour){
     assert(freed_tours != NULL);
     assert(tour != NULL);
@@ -84,6 +93,8 @@ void push_freed_tour(freed_tours_t* freed_tours ,tour_t* tour){
     freed_tours->list->push_back(tour);
     freed_tours->size++;
 }
+
+// Pop the freed_tour from stack.
 tour_t* pop_freed_tour(freed_tours_t* freed_tours){
     assert(freed_tours != NULL);
     tour_t* tour = NULL;
@@ -103,6 +114,7 @@ tour_t* pop_freed_tour(freed_tours_t* freed_tours){
 // ****************** Stack       ******************** //
 // *************************************************** //
 
+// Creates new instance of tour stack.
 strack_t* new_stack(){
     strack_t* stack = new strack_t;
     stack->size = 0;
@@ -111,6 +123,7 @@ strack_t* new_stack(){
     return stack;
 }
 
+// Pops the last tour from stack.
 tour_t* pop(strack_t* stack){
     assert(stack != NULL);
     assert(stack->size >0);
@@ -118,6 +131,7 @@ tour_t* pop(strack_t* stack){
     return stack->list[--stack->size];
 }
 
+// Pop's a freed_tour and assigns it to a new instance of tour and copies it to stack.
 void push_copy(strack_t* stack, tour_t* tour, freed_tours_t* freed_tours){
     assert(stack != NULL);
     assert(tour != NULL);
@@ -131,6 +145,7 @@ void push_copy(strack_t* stack, tour_t* tour, freed_tours_t* freed_tours){
     stack->size++;
 }
 
+// Get cost of travelling.
 int get_cost(int* graph, int row, int col){
     assert(graph != NULL);
     return graph[row * n_cities + col];
@@ -139,13 +154,15 @@ int get_cost(int* graph, int row, int col){
 // +++++++++++++++++++++++++++++++++++++++++++++++++++ //
 // ****************** Cities       ******************** //
 // *************************************************** //
+
+// Returns the current city on the tour.
 int get_current_city(tour_t* tour){
     assert(tour != NULL);
     assert(tour->size >0);
     return tour->cities[tour->size - 1 ];
 }
 
-
+// Add a neighbouring city to the stack.
 void add_city(int* graph, tour_t* tour,  int dest){
     assert(tour != NULL);
     assert(graph != NULL);
@@ -154,6 +171,8 @@ void add_city(int* graph, tour_t* tour,  int dest){
     tour->size++;
 
 }
+
+// Removes a city from from the partial tour stack.
 void remove_city(int* graph, tour_t* tour){
     assert(graph != NULL);
     assert(tour != NULL);
@@ -163,6 +182,8 @@ void remove_city(int* graph, tour_t* tour){
     tour->cost -= cost;
     tour->size--;
 }
+
+// Checks if the current tour is the best tour.
 bool is_best_tour(tour_t *current, tour_t *best, int *graph, int home_city){
     assert(best != NULL);
     assert(current != NULL);
@@ -177,6 +198,7 @@ bool is_best_tour(tour_t *current, tour_t *best, int *graph, int home_city){
     return flag;
 }
 
+// Checks if there is a path from current city to destination city.
 bool is_neighbor(int* graph, int current_city, int neighbor){
     assert(graph != NULL);
     bool flag = false;
@@ -186,6 +208,7 @@ bool is_neighbor(int* graph, int current_city, int neighbor){
     return  flag;
 }
 
+// Checks if a city has alraedy been added to the stack.
 bool is_visited(tour_t* tour, int city){
     assert(tour != NULL);
     assert(city >= 0 );
