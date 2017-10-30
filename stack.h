@@ -1,3 +1,33 @@
+/*
+ *
+ * Sean Mcglincy and Kshitij Bantupalli
+ * Parallel and Distributed Systems
+ * Project (Serial Version)
+ *
+ * Dependencies : We are using CLION as an IDE Dependencies: I am using CLION as an IDE which uses CMAKE 3.8, and GCC, C+11
+ * gcc (GCC) 4.8.5 20150623 (Red Hat 4.8.5-11)
+ * Running on Cento 7 and MacOSX 10.23
+ *
+ * Program:
+ * Running the file:
+ * Run the script "compile_serial_code.sh" to ensure we are running the same commands.
+ * Example : ./main_program
+ *
+ * Description:
+ * This program uses C++ for serial program. n_cities is set to 10. It takes the cities from the graph and calculates
+ * partial tours. When the number of cities in stack reaches n_cities, it compares it to best_tour.
+ * Subsequent comparision lead to the best_tour to be most optimal.
+ *
+ * The Algorithm
+ * 1: The graph is generated and home_city is set as 0 and size is 1.
+ *
+ * 2: Partial tours are generated.
+ *
+ * 3: best_tour is updated.
+ *
+ * Error Handling : Used assert() in functions to ensure correct data is being passed.
+ *
+*/
 
 #include <vector>
 
