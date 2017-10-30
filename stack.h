@@ -34,7 +34,7 @@
 using namespace std;
 
 // use control values 4,6,15
-const int n_cities = 10;
+const int n_cities = 12;
 
 
 // +++++++++++++++++++++++++++++++++++++++++++++++++++ //
@@ -42,20 +42,20 @@ const int n_cities = 10;
 // *************************************************** //
 
 typedef struct tour_t{
-    int cities[n_cities + 1];  // graph
-    int size;  // number of cities
-    int cost;  // cost of cities
-   ~tour_t(){};  // Deconstrutor
+    int cities[n_cities + 1];
+    int size;
+    int cost;
+   ~tour_t(){};
 
 } tour_t;
 
 
-// Conflicting typedef name with some xcode stuff
+
 typedef struct strack_t{
     // todo check if stack is n * n ?
     tour_t* list[n_cities * n_cities];
     int size;
-    ~strack_t(){} // Deconstrutor
+    ~strack_t(){}
 } strack_t;
 
 
@@ -68,7 +68,7 @@ typedef struct freed_tours_t{
             delete(list->at(i));
         delete list;
     }
-     // Deconstrutor
+
 } freed_tours_t;
 
 // +++++++++++++++++++++++++++++++++++++++++++++++++++ //
