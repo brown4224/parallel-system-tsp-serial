@@ -87,6 +87,6 @@ void remove_city(int* graph, tour_t* tour);
 // +++++++++++++++++++++++++++++++++++++++++++++++++++ //
 // ****************** Bool Functions ******************** //
 // *************************************************** //
-bool is_best_tour(tour_t *current, tour_t *best, int *graph, int home_city);
+bool is_best_tour(tour_t *current, int* best_tour_cost, int *graph, int home_city);
 bool is_neighbor(int* graph, int current_city, int neighbor);
 bool is_visited(tour_t* tour, int city);

@@ -1,6 +1,7 @@
 cmake_minimum_required(VERSION 3.8)
 project(tsp)
 
+
 set(CMAKE_CXX_STANDARD 11)
 find_package(OpenMP)
 if (OPENMP_FOUND)

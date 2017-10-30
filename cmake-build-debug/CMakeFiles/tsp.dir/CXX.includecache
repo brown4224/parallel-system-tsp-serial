@@ -6,17 +6,17 @@
 
 #IncludeRegexTransform: 
 
-/Users/kshitijbantupalli/Documents/GitHub/parallel-system-tsp-serial/graphs.cpp
+/home/sean/Desktop/school/parralel-systems/tsp/graphs.cpp
 graphs.h
-/Users/kshitijbantupalli/Documents/GitHub/parallel-system-tsp-serial/graphs.h
+/home/sean/Desktop/school/parralel-systems/tsp/graphs.h
 iostream
 -
 assert.h
 -
 
-/Users/kshitijbantupalli/Documents/GitHub/parallel-system-tsp-serial/graphs.h
+/home/sean/Desktop/school/parralel-systems/tsp/graphs.h
 
-/Users/kshitijbantupalli/Documents/GitHub/parallel-system-tsp-serial/main.cpp
+/home/sean/Desktop/school/parralel-systems/tsp/main.cpp
 iostream
 -
 assert.h
@@ -30,15 +30,15 @@ chrono
 ctime
 -
 stack.h
-/Users/kshitijbantupalli/Documents/GitHub/parallel-system-tsp-serial/stack.h
+/home/sean/Desktop/school/parralel-systems/tsp/stack.h
 graphs.h
-/Users/kshitijbantupalli/Documents/GitHub/parallel-system-tsp-serial/graphs.h
+/home/sean/Desktop/school/parralel-systems/tsp/graphs.h
 omp.h
 -
 deque
 -
 
-/Users/kshitijbantupalli/Documents/GitHub/parallel-system-tsp-serial/stack.cpp
+/home/sean/Desktop/school/parralel-systems/tsp/stack.cpp
 vector
 -
 iostream
@@ -46,9 +46,9 @@ iostream
 assert.h
 -
 stack.h
-/Users/kshitijbantupalli/Documents/GitHub/parallel-system-tsp-serial/stack.h
+/home/sean/Desktop/school/parralel-systems/tsp/stack.h
 
-/Users/kshitijbantupalli/Documents/GitHub/parallel-system-tsp-serial/stack.h
+/home/sean/Desktop/school/parralel-systems/tsp/stack.h
 vector
 -
 

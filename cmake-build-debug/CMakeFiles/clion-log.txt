@@ -1,79 +1,25 @@
-/Applications/CLion.app/Contents/bin/cmake/bin/cmake -DCMAKE_BUILD_TYPE=Debug -G "CodeBlocks - Unix Makefiles" /Users/kshitijbantupalli/Documents/GitHub/parallel-system-tsp-serial
--- The C compiler identification is AppleClang 8.0.0.8000042
--- The CXX compiler identification is AppleClang 8.0.0.8000042
--- Check for working C compiler: /Library/Developer/CommandLineTools/usr/bin/cc
--- Check for working C compiler: /Library/Developer/CommandLineTools/usr/bin/cc -- works
+/home/sean/Desktop/clion/bin/cmake/bin/cmake -DCMAKE_BUILD_TYPE=Debug -G "CodeBlocks - Unix Makefiles" /home/sean/Desktop/school/parralel-systems/tsp
+-- The C compiler identification is GNU 4.8.5
+-- The CXX compiler identification is GNU 4.8.5
+-- Check for working C compiler: /usr/bin/cc
+-- Check for working C compiler: /usr/bin/cc -- works
 -- Detecting C compiler ABI info
 -- Detecting C compiler ABI info - done
 -- Detecting C compile features
 -- Detecting C compile features - done
--- Check for working CXX compiler: /Library/Developer/CommandLineTools/usr/bin/c++
--- Check for working CXX compiler: /Library/Developer/CommandLineTools/usr/bin/c++ -- works
+-- Check for working CXX compiler: /usr/bin/c++
+-- Check for working CXX compiler: /usr/bin/c++ -- works
 -- Detecting CXX compiler ABI info
 -- Detecting CXX compiler ABI info - done
 -- Detecting CXX compile features
 -- Detecting CXX compile features - done
--- Try OpenMP C flag = [ ]
--- Performing Test OpenMP_FLAG_DETECTED
--- Performing Test OpenMP_FLAG_DETECTED - Failed
 -- Try OpenMP C flag = [-fopenmp]
 -- Performing Test OpenMP_FLAG_DETECTED
--- Performing Test OpenMP_FLAG_DETECTED - Failed
--- Try OpenMP C flag = [-fopenmp=libomp]
--- Performing Test OpenMP_FLAG_DETECTED
--- Performing Test OpenMP_FLAG_DETECTED - Failed
--- Try OpenMP C flag = [/openmp]
--- Performing Test OpenMP_FLAG_DETECTED
--- Performing Test OpenMP_FLAG_DETECTED - Failed
--- Try OpenMP C flag = [-Qopenmp]
--- Performing Test OpenMP_FLAG_DETECTED
--- Performing Test OpenMP_FLAG_DETECTED - Failed
--- Try OpenMP C flag = [-openmp]
--- Performing Test OpenMP_FLAG_DETECTED
--- Performing Test OpenMP_FLAG_DETECTED - Failed
--- Try OpenMP C flag = [-xopenmp]
--- Performing Test OpenMP_FLAG_DETECTED
--- Performing Test OpenMP_FLAG_DETECTED - Failed
--- Try OpenMP C flag = [+Oopenmp]
--- Performing Test OpenMP_FLAG_DETECTED
--- Performing Test OpenMP_FLAG_DETECTED - Failed
--- Try OpenMP C flag = [-qsmp]
--- Performing Test OpenMP_FLAG_DETECTED
--- Performing Test OpenMP_FLAG_DETECTED - Failed
--- Try OpenMP C flag = [-mp]
--- Performing Test OpenMP_FLAG_DETECTED
--- Performing Test OpenMP_FLAG_DETECTED - Failed
--- Try OpenMP CXX flag = [ ]
--- Performing Test OpenMP_FLAG_DETECTED
--- Performing Test OpenMP_FLAG_DETECTED - Failed
+-- Performing Test OpenMP_FLAG_DETECTED - Success
 -- Try OpenMP CXX flag = [-fopenmp]
 -- Performing Test OpenMP_FLAG_DETECTED
--- Performing Test OpenMP_FLAG_DETECTED - Failed
--- Try OpenMP CXX flag = [-fopenmp=libomp]
--- Performing Test OpenMP_FLAG_DETECTED
--- Performing Test OpenMP_FLAG_DETECTED - Failed
--- Try OpenMP CXX flag = [/openmp]
--- Performing Test OpenMP_FLAG_DETECTED
--- Performing Test OpenMP_FLAG_DETECTED - Failed
--- Try OpenMP CXX flag = [-Qopenmp]
--- Performing Test OpenMP_FLAG_DETECTED
--- Performing Test OpenMP_FLAG_DETECTED - Failed
--- Try OpenMP CXX flag = [-openmp]
--- Performing Test OpenMP_FLAG_DETECTED
--- Performing Test OpenMP_FLAG_DETECTED - Failed
--- Try OpenMP CXX flag = [-xopenmp]
--- Performing Test OpenMP_FLAG_DETECTED
--- Performing Test OpenMP_FLAG_DETECTED - Failed
--- Try OpenMP CXX flag = [+Oopenmp]
--- Performing Test OpenMP_FLAG_DETECTED
--- Performing Test OpenMP_FLAG_DETECTED - Failed
--- Try OpenMP CXX flag = [-qsmp]
--- Performing Test OpenMP_FLAG_DETECTED
--- Performing Test OpenMP_FLAG_DETECTED - Failed
--- Try OpenMP CXX flag = [-mp]
--- Performing Test OpenMP_FLAG_DETECTED
--- Performing Test OpenMP_FLAG_DETECTED - Failed
--- Could NOT find OpenMP (missing:  OpenMP_C_FLAGS OpenMP_CXX_FLAGS) 
+-- Performing Test OpenMP_FLAG_DETECTED - Success
+-- Found OpenMP: -fopenmp  
 -- Configuring done
 -- Generating done
--- Build files have been written to: /Users/kshitijbantupalli/Documents/GitHub/parallel-system-tsp-serial/cmake-build-debug
+-- Build files have been written to: /home/sean/Desktop/school/parralel-systems/tsp/cmake-build-debug

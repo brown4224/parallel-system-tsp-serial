@@ -195,14 +195,15 @@ void remove_city(int *graph, tour_t *tour) {
     tour->size--;
 }
 
-bool is_best_tour(tour_t *current, tour_t *best, int *graph, int home_city) {
-    assert(best != NULL);
+bool is_best_tour(tour_t *current, int* best_tour_cost, int *graph, int home_city) {
+    assert(best_tour_cost != NULL);
     assert(current != NULL);
     assert(graph != NULL);
     bool flag = false;
     int current_city = current->cities[current->size - 1];
     int cost = get_cost(graph, current_city, home_city);
-    if ((cost > 0) && (cost + current->cost < best->cost)) {  // is cost to home better then current best
+//    if ((cost > 0) && (cost + current->cost < best->cost)) {  // is cost to home better then current best
+    if ((cost > 0) && (cost + current->cost < *best_tour_cost)) {  // is cost to home better then current best
         flag = true;
     }
 
