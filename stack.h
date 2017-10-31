@@ -4,7 +4,7 @@
 using namespace std;
 
 // use control values 4,6,15
-const int n_cities = 4;
+const int n_cities = 12;
 
 
 // +++++++++++++++++++++++++++++++++++++++++++++++++++ //
@@ -29,12 +29,6 @@ typedef struct stack_t1 {
 } stack_t1;
 
 
-// Making a set of partial tours to distribute to each thread.
-//typedef struct list_of_cities_t{
-//    stack_t* list;
-//    int size;
-//    ~list_of_cities(){delete[] list}
-//} list_of_cities_t;
 
 typedef struct freed_tours_t{
     vector<tour_t*> *list;
