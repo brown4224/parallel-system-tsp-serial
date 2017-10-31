@@ -4,7 +4,8 @@
 using namespace std;
 
 // use control values 4,6,15
-const int n_cities = 12;
+#pragma once
+    const int n_cities = 12;
 
 
 // +++++++++++++++++++++++++++++++++++++++++++++++++++ //
@@ -84,3 +85,8 @@ void remove_city(int* graph, tour_t* tour);
 bool is_best_tour(tour_t *current, int* best_tour_cost, int *graph, int home_city);
 bool is_neighbor(int* graph, int current_city, int neighbor);
 bool is_visited(tour_t* tour, int city);
+
+// +++++++++++++++++++++++++++++++++++++++++++++++++++ //
+// ****************** Process Stack      ******************** //
+// *************************************************** //
+void process_stack(int *graph, stack_t1 *stack, int* best_tour_cost, tour_t *best_tour, freed_tours_t *freed_tours, int home_city);

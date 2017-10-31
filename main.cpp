@@ -36,9 +36,10 @@
 //For calculating Time
 #include <chrono>
 #include <ctime>
+#include <mpi.h>
 #include "stack.h"
 #include "graphs.h"
-#include <mpi.h>
+#include "mpi_tsp.h"
 #ifdef _OPENMP
 
 #include <omp.h>
@@ -76,57 +77,40 @@ int get_number(char *s) {
 
 
 
-void process_stack(int *graph, stack_t1 *stack, int* best_tour_cost, tour_t *best_tour, freed_tours_t *freed_tours, int home_city) {
-    assert (graph != nullptr);
-    assert (stack != nullptr);
-    assert(best_tour != nullptr);
-    assert(freed_tours != nullptr);
-    assert(home_city >= 0);
-    tour_t* tour = pop(stack);
-    if (tour->size == n_cities) {
-        if (is_best_tour(tour, best_tour_cost, graph, home_city)) {
-            // If best tour add home city and make new best tour
-            add_city(graph, tour, home_city);
-#pragma omp critical
-            {
-                *best_tour_cost = tour->cost;
+//void process_stack(int *graph, stack_t1 *stack, int* best_tour_cost, tour_t *best_tour, freed_tours_t *freed_tours, int home_city) {
+//    assert (graph != nullptr);
+//    assert (stack != nullptr);
+//    assert(best_tour != nullptr);
+//    assert(freed_tours != nullptr);
+//    assert(home_city >= 0);
+//    tour_t* tour = pop(stack);
+//    if (tour->size == n_cities) {
+//        if (is_best_tour(tour, best_tour_cost, graph, home_city)) {
+//            // If best tour add home city and make new best tour
+//            add_city(graph, tour, home_city);
+//#pragma omp critical
+//            {
+//                *best_tour_cost = tour->cost;
+//
+//            }
+//
+//            copy_tour(tour, best_tour);
+//        }
+//    } else {
+//        for (int neighbor = n_cities - 1; neighbor >= 0; neighbor--) {
+//            if (is_neighbor(graph, tour->cities[tour->size - 1], neighbor)) {
+//                if (!is_visited(tour, neighbor)) {  // not in books code
+//                    add_city(graph, tour, neighbor);
+//                    push_copy(stack, tour, freed_tours);
+//                    remove_city(graph, tour);
+//                }
+//
+//            }
+//        }
+//    }
+//    push_freed_tour(freed_tours, tour);
+//}
 
-            }
-
-            copy_tour(tour, best_tour);
-        }
-    } else {
-        for (int neighbor = n_cities - 1; neighbor >= 0; neighbor--) {
-            if (is_neighbor(graph, tour->cities[tour->size - 1], neighbor)) {
-                if (!is_visited(tour, neighbor)) {  // not in books code
-                    add_city(graph, tour, neighbor);
-                    push_copy(stack, tour, freed_tours);
-                    remove_city(graph, tour);
-                }
-
-            }
-        }
-    }
-    push_freed_tour(freed_tours, tour);
-}
-
-void build_mpi_data_type(int *data_1, int *data_2, int root) {
-
-    MPI_Datatype custom_type = NULL;
-
-    MPI_Aint data_1_addr, data_2_addr;
-    MPI_Get_address(data_1, &data_1_addr);
-    MPI_Get_address(data_2, &data_2_addr);
-
-    int array_of_blocklengths[2] = {1, 1};
-    MPI_Datatype array_of_types[2] = {MPI_INT, MPI_INT};
-    MPI_Aint array_of_displacements[2] = {0, data_2_addr - data_1_addr};
-    MPI_Type_create_struct(2, array_of_blocklengths, array_of_displacements, array_of_types, &custom_type);
-    MPI_Type_commit(&custom_type);
-
-    MPI_Bcast(data_1, 1, custom_type, root, MPI_COMM_WORLD);
-    MPI_Type_free(&custom_type);
-}
 
 
 int main(int argc, char *argv[]) {
@@ -172,167 +156,149 @@ int main(int argc, char *argv[]) {
     MPI_Comm_size(MPI_COMM_WORLD, &comm_sz);
     MPI_Comm_rank(MPI_COMM_WORLD, &my_rank);
 
-    // Sending
-    int num_sent = 0;
-    int stack_size = 0;
-    int* stack_sent = nullptr;
+//    // Sending
+//    int num_sent = 0;
+//    int stack_size = 0;
+//    int* stack_sent = nullptr;
 
 
-
-
-    if(my_rank == root){
-        // Build the list...
-        tour_t* ts_tour = new_tour();
-        ts_tour->cities[0] = home_city;
-        ts_tour->size = 1;
-        stack_t1  *stack = new_stack();
-        push_copy(stack, ts_tour, freed_tours);
-
-        while (stack->size < comm_sz) {
-
-            process_stack(graph, stack, &best_tour_cost, best_tour, freed_tours, home_city);
-
-        }
-        for(int s = 0; s < stack->size; s++){
-            if(stack_size < stack->list[s]->size)
-                stack_size = stack->list[s]->size;  // Find max stack size
-        }
-
-
-        stack_size += 2;  // offset for cost and size
-
-        // Calculations
-        num_sent = (stack->size + comm_sz - 1) / comm_sz;  // Per node
-        int arr_size =  stack_size *  num_sent;
-        int total_size = arr_size * comm_sz;
-        stack_sent = new int [total_size];  // need contigous memory
-        for(int j = 0; j< total_size ; j++)
-            stack_sent[j] = 0;  // Zero Array
-
-
-
-        /**
-         * Build an array to send to all clusters.
-         * Make the array continues memory
-         * Make the array evenly split between all node.
-         *
-         * Stack mapping:
-         * 1st element:  tour size
-         * 2nd element:  tour cost
-         * 3rd element  --> (stack_size + 2):  tour cities
-         * Tour data structure, init to -1 for cities by default.
-         *
-         * Note: If tour size is zero, there is no data and end of message.
-         */
-
-        int node = 0; // todo do we off set and evenly distribute array????
-        int offset  = 0;
-        for(int s = 0; s < stack->size; s++){
-            int counter = (node * arr_size )+ ( offset * stack_size);
-            printf("Counter: %d\n", counter);
-            printf("Node: %d\n", node);
-            printf("Offset: %d\n", offset);
-            printf("Arr Size: %d\n", arr_size);
-            printf("Stack Size: %d\n", stack_size);
-
-            stack_sent[counter] = stack->list[s]->size;
-            counter++;
-
-            stack_sent[counter] = stack->list[s]->cost;
-            counter++;
-            std::copy(stack->list[s]->cities, stack->list[s]->cities + stack_size - 2, stack_sent + counter);
-
-            node++;
-            if(node % comm_sz == 0) {
-                node = 0;
-                offset++;
-            }
-
-        }
-
-
-
-//        int node = 0; // todo do we off set and evenly distribute array????
-//        for(int s = 0; s < stack->size; s++){
-//             int counter = s * ( stack_size);
 //
-//            stack_sent[counter++] = stack->list[s]->size;
 //
-//            stack_sent[counter++] = stack->list[s]->cost;
+//    if(my_rank == root){
+//        // Build the list...
+//        tour_t* ts_tour = new_tour();
+//        ts_tour->cities[0] = home_city;
+//        ts_tour->size = 1;
+//        stack_t1  *stack = new_stack();
+//        push_copy(stack, ts_tour, freed_tours);
 //
-//            std::copy(stack->list[s]->cities, stack->list[s]->cities + stack_size - 1, stack_sent + counter);
+//        while (stack->size < comm_sz) {
 //
+//            process_stack(graph, stack, &best_tour_cost, best_tour, freed_tours, home_city);
 //
 //        }
-        delete stack;
+//        for(int s = 0; s < stack->size; s++){
+//            if(stack_size < stack->list[s]->size)
+//                stack_size = stack->list[s]->size;  // Find max stack size
+//        }
+//
+//
+//        stack_size += 2;  // offset for cost and size
+//
+//        // Calculations
+//        num_sent = (stack->size + comm_sz - 1) / comm_sz;  // Per node
+//        int arr_size =  stack_size *  num_sent;
+//        int total_size = arr_size * comm_sz;
+//        stack_sent = new int [total_size];  // need contigous memory
+//        for(int j = 0; j< total_size ; j++)
+//            stack_sent[j] = 0;  // Zero Array
+//
+//
+//
+//        /**
+//         * Build an array to send to all clusters.
+//         * Make the array continues memory
+//         * Make the array evenly split between all node.
+//         *
+//         * Stack mapping:
+//         * 1st element:  tour size
+//         * 2nd element:  tour cost
+//         * 3rd element  --> (stack_size + 2):  tour cities
+//         * Tour data structure, init to -1 for cities by default.
+//         *
+//         * Note: If tour size is zero, there is no data and end of message.
+//         */
+//
+//        int node = 0; // todo do we off set and evenly distribute array????
+//        int offset  = 0;
+//        for(int s = 0; s < stack->size; s++){
+//            int counter = (node * arr_size )+ ( offset * stack_size);
+//
+//
+//            stack_sent[counter] = stack->list[s]->size;
+//            counter++;
+//
+//            stack_sent[counter] = stack->list[s]->cost;
+//            counter++;
+//            std::copy(stack->list[s]->cities, stack->list[s]->cities + stack_size - 2, stack_sent + counter);
+//
+//            node++;
+//            if(node % comm_sz == 0) {
+//                node = 0;
+//                offset++;
+//            }
+//
+//        }
+//
+//
+//        /*  First Version */
+////        int node = 0; // todo do we off set and evenly distribute array????
+////        for(int s = 0; s < stack->size; s++){
+////             int counter = s * ( stack_size);
+////
+////            stack_sent[counter++] = stack->list[s]->size;
+////
+////            stack_sent[counter++] = stack->list[s]->cost;
+////
+////            std::copy(stack->list[s]->cities, stack->list[s]->cities + stack_size - 1, stack_sent + counter);
+////
+////
+////        }
+//        delete stack;
+//
+//
+//
+//    }
+//
+//
+//
+//    build_mpi_data_type(&num_sent, &stack_size, root);
+//    int list_size = num_sent * stack_size;
+//    int stack_received [list_size]; // allocate memory
+//    if (my_rank != root)
+//        stack_sent = new int[list_size];
+//
+//
+//
+//
+//    //*  SCATTER  *//
+//    MPI_Scatter(stack_sent, list_size, MPI_INT, &stack_received, list_size, MPI_INT, root, MPI_COMM_WORLD);
+//    int tmp [list_size];
+//
+//
+////    printf("My Rank: %d, Printing After:\n", my_rank);
+////    for(int i = 0; i < list_size; i++){
+////        printf("%d, ", stack_received[i]);
+////    }
+////    printf("\n");
+//
+//
+//
+//    if(my_rank == root){
+//        delete[] stack_sent;
+//    }
+//
+//    stack_t1* stack = new_stack();
+//    for(int j = 0; j< num_sent; j++){
+//        int pos = j * stack_size;
+//        if(stack_received[pos] > 0){
+//            stack->size++;
+//            stack->list[j] = new_tour();
+//            stack->list[j]->size = stack_received[pos];
+//            pos++;
+//            stack->list[j]->cost = stack_received[pos];
+//            pos++;
+//            std::copy(stack_received + pos, stack_received + pos + stack_size,  stack->list[j]->cities);
+//            stack->list[j]->cities;
+//        }
+//        else{
+//            break;
+//        }
+//    }
 
-        printf("Printing before sent:\n");
-        for(int i = 0; i < total_size; i++){
-            printf("%d, ", stack_sent[i]);
-        }
-        printf("\n");
-
-    }
 
 
-
-    build_mpi_data_type(&num_sent, &stack_size, root);
-    int list_size = num_sent * stack_size;
-    int stack_received [list_size]; // allocate memory
-    if (my_rank != root)
-        stack_sent = new int[list_size];
-
-
-
-
-    //*  SCATTER  *//
-    MPI_Scatter(stack_sent, list_size, MPI_INT, &stack_received, list_size, MPI_INT, root, MPI_COMM_WORLD);
-    int tmp [list_size];
-
-
-    printf("My Rank: %d, Printing After:\n", my_rank);
-    for(int i = 0; i < list_size; i++){
-        printf("%d, ", stack_received[i]);
-    }
-    printf("\n");
-
-
-
-    if(my_rank == root){
-        delete[] stack_sent;
-    }
-
-    stack_t1* stack = new_stack();
-    for(int j = 0; j< num_sent; j++){
-        int pos = j * stack_size;
-        printf("Pos: %d\n", pos);
-        if(stack_received[pos] > 0){
-            stack->size++;
-            stack->list[j] = new_tour();
-            stack->list[j]->size = stack_received[pos];
-            pos++;
-            stack->list[j]->cost = stack_received[pos];
-            pos++;
-            std::copy(stack_received + pos, stack_received + pos + stack_size,  stack->list[j]->cities);
-            stack->list[j]->cities;
-        }
-        else{
-            break;
-        }
-    }
-    if(my_rank == 1){
-
-        printf("Printing Stack\n");
-        printf("\nMy Rank: %d,  Printing list\n", my_rank);
-        for(int j = 0 ; j< stack->size; j++) {
-            printf("\nList: ");
-            for (int a = 0; a < stack->list[j]->size; a++)
-                printf("%d, ", stack->list[j]->cities[a]);
-            //                printf("\n");
-        }
-        printf("\n");
-    }
-
+    stack_t1* stack = scatter_tsp( root, my_rank, comm_sz,graph, best_tour_cost,  best_tour, freed_tours, home_city);
 
     // +++++++++++++++++++++++++++++++++++++++++++++++++++ //
     // ****************** Parallel  ******************** //
@@ -363,14 +329,6 @@ int main(int argc, char *argv[]) {
              */
 
 
-//            if(my_rank == 1){
-//                printf("\nMy Rank: %d,  Printing list\n", my_rank);
-//                for(int j = 0 ; j< stack->size; j++)
-//                    for(int a = 0; a < stack->list[j]->size; a++)
-//                        printf("%d, ", stack->list[j]->cities[a]);
-//    //                printf("\n");
-//            }
-
 
             ts_stack = stack;
             while (ts_stack->size < ts_thread_count) {
@@ -382,7 +340,6 @@ int main(int argc, char *argv[]) {
 
 
 
-            printf("Printing City Lists");
             for (int j = 0; j < ts_stack->size; j++) {
                 int temp_size = ts_stack->list[j]->size;
 
@@ -390,21 +347,11 @@ int main(int argc, char *argv[]) {
                 local_stack->at(j)->list[0] = ts_stack->list[j];
                 local_stack->at(j)->size = 1;
 
-
-//                if(my_rank == 1){
-//                    printf("\nMy Rank: %d\n", my_rank);
-//                    for(int a = 0; a < ts_stack->list[j]->size; a++)
-//                        printf("%d, ", ts_stack->list[j]->cities[a]);
-////                printf("\n");
-//                }
             }
 
             delete ts_stack;
         }
 
-//        if(my_rank == 1){
-//
-//        }
 
 
         /**
@@ -434,11 +381,6 @@ int main(int argc, char *argv[]) {
                     delete ts_best_tour;  // <--- Fixed
 
     }
-
-    printf("My Rank: %d\n", my_rank);
-    print_tour(best_tour);
-
-
 
 
     // +++++++++++++++++++++++++++++++++++++++++++++++++++ //

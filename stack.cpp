@@ -241,3 +241,42 @@ bool is_visited(tour_t *tour, int city) {
     }
     return flag;
 }
+
+
+// +++++++++++++++++++++++++++++++++++++++++++++++++++ //
+// ****************** Process Stack      ******************** //
+// *************************************************** //
+
+void process_stack(int *graph, stack_t1 *stack, int* best_tour_cost, tour_t *best_tour, freed_tours_t *freed_tours, int home_city) {
+    assert (graph != nullptr);
+    assert (stack != nullptr);
+    assert(best_tour != nullptr);
+    assert(freed_tours != nullptr);
+    assert(home_city >= 0);
+    tour_t* tour = pop(stack);
+    if (tour->size == n_cities) {
+        if (is_best_tour(tour, best_tour_cost, graph, home_city)) {
+            // If best tour add home city and make new best tour
+            add_city(graph, tour, home_city);
+#pragma omp critical
+            {
+                *best_tour_cost = tour->cost;
+
+            }
+
+            copy_tour(tour, best_tour);
+        }
+    } else {
+        for (int neighbor = n_cities - 1; neighbor >= 0; neighbor--) {
+            if (is_neighbor(graph, tour->cities[tour->size - 1], neighbor)) {
+                if (!is_visited(tour, neighbor)) {  // not in books code
+                    add_city(graph, tour, neighbor);
+                    push_copy(stack, tour, freed_tours);
+                    remove_city(graph, tour);
+                }
+
+            }
+        }
+    }
+    push_freed_tour(freed_tours, tour);
+}

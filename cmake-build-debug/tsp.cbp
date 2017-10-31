@@ -89,6 +89,12 @@
 		<Unit filename="/home/sean/Desktop/school/parralel-systems/tsp/main.cpp">
 			<Option target="tsp"/>
 		</Unit>
+		<Unit filename="/home/sean/Desktop/school/parralel-systems/tsp/mpi_tsp.cpp">
+			<Option target="tsp"/>
+		</Unit>
+		<Unit filename="/home/sean/Desktop/school/parralel-systems/tsp/mpi_tsp.h">
+			<Option target="tsp"/>
+		</Unit>
 		<Unit filename="/home/sean/Desktop/school/parralel-systems/tsp/stack.cpp">
 			<Option target="tsp"/>
 		</Unit>

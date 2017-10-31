@@ -6,6 +6,7 @@ set(CMAKE_DEPENDS_LANGUAGES
 set(CMAKE_DEPENDS_CHECK_CXX
   "/home/sean/Desktop/school/parralel-systems/tsp/graphs.cpp" "/home/sean/Desktop/school/parralel-systems/tsp/cmake-build-debug/CMakeFiles/tsp.dir/graphs.cpp.o"
   "/home/sean/Desktop/school/parralel-systems/tsp/main.cpp" "/home/sean/Desktop/school/parralel-systems/tsp/cmake-build-debug/CMakeFiles/tsp.dir/main.cpp.o"
+  "/home/sean/Desktop/school/parralel-systems/tsp/mpi_tsp.cpp" "/home/sean/Desktop/school/parralel-systems/tsp/cmake-build-debug/CMakeFiles/tsp.dir/mpi_tsp.cpp.o"
   "/home/sean/Desktop/school/parralel-systems/tsp/stack.cpp" "/home/sean/Desktop/school/parralel-systems/tsp/cmake-build-debug/CMakeFiles/tsp.dir/stack.cpp.o"
   )
 set(CMAKE_CXX_COMPILER_ID "GNU")

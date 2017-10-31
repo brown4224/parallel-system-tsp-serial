@@ -177,6 +177,33 @@ main.cpp.s:
 	$(MAKE) -f CMakeFiles/tsp.dir/build.make CMakeFiles/tsp.dir/main.cpp.s
 .PHONY : main.cpp.s
 
+mpi_tsp.o: mpi_tsp.cpp.o
+
+.PHONY : mpi_tsp.o
+
+# target to build an object file
+mpi_tsp.cpp.o:
+	$(MAKE) -f CMakeFiles/tsp.dir/build.make CMakeFiles/tsp.dir/mpi_tsp.cpp.o
+.PHONY : mpi_tsp.cpp.o
+
+mpi_tsp.i: mpi_tsp.cpp.i
+
+.PHONY : mpi_tsp.i
+
+# target to preprocess a source file
+mpi_tsp.cpp.i:
+	$(MAKE) -f CMakeFiles/tsp.dir/build.make CMakeFiles/tsp.dir/mpi_tsp.cpp.i
+.PHONY : mpi_tsp.cpp.i
+
+mpi_tsp.s: mpi_tsp.cpp.s
+
+.PHONY : mpi_tsp.s
+
+# target to generate assembly for a file
+mpi_tsp.cpp.s:
+	$(MAKE) -f CMakeFiles/tsp.dir/build.make CMakeFiles/tsp.dir/mpi_tsp.cpp.s
+.PHONY : mpi_tsp.cpp.s
+
 stack.o: stack.cpp.o
 
 .PHONY : stack.o
@@ -219,6 +246,9 @@ help:
 	@echo "... main.o"
 	@echo "... main.i"
 	@echo "... main.s"
+	@echo "... mpi_tsp.o"
+	@echo "... mpi_tsp.i"
+	@echo "... mpi_tsp.s"
 	@echo "... stack.o"
 	@echo "... stack.i"
 	@echo "... stack.s"
