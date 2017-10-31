@@ -396,6 +396,10 @@ int main(int argc, char *argv[]) {
 
     }
 
+//    printf("My Rank: %d", my_rank);
+//    print_tour(best_tour);
+
+
     // +++++++++++++++++++++++++++++++++++++++++++++++++++ //
     // ******************     MPI     ******************** //
     // *************************************************** //
@@ -405,25 +409,43 @@ int main(int argc, char *argv[]) {
     int local_results[size];
     local_results[0] = best_tour->cost;
     std::copy(best_tour->cities, best_tour->cities + n_cities + 1, local_results + 1);
-    MPI_Gather(&local_results, size, MPI_INT,results,size, MPI_INT, root,  MPI_COMM_WORLD);
+//    printf("My Rank: %d\n", my_rank);
+//    for(int i=0; i< size; i++)
+//        printf("%d, ", local_results[i]);
 
-    if(my_rank == root){
+
+    MPI_Gather(&local_results, size, MPI_INT,results, size, MPI_INT, root,  MPI_COMM_WORLD);
+
+
+
+
+    if(my_rank == root) {
+//            for(int i=0; i< size * comm_sz; i++)
+//        printf("%d, ", results[i]);
+
+
+
         int min = results[0];
-        for(int i = 1; i< comm_sz; i++){
-            if(results[i * (n_cities + 2)] < min)
+        for (int i = 1; i < comm_sz; i++) {
+            printf("Min Cost: %d\n", results[i]);
+
+            if (results[i * (n_cities + 2)] < min)
                 min = results[i];
         }
 
         printf("Cost: %d\n", min);
-        printf("Size: %d\n", n_cities +1);
-        for(int i = 1; i< comm_sz; i++){
+        printf("Size: %d\n", n_cities + 1);
+        for (int i = 0; i < comm_sz; i++) {
+//            printf("%d, ", results[i]);
             int pos = i * (n_cities + 2);
-            if(results[ pos ] == min){
+            if (results[pos] == min) {
                 //print
                 pos++;
                 printf("\n");
-                for(int j = 0; j< n_cities + 1; j++)
+                printf("Printing Array: \n");
+                for (int j = 0; j < n_cities + 1; j++)
                     printf("%d, ", results[pos + j]);
+//            }
             }
         }
     }
