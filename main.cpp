@@ -128,38 +128,6 @@ void build_mpi_data_type(int *data_1, int *data_2, int root) {
     MPI_Type_free(&custom_type);
 }
 
-//vector<stack_t1 *>* list_of_stacks(stack_t1* stack){
-//    assert(stack != NULL);
-//    assert(stack->size > 0);
-//    vector<stack_t1 *> *new_stack = new vector<stack_t1 *>(stack->size, NULL);
-//    for (int j = 0; j < stack->size; j++) {
-//        new_stack->at(j) = new_stack();
-//        new_stack->at(j)->list[0] = stack->list[j];
-//        new_stack->at(j)->size = 1;
-//    }
-//    return new_stack;
-//}
-
-//void build_mpi_data_type(stack_t1* stack, int root) {
-//
-//    assert(stack != NULL);
-//    assert(root >= 0);
-//    MPI_Datatype custom_type = NULL;
-//
-//    MPI_Aint size_addr = stack->size;
-//    MPI_Aint cost_addr = stack->cost;
-//    MPI_Get_address((int) stack->size, &size_addr);
-//    MPI_Get_address(stack->cost, &cost_addr);
-//
-//    int array_of_blocklengths[2] = {1, 1};
-//    MPI_Datatype array_of_types[2] = {MPI_INT, MPI_INT};
-//    MPI_Aint array_of_displacements[2] = {0, cost_addr - size_addr};
-//    MPI_Type_create_struct(2, array_of_blocklengths, array_of_displacements, array_of_types, &custom_type);
-//    MPI_Type_commit(&custom_type);
-//
-//    MPI_Bcast(data_1, 1, custom_type, root, MPI_COMM_WORLD);
-//    MPI_Type_free(&custom_type);
-//}
 
 int main(int argc, char *argv[]) {
 
@@ -210,9 +178,8 @@ int main(int argc, char *argv[]) {
     int* stack_sent = nullptr;
 
     // Recieving
-    int* stack_received = nullptr;
-//    int num_stack = 0;
-//    int stack_size = 0;
+//    int* stack_received = nullptr;
+
 
     if(my_rank == root){
         // Build the list...
@@ -227,8 +194,6 @@ int main(int argc, char *argv[]) {
             process_stack(graph, stack, &best_tour_cost, best_tour, freed_tours, home_city);
 
         }
-//        int mpi_counter = 0;
-//        stack_size = 0;
         for(int s = 0; s < stack->size; s++){
             if(stack_size < stack->list[s]->size)
                 stack_size = stack->list[s]->size;  // Find max stack size
@@ -238,14 +203,12 @@ int main(int argc, char *argv[]) {
 
         // Calculations
         num_sent = std::ceil(stack->size / comm_sz);
-//        int arr_size =  (2 * num_sent) + (stack_size *  num_sent);
         int arr_size =  stack_size *  num_sent;
         stack_sent = new int [arr_size];  // need contigous memory
         for(int j = 0; j< arr_size ; j++)
             stack_sent[j] = 0;  // Zero Array
 
 
-//        int mpi_stack_map [stack->size];  // need contigous memory
 
         /**
          * Build an array to send to all clusters.
@@ -274,28 +237,29 @@ int main(int argc, char *argv[]) {
             std::copy(stack->list[s]->cities, stack->list[s]->cities + stack_size, stack_sent + counter);
             counter += stack_size;
 
-
-//            for(int c = 0; c< stack_size; c++){
-//
-//                if(c < stack->list[s]->size)
-//                    stack_sent[counter] = stack->list[s]->cities[c];
-//                counter++;
-//            }
         }
         delete stack;
+
+        for(int j = 0; j<arr_size; j++){
+            printf("Sending::My Rank: %d, List Elem: %d, Value: %d\n",my_rank, j, stack_sent[j]);
+        }
+
     }
     build_mpi_data_type(&num_sent, &stack_size, root);
     int list_size = num_sent * stack_size;
-    stack_received  = new int[list_size]; // allocate memory
+//    stack_received  = new int[list_size]; // allocate memory
+    int stack_received [list_size]; // allocate memory
+//    for(int i = 0; i< list_size; i++) stack_received[i] = 0;
     if (my_rank != root)
         stack_sent = new int[list_size];
-    MPI_Scatter(stack_sent, list_size, MPI_INT, stack_received, list_size, MPI_INT, root, MPI_COMM_WORLD);
+    MPI_Scatter(stack_sent, list_size, MPI_INT, &stack_received, list_size, MPI_INT, root, MPI_COMM_WORLD);
+    int tmp [list_size];
+//    MPI_Scatter(stack_sent, list_size, MPI_INT, &tmp, list_size, MPI_INT, root, MPI_COMM_WORLD);
     if(my_rank == root){
         delete[] stack_sent;
     }
 
     stack_t1* stack = new_stack();
-//    tour_t* tour = nullptr;
     for(int j = 0; j< num_sent; j++){
         int pos = j * (stack_size +2);
         if(stack_received[pos] > 0){
@@ -305,44 +269,21 @@ int main(int argc, char *argv[]) {
             pos++;
             stack->list[j]->cost = stack_received[pos];
             pos++;
-//            std::copy(stack_received[pos], stack_received[pos + stack_size],  stack->list[j]->cities[0]);
             std::copy(stack_received + pos, stack_received + pos + stack_size,  stack->list[j]->cities);
             stack->list[j]->cities;
         } else{
             break;
         }
     }
-    delete[] stack_received;
-
-//    for(int j = 0; j< list_size; j++){
-//        if(j % stack_size == 0)
-//            tour_t* tour = new_tour();
-//
-//        if(stack_received[j] > -1){
-//            tour     stack_received[j%stack_size]
-//        }
-//
-//
-//    }
-
 //    delete[] stack_received;
 
+    for(int j = 0; j< list_size; j++){
+        printf("My Rank: %d, List Elem: %d, Value: %d\n",my_rank, j, stack_received[j]);
+    }
 
-//    stack_t1* stack = new_stack();
-//    for(int j = )
-
-
-
-//    MPI_Datatype custom_type = NULL;
-
-
-
-
-    // Build data type...
-    // ScatterV
-
-
-
+//    for(int j = 0; j< list_size; j++){
+//        printf("My Rank: %d, List Elem: %d, Value: %d\n",my_rank, j, tmp[j]);
+//    }
 
 
     // +++++++++++++++++++++++++++++++++++++++++++++++++++ //
@@ -356,7 +297,6 @@ int main(int argc, char *argv[]) {
          * Create local variables for each thread
          * Private variables denoted: ts_   ==> thread safe
          */
-//        tour_t *ts_tour = NULL;  // <-- not needed.  kept in stack now
         stack_t1 *ts_stack = nullptr;
         tour_t *ts_best_tour = new_tour();
         ts_best_tour->cost = INT_MAX;
@@ -374,11 +314,6 @@ int main(int argc, char *argv[]) {
              * Creates a stack that will be copied to a global stack and distributed amongst threads
              */
 
-//            tour_t* ts_tour = new_tour();
-//            ts_tour->cities[0] = home_city;
-//            ts_tour->size = 1;
-//            ts_stack = new_stack();
-//            push_copy(ts_stack, ts_tour, freed_tours);
 
             ts_stack = stack;
             while (ts_stack->size < ts_thread_count) {
@@ -386,7 +321,6 @@ int main(int argc, char *argv[]) {
                 process_stack(graph, ts_stack, &best_tour_cost, ts_best_tour, freed_tours, home_city);
 
             }
-//            local_stack = list_of_stacks(ts_stack);
             local_stack = new vector<stack_t1 *>(ts_stack->size, NULL);
             for (int j = 0; j < ts_stack->size; j++) {
                 int temp_size = ts_stack->list[j]->size;
@@ -421,7 +355,6 @@ int main(int argc, char *argv[]) {
         } // End For Loop
 
 
-        // This is where thread needs to ask for jobs
 
 #pragma omp critical
         {
