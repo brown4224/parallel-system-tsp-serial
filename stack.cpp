@@ -35,8 +35,8 @@ void copy_tour(tour_t *original, tour_t *target) {
     assert(original != NULL);
     target->size = original->size;
     target->cost = original->cost;
-    for (int i = 0; i < original->size; i++)
-        target->cities[i] = original->cities[i];
+    std::copy(original->cities, original->cities + original->size, target->cities);
+
 }
 
 tour_t *new_tour() {

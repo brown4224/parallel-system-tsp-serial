@@ -33,9 +33,13 @@ stack.h
 /home/sean/Desktop/school/parralel-systems/tsp/stack.h
 graphs.h
 /home/sean/Desktop/school/parralel-systems/tsp/graphs.h
+mpi.h
+-
 omp.h
 -
 deque
+-
+cmath
 -
 
 /home/sean/Desktop/school/parralel-systems/tsp/stack.cpp

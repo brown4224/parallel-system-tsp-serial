@@ -60,15 +60,15 @@ include CMakeFiles/tsp.dir/flags.make
 CMakeFiles/tsp.dir/main.cpp.o: CMakeFiles/tsp.dir/flags.make
 CMakeFiles/tsp.dir/main.cpp.o: ../main.cpp
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/sean/Desktop/school/parralel-systems/tsp/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building CXX object CMakeFiles/tsp.dir/main.cpp.o"
-	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/tsp.dir/main.cpp.o -c /home/sean/Desktop/school/parralel-systems/tsp/main.cpp
+	mpic++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/tsp.dir/main.cpp.o -c /home/sean/Desktop/school/parralel-systems/tsp/main.cpp
 
 CMakeFiles/tsp.dir/main.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/tsp.dir/main.cpp.i"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/sean/Desktop/school/parralel-systems/tsp/main.cpp > CMakeFiles/tsp.dir/main.cpp.i
+	mpic++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/sean/Desktop/school/parralel-systems/tsp/main.cpp > CMakeFiles/tsp.dir/main.cpp.i
 
 CMakeFiles/tsp.dir/main.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/tsp.dir/main.cpp.s"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/sean/Desktop/school/parralel-systems/tsp/main.cpp -o CMakeFiles/tsp.dir/main.cpp.s
+	mpic++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/sean/Desktop/school/parralel-systems/tsp/main.cpp -o CMakeFiles/tsp.dir/main.cpp.s
 
 CMakeFiles/tsp.dir/main.cpp.o.requires:
 
@@ -84,15 +84,15 @@ CMakeFiles/tsp.dir/main.cpp.o.provides.build: CMakeFiles/tsp.dir/main.cpp.o
 CMakeFiles/tsp.dir/stack.cpp.o: CMakeFiles/tsp.dir/flags.make
 CMakeFiles/tsp.dir/stack.cpp.o: ../stack.cpp
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/sean/Desktop/school/parralel-systems/tsp/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Building CXX object CMakeFiles/tsp.dir/stack.cpp.o"
-	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/tsp.dir/stack.cpp.o -c /home/sean/Desktop/school/parralel-systems/tsp/stack.cpp
+	mpic++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/tsp.dir/stack.cpp.o -c /home/sean/Desktop/school/parralel-systems/tsp/stack.cpp
 
 CMakeFiles/tsp.dir/stack.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/tsp.dir/stack.cpp.i"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/sean/Desktop/school/parralel-systems/tsp/stack.cpp > CMakeFiles/tsp.dir/stack.cpp.i
+	mpic++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/sean/Desktop/school/parralel-systems/tsp/stack.cpp > CMakeFiles/tsp.dir/stack.cpp.i
 
 CMakeFiles/tsp.dir/stack.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/tsp.dir/stack.cpp.s"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/sean/Desktop/school/parralel-systems/tsp/stack.cpp -o CMakeFiles/tsp.dir/stack.cpp.s
+	mpic++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/sean/Desktop/school/parralel-systems/tsp/stack.cpp -o CMakeFiles/tsp.dir/stack.cpp.s
 
 CMakeFiles/tsp.dir/stack.cpp.o.requires:
 
@@ -108,15 +108,15 @@ CMakeFiles/tsp.dir/stack.cpp.o.provides.build: CMakeFiles/tsp.dir/stack.cpp.o
 CMakeFiles/tsp.dir/graphs.cpp.o: CMakeFiles/tsp.dir/flags.make
 CMakeFiles/tsp.dir/graphs.cpp.o: ../graphs.cpp
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/sean/Desktop/school/parralel-systems/tsp/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Building CXX object CMakeFiles/tsp.dir/graphs.cpp.o"
-	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/tsp.dir/graphs.cpp.o -c /home/sean/Desktop/school/parralel-systems/tsp/graphs.cpp
+	mpic++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/tsp.dir/graphs.cpp.o -c /home/sean/Desktop/school/parralel-systems/tsp/graphs.cpp
 
 CMakeFiles/tsp.dir/graphs.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/tsp.dir/graphs.cpp.i"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/sean/Desktop/school/parralel-systems/tsp/graphs.cpp > CMakeFiles/tsp.dir/graphs.cpp.i
+	mpic++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/sean/Desktop/school/parralel-systems/tsp/graphs.cpp > CMakeFiles/tsp.dir/graphs.cpp.i
 
 CMakeFiles/tsp.dir/graphs.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/tsp.dir/graphs.cpp.s"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/sean/Desktop/school/parralel-systems/tsp/graphs.cpp -o CMakeFiles/tsp.dir/graphs.cpp.s
+	mpic++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/sean/Desktop/school/parralel-systems/tsp/graphs.cpp -o CMakeFiles/tsp.dir/graphs.cpp.s
 
 CMakeFiles/tsp.dir/graphs.cpp.o.requires:
 
