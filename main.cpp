@@ -43,8 +43,8 @@
 
 #include <omp.h>
 #include <deque>
-#include <cmath>
-
+//#include <cmath>
+#include <math.h>
 #endif
 
 using namespace std;
@@ -199,14 +199,22 @@ int main(int argc, char *argv[]) {
                 stack_size = stack->list[s]->size;  // Find max stack size
         }
 
+        printf("Stack Size: %d\n", stack_size);
+
         stack_size += 2;  // offset for cost and size
 
         // Calculations
-        num_sent = std::ceil(stack->size / comm_sz);
+        num_sent = (stack->size + comm_sz - 1) / comm_sz;  // Per node
         int arr_size =  stack_size *  num_sent;
-        stack_sent = new int [arr_size];  // need contigous memory
-        for(int j = 0; j< arr_size ; j++)
+        int total_size = arr_size * comm_sz;
+        stack_sent = new int [total_size];  // need contigous memory
+        for(int j = 0; j< total_size ; j++)
             stack_sent[j] = 0;  // Zero Array
+
+        printf("Comm size: %d\n", comm_sz);
+        printf("Stack Size: %d\n", stack_size);
+        printf("Num Sent: %d\n", num_sent);
+        printf("Arr size: %d\n", arr_size);
 
 
 
@@ -223,28 +231,41 @@ int main(int argc, char *argv[]) {
          *
          * Note: If tour size is zero, there is no data and end of message.
          */
-        int counter = 0;
+//        int counter = 0;
         int node = 0; // todo do we off set and evenly distribute array????
         for(int s = 0; s < stack->size; s++){
+             int counter = s * ( stack_size);
+            printf("Counter: %d\n", counter);
 
-            stack_sent[counter] = stack->list[s]->size;
-            counter++;
+            stack_sent[counter++] = stack->list[s]->size;
+//            counter++;
 
 
-            stack_sent[counter] = stack->list[s]->cost;
-            counter++;
+            stack_sent[counter++] = stack->list[s]->cost;
+//            counter++;
 
-            std::copy(stack->list[s]->cities, stack->list[s]->cities + stack_size, stack_sent + counter);
-            counter += stack_size;
+            std::copy(stack->list[s]->cities, stack->list[s]->cities + stack_size - 1, stack_sent + counter);
+//            counter += stack_size;
+
+            printf("\n New City:  Size: %d, Cost: %d:    ", stack->list[s]->size, stack->list[s]->cost);
+            for(int i = 0; i< stack->list[s]->size; i++)
+                printf("%d, ", stack->list[s]->cities[i]);
 
         }
         delete stack;
 
-        for(int j = 0; j<arr_size; j++){
+
+        printf("\n");
+
+        for(int j = 0; j<total_size; j++){
             printf("Sending::My Rank: %d, List Elem: %d, Value: %d\n",my_rank, j, stack_sent[j]);
         }
 
     }
+
+
+    printf("Sending data\n");
+
     build_mpi_data_type(&num_sent, &stack_size, root);
     int list_size = num_sent * stack_size;
 //    stack_received  = new int[list_size]; // allocate memory
@@ -252,6 +273,11 @@ int main(int argc, char *argv[]) {
 //    for(int i = 0; i< list_size; i++) stack_received[i] = 0;
     if (my_rank != root)
         stack_sent = new int[list_size];
+
+
+
+    printf("Sending data\n");
+
     MPI_Scatter(stack_sent, list_size, MPI_INT, &stack_received, list_size, MPI_INT, root, MPI_COMM_WORLD);
     int tmp [list_size];
 //    MPI_Scatter(stack_sent, list_size, MPI_INT, &tmp, list_size, MPI_INT, root, MPI_COMM_WORLD);
@@ -275,6 +301,10 @@ int main(int argc, char *argv[]) {
             break;
         }
     }
+
+
+    printf("Sending More data\n");
+
 //    delete[] stack_received;
 
     for(int j = 0; j< list_size; j++){
@@ -369,6 +399,7 @@ int main(int argc, char *argv[]) {
     // +++++++++++++++++++++++++++++++++++++++++++++++++++ //
     // ******************     MPI     ******************** //
     // *************************************************** //
+    printf("Sending data\n");
     int size = n_cities + 2;
     int results [size * comm_sz];
     int local_results[size];
@@ -410,7 +441,7 @@ int main(int argc, char *argv[]) {
     std::cout << "\nTime taken : " << time_span.count() << " seconds.";
     std::cout << std::endl;
 
-    print_tour(best_tour);
+//    print_tour(best_tour);
     print_graph(graph);
 
 //    for (int i = 0; i < local_stack->size(); i++) delete (local_stack->at(i));  // <--- error on delete

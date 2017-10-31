@@ -39,7 +39,7 @@ omp.h
 -
 deque
 -
-cmath
+math.h
 -
 
 /home/sean/Desktop/school/parralel-systems/tsp/stack.cpp
