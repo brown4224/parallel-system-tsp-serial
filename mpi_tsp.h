@@ -35,24 +35,6 @@ void build_mpi_data_type(int *data_1, int *data_2, int root) {
     MPI_Bcast(data_1, 1, custom_type, root, MPI_COMM_WORLD);
     MPI_Type_free(&custom_type);
 }
-//
-//void build_mpi_data_type(int *data_1, int *data_2, int root) {
-//
-//    MPI_Datatype custom_type = NULL;
-//
-//    MPI_Aint data_1_addr, data_2_addr;
-//    MPI_Get_address(data_1, &data_1_addr);
-//    MPI_Get_address(data_2, &data_2_addr);
-//
-//    int array_of_blocklengths[2] = {1, 1};
-//    MPI_Datatype array_of_types[2] = {MPI_INT, MPI_INT};
-//    MPI_Aint array_of_displacements[2] = {0, data_2_addr - data_1_addr};
-//    MPI_Type_create_struct(2, array_of_blocklengths, array_of_displacements, array_of_types, &custom_type);
-//    MPI_Type_commit(&custom_type);
-//
-//    MPI_Bcast(data_1, 1, custom_type, root, MPI_COMM_WORLD);
-//    MPI_Type_free(&custom_type);
-//}
 
 
 stack_t1* scatter_tsp(int root, int my_rank, int comm_sz, int* graph, int& best_tour_cost, tour_t* best_tour, freed_tours_t* freed_tours, int home_city){
@@ -129,24 +111,7 @@ stack_t1* scatter_tsp(int root, int my_rank, int comm_sz, int* graph, int& best_
 
         }
 
-
-        /*  First Version */
-//        int node = 0; // todo do we off set and evenly distribute array????
-//        for(int s = 0; s < stack->size; s++){
-//             int counter = s * ( stack_size);
-//
-//            stack_sent[counter++] = stack->list[s]->size;
-//
-//            stack_sent[counter++] = stack->list[s]->cost;
-//
-//            std::copy(stack->list[s]->cities, stack->list[s]->cities + stack_size - 1, stack_sent + counter);
-//
-//
-//        }
         delete stack;
-
-
-
     }
 
 
@@ -188,5 +153,15 @@ stack_t1* scatter_tsp(int root, int my_rank, int comm_sz, int* graph, int& best_
     }
 
     return  stack;
+}
+
+
+void gather_best_tours(int* results, tour_t* best_tour, int root){
+    int size = n_cities + 2;
+    int local_results[size];
+
+    local_results[0] = best_tour->cost;
+    std::copy(best_tour->cities, best_tour->cities + n_cities + 1, local_results + 1);
+    MPI_Gather(&local_results, size, MPI_INT, results, size, MPI_INT, root,  MPI_COMM_WORLD);
 }
 

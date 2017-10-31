@@ -5,7 +5,7 @@ using namespace std;
 
 // use control values 4,6,15
 #pragma once
-    const int n_cities = 12;
+    const int n_cities = 4;
 
 
 // +++++++++++++++++++++++++++++++++++++++++++++++++++ //
