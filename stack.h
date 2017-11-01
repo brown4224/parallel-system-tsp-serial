@@ -11,7 +11,6 @@
  * Program:
  * Running the file:
  * Run the script "compile_serial_code.sh" to ensure we are running the same commands.
- * Example : ./main_program
  *
  * Description:
  * This program uses C++ for serial program. n_cities is set to 10. It takes the cities from the graph and calculates
@@ -33,8 +32,7 @@
 
 using namespace std;
 
-// use control values 4,6,15
-const int n_cities = 12;
+const int n_cities = 10;
 
 
 // +++++++++++++++++++++++++++++++++++++++++++++++++++ //

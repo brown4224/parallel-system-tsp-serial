@@ -27,9 +27,7 @@ int * build_graph(const int  n_cities){
 
 }
 
-/*
-  Time taken : 0.00011 seconds
-*/
+
 
 
 
@@ -38,7 +36,6 @@ int* graph_random(int const n_cities){
     const int size = n_cities * n_cities;
     int* graph = new int[size];
 
-//    graph[0] = 0;
 
     srand (time(NULL));
 
@@ -47,14 +44,9 @@ int* graph_random(int const n_cities){
 
         if(temp%9 == 0)
         {
-//            temp = -temp;
             temp = -1;
         }
 
-//        if( ((n_cities ) % j) == 0 )  // <-- logic error?
-//        {
-//            temp = 0;
-//        }
         graph[j] = temp;
 
 
@@ -67,12 +59,6 @@ int* graph_random(int const n_cities){
     return graph;
 
 
-/*
-OR
-
-int* lists = new int[graph];
-Make a array with different graphs, use a randomizer to choose a graph.
-*/
 
 
 }
@@ -88,7 +74,6 @@ int* graph_1() {
 }
 
 int* graph_2() {
-    //2nd test case : Symmetric tsp. Time taken : 6.44 x 10^-5 seconds
     return new int[16]
             {
                     0, 29, 82, 46,
@@ -99,7 +84,6 @@ int* graph_2() {
 }
 
 int* graph_3() {
-    //3rd case : Assymetric tsp with 6 cities. Time taken : 0.00013401
     return new int[36]
             {
                     0, 42, 23, 31, 77, 37,
@@ -112,7 +96,6 @@ int* graph_3() {
 }
 
 int* graph_4() {
-    // 4th case : Either a. Taking too long or b. Not working for n_cities = 15
     return new int[255]
             {
                     0, 29, 82, 46, 68, 52, 72, 42, 51, 55, 29, 74, 23, 72, 46,

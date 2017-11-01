@@ -110,7 +110,6 @@ void push_freed_tour(freed_tours_t* freed_tours ,tour_t* tour){
     if(freed_tours->size >= freed_tours->limit)
         resize_freed_tour(freed_tours, freed_tours->limit + n_cities);
 
-    // zero out tour & push on array
     free_cities(tour);
     freed_tours->list->push_back(tour);
     freed_tours->size++;
@@ -205,8 +204,6 @@ void add_city(int* graph, tour_t* tour,  int dest){
     tour->cost += get_cost(graph, get_current_city(tour), dest);
     tour->cities[tour->size] = dest;
     tour->size++;
-    //int temp = get_current_city(tour);
-    //tour->visited[tour->size] = true;
 }
 
 // Input  : Takes a graph and an instance of tour_t.
@@ -232,7 +229,7 @@ bool is_best_tour(tour_t *current, tour_t *best, int *graph, int home_city){
     bool flag = false;
     int current_city = current->cities[current->size - 1];
     int cost = get_cost(graph, current_city, home_city);
-    if((cost > 0)  && (cost + current->cost < best->cost)){  // is cost to home better then current best
+    if((cost > 0)  && (cost + current->cost < best->cost)){
         flag = true;
     }
 
@@ -246,7 +243,7 @@ bool is_neighbor(int* graph, int current_city, int neighbor){
     assert(graph != NULL);
     bool flag = false;
     int cost = get_cost(graph, current_city, neighbor);
-    if(cost > 0)        //This should cover -1?
+    if(cost > 0)
         flag = true;
     return  flag;
 }
@@ -260,21 +257,8 @@ bool is_visited(tour_t* tour, int city){
     assert(city >= 0 );
     assert(city < n_cities);
 
-    // TODO  Time consuming.  See if we have already visited this city
-
-    /*
-        Maybe this for checking visited city?
-        ***THIS WOULD NOT WORK, WE ARE NOT COMPARING THE SIZES IN THE CODE BELOW****
-
-    if (stack->size > tour->size)
-        return flag;
-    */
-
     bool flag =  false;
 
-//    if(tour->visited[city])
-  //      flag = true;
-    //bool  flag = false;
     for(int i =0; i< tour->size; i++){
         if(tour->cities[i] == city)
            flag = true;
