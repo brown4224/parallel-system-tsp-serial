@@ -27,6 +27,7 @@ int main() {
     freed_tours_t* freed_tours = new_freed_tour();
     int home_city = 0;
     tour->cities[0] = home_city;
+    tour->visited[0] = true;
     tour->size = 1;
     best_tour->cost = INT_MAX;
 

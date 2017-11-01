@@ -45,6 +45,7 @@ typedef struct tour_t{
     int cities[n_cities + 1];
     int size;
     int cost;
+    bool visited[n_cities];
    ~tour_t(){};
 
 } tour_t;

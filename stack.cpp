@@ -44,7 +44,10 @@ void copy_tour(tour_t* original, tour_t* target){
     target->size = original->size;
     target->cost = original->cost;
     for(int i=0; i < original->size; i++)
+    {
         target->cities[i] = original->cities[i];
+        target->visited[i] = original->visited[i];
+    }
 }
 
 
@@ -52,11 +55,12 @@ void copy_tour(tour_t* original, tour_t* target){
 // Output : Creates a new instance of tour_t.
 // Creates a new instance of a tour.
 tour_t* new_tour(){
-    tour_t* tour = new tour_t;
+    auto * tour = new tour_t;
     tour->size = 0;
     tour->cost = 0;
-    for(int i=0; i< n_cities; i++)
+    for(int i=0; i< n_cities; i++) {
         tour->cities[i] = -1;
+    }
     return tour;
 }
 
@@ -201,7 +205,8 @@ void add_city(int* graph, tour_t* tour,  int dest){
     tour->cost += get_cost(graph, get_current_city(tour), dest);
     tour->cities[tour->size] = dest;
     tour->size++;
-
+    //int temp = get_current_city(tour);
+    //tour->visited[tour->size] = true;
 }
 
 // Input  : Takes a graph and an instance of tour_t.
@@ -249,6 +254,7 @@ bool is_neighbor(int* graph, int current_city, int neighbor){
 // Input  : Takes an instance of tour_t and an integer.
 // Output : Returns a boolean value.
 // Checks if a city has already been added to the stack.
+// Note : Needs to be optimized.
 bool is_visited(tour_t* tour, int city){
     assert(tour != NULL);
     assert(city >= 0 );
@@ -264,10 +270,14 @@ bool is_visited(tour_t* tour, int city){
         return flag;
     */
 
-    bool  flag = false;
+    bool flag =  false;
+
+//    if(tour->visited[city])
+  //      flag = true;
+    //bool  flag = false;
     for(int i =0; i< tour->size; i++){
         if(tour->cities[i] == city)
-            flag = true;
+           flag = true;
     }
     return flag;
 }
