@@ -11,14 +11,7 @@
     </configurations>
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="a3305d48-70fa-49c0-ab23-9299113b96f1" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/tsp.dir/main.cpp.o" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/tsp.dir/main.cpp.o" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/cmake-build-debug/tsp" afterPath="$PROJECT_DIR$/cmake-build-debug/tsp" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/graphs.cpp" afterPath="$PROJECT_DIR$/graphs.cpp" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/stack.cpp" afterPath="$PROJECT_DIR$/stack.cpp" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/stack.h" afterPath="$PROJECT_DIR$/stack.h" />
-    </list>
+    <list default="true" id="a3305d48-70fa-49c0-ab23-9299113b96f1" name="Default" comment="" />
     <ignored path="$PROJECT_DIR$/cmake-build-debug/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -195,12 +188,12 @@
       <workItem from="1508775888455" duration="6552000" />
       <workItem from="1508790334437" duration="1231000" />
       <workItem from="1508932738946" duration="15202000" />
-      <workItem from="1509547847041" duration="4865000" />
+      <workItem from="1509547847041" duration="4937000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="61954000" />
+    <option name="totallyTimeSpent" value="62026000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="0" width="1440" height="900" extended-state="0" />
