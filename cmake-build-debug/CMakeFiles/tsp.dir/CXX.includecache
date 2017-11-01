@@ -45,10 +45,10 @@ math.h
 -
 
 /home/sean/Desktop/school/parralel-systems/tsp/mpi_tsp.cpp
-
-/home/sean/Desktop/school/parralel-systems/tsp/mpi_tsp.h
 mpi.h
 -
+mpi_tsp.h
+/home/sean/Desktop/school/parralel-systems/tsp/mpi_tsp.h
 stack.h
 /home/sean/Desktop/school/parralel-systems/tsp/stack.h
 graphs.h
@@ -56,15 +56,19 @@ graphs.h
 vector
 -
 
+/home/sean/Desktop/school/parralel-systems/tsp/mpi_tsp.h
+stack.h
+/home/sean/Desktop/school/parralel-systems/tsp/stack.h
+
 /home/sean/Desktop/school/parralel-systems/tsp/stack.cpp
 vector
 -
 iostream
 -
-assert.h
--
 stack.h
 /home/sean/Desktop/school/parralel-systems/tsp/stack.h
+mpi_tsp.h
+/home/sean/Desktop/school/parralel-systems/tsp/mpi_tsp.h
 
 /home/sean/Desktop/school/parralel-systems/tsp/stack.h
 vector

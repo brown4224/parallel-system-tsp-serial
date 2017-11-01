@@ -109,25 +109,27 @@ int main(int argc, char *argv[]) {
     // *************************************************** //
     //////// MPI  INIT //////////////
 
-    int comm_sz;  // Number of process
-    int my_rank;
-    bool keep_alive = true;
-    bool alive = true;
-    int root = 0;
+    mpi_data_t mpi_data;
+    mpi_data.keep_alive = true;
+    mpi_data.alive = true;
+    mpi_data.root = 0;
 
 
     MPI_Init(NULL, NULL);
-    MPI_Comm_size(MPI_COMM_WORLD, &comm_sz);
-    MPI_Comm_rank(MPI_COMM_WORLD, &my_rank);
+    MPI_Comm_size(MPI_COMM_WORLD, &mpi_data.comm_sz);
+    MPI_Comm_rank(MPI_COMM_WORLD, &mpi_data.my_rank);
 
-    stack_t1* stack = scatter_tsp( root, my_rank, comm_sz,graph, best_tour_cost,  best_tour, freed_tours, home_city);
+
+    stack_t1* stack = scatter_tsp( &mpi_data, graph, best_tour_cost,  best_tour, freed_tours, home_city);
+    io_error_handling(&mpi_data);  // ALL Nodes check for error
+
 
     // +++++++++++++++++++++++++++++++++++++++++++++++++++ //
     // ****************** Parallel  ******************** //
     // *************************************************** //
 
     int z;
-# pragma omp parallel  num_threads(thread_count_request) default(none) private(z) shared( my_rank, graph, stack, local_stack, best_tour, best_tour_cost, home_city, freed_tours)
+# pragma omp parallel  num_threads(thread_count_request) default(none) private(z) shared( mpi_data, graph, stack, local_stack, best_tour, best_tour_cost, home_city, freed_tours)
     {
         /**
          * Create local variables for each thread
@@ -136,35 +138,27 @@ int main(int argc, char *argv[]) {
         stack_t1 *ts_stack = nullptr;
         tour_t *ts_best_tour = new_tour();
         ts_best_tour->cost = INT_MAX;
-
-
-
-
         int ts_my_rank = 0;
         int ts_thread_count = 1;
         get_rank_thread_count(&ts_my_rank, &ts_thread_count);
 #pragma omp single
         {
+
             /**
              * Single thread with implied break statement
              * Creates a stack that will be copied to a global stack and distributed amongst threads
              */
 
-
-
             ts_stack = stack;
             while (ts_stack->size < ts_thread_count) {
 
-                process_stack(graph, ts_stack, &best_tour_cost, ts_best_tour, freed_tours, home_city);
+                process_stack(graph, ts_stack, &best_tour_cost, ts_best_tour, freed_tours, home_city, &mpi_data);
 
             }
+            io_error_handling(&mpi_data);  // ALL Nodes check for error
+
             local_stack = new vector<stack_t1 *>(ts_stack->size, NULL);
-
-
-
             for (int j = 0; j < ts_stack->size; j++) {
-                int temp_size = ts_stack->list[j]->size;
-
                 local_stack->at(j) = new_stack();
                 local_stack->at(j)->list[0] = ts_stack->list[j];
                 local_stack->at(j)->size = 1;
@@ -179,13 +173,14 @@ int main(int argc, char *argv[]) {
         /**
          * Each thread takes the stack and processes their section
          */
-#pragma omp for schedule(static, local_stack->size() / ts_thread_count )
-        for (int z = 0; z < local_stack->size(); z++) {
+int local_size = local_stack->size();
+#pragma omp for schedule(static, local_size / ts_thread_count )
+        for (z = 0; z < local_size; z++){
             ts_stack = local_stack->at(z);
 
 
             while (ts_stack->size > 0) {
-                process_stack(graph, ts_stack, &best_tour_cost, ts_best_tour, freed_tours, home_city);
+                process_stack(graph, ts_stack, &best_tour_cost, ts_best_tour, freed_tours, home_city, &mpi_data);
             }
 
             delete ts_stack;
@@ -197,36 +192,28 @@ int main(int argc, char *argv[]) {
 #pragma omp critical
         {
             if (ts_best_tour->cost > 0 && ts_best_tour->cost < best_tour->cost) {
-                copy_tour(ts_best_tour, best_tour); // Reduce: best tour
+                copy_tour(ts_best_tour, best_tour, &mpi_data); // Reduce: best tour
             }
         }
                     delete ts_best_tour;  // <--- Fixed
 
     }
-
+    io_error_handling(&mpi_data);
 
     // +++++++++++++++++++++++++++++++++++++++++++++++++++ //
     // ******************     MPI     ******************** //
     // *************************************************** //
-//    int size = n_cities + 2;
-//    int results [size * comm_sz];
-//    int local_results[size];
-//
-//    local_results[0] = best_tour->cost;
-//    std::copy(best_tour->cities, best_tour->cities + n_cities + 1, local_results + 1);
-//    MPI_Gather(&local_results, size, MPI_INT,results, size, MPI_INT, root,  MPI_COMM_WORLD);
-
-
-    int results [(n_cities + 2 )* comm_sz];
-    gather_best_tours(results,  best_tour, root);
+    int size = n_cities + 2;
+    int results [size * mpi_data.comm_sz];
+    gather_best_tours(results, size,  best_tour, mpi_data.root);
 
 
 
 
-    if(my_rank == root) {
+    if(mpi_data.my_rank == mpi_data.root) {
 
         int min = results[0];
-        for (int i = 1; i < comm_sz; i++) {
+        for (int i = 1; i < mpi_data.comm_sz; i++) {
 
             if (results[i * (n_cities + 2)] < min)
                 min = results[i];
@@ -234,7 +221,7 @@ int main(int argc, char *argv[]) {
 
         printf("Cost: %d\n", min);
         printf("Size: %d\n", n_cities + 1);
-        for (int i = 0; i < comm_sz; i++) {
+        for (int i = 0; i < mpi_data.comm_sz; i++) {
             int pos = i * (n_cities + 2);
             if (results[pos] == min) {
                 //print
@@ -261,7 +248,5 @@ int main(int argc, char *argv[]) {
     delete freed_tours;
     delete best_tour;
     MPI_Finalize();
-
-
     return 0;
 }
