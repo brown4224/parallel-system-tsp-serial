@@ -8,16 +8,19 @@ int * build_graph(const int  n_cities){
     int* graph;
 
     if(n_cities == 4){
-        graph = graph_1();
+        graph = graph_4();
         //        graph = graph_2();
     }
 
     else if(n_cities == 6){
-        graph = graph_3();
+        graph = graph_6();
 
     }
+    else if(n_cities == 12) {
+        graph = graph_12();
+    }
     else if(n_cities == 15){
-        graph = graph_4();
+        graph = graph_15();
 
     } else{
         graph = graph_random(n_cities);
@@ -30,12 +33,10 @@ int * build_graph(const int  n_cities){
 
 
 
-
 int* graph_random(int const n_cities){
 
     const int size = n_cities * n_cities;
     int* graph = new int[size];
-
 
     srand (time(NULL));
 
@@ -46,6 +47,7 @@ int* graph_random(int const n_cities){
         {
             temp = -1;
         }
+
 
         graph[j] = temp;
 
@@ -59,11 +61,16 @@ int* graph_random(int const n_cities){
     return graph;
 
 
-
-
 }
 
-int* graph_1() {
+int* graph_4() {
+    /**
+     * Results From part 1:
+     * Cities: 0, 3, 1, 2, 0,
+     * Cost: 15
+     * Size: 5
+     */
+
     return new (int[16])
             {
                     0, 1,  3,  8,
@@ -74,6 +81,7 @@ int* graph_1() {
 }
 
 int* graph_2() {
+    //2nd test case : Symmetric tsp. Time taken : 6.44 x 10^-5 seconds
     return new int[16]
             {
                     0, 29, 82, 46,
@@ -83,7 +91,14 @@ int* graph_2() {
             };
 }
 
-int* graph_3() {
+int* graph_6() {
+    //3rd case : Assymetric tsp with 6 cities. Time taken : 0.00013401
+    /**
+     * Results From part 1:
+     * Cities:  0, 2, 4, 1, 3, 5, 0,
+     * Cost: 195
+     * Size: 7
+     */
     return new int[36]
             {
                     0, 42, 23, 31, 77, 37,
@@ -94,8 +109,33 @@ int* graph_3() {
                     37, 33, 46, 21, 65, 0,
             };
 }
+int* graph_12(){
+    /**
+     * Results From part 1:
+     * Cities: 0, 5, 7, 9, 6, 3, 8, 2, 11, 4, 1, 10, 0,
+     * Cost: 103
+     * Size: 13
+     */
 
-int* graph_4() {
+    return new int [144]
+            {
+                    0,  47,  -1,  23,  19,   5,  41,  28,  16,  25,  39,   5,
+                    24,   0,  50,  41,  13,  -1,  -1,  49,  30,  21,   2,  -1,
+                    -1,  13,   0,  20,  14,  37,  33,  28,  -1,  11,   3,   4,
+                    17,  -1,  31,   0,  19,  19,  39,  -1,  13,  40,  37,  25,
+                    -1,   6,  26,  38,   0,  -1,  15,  -1,  39,  17,  14,   4,
+                    4,  48,  33,  39,  -1,   0,  44,  25,  30,  24,  -1,  50,
+                    44,  49,  46,   6,  38,  32,   0,  48,  37,  -1,  38,  17,
+                    35,   4,  11,  25,  20,  -1,  28,   0,  26,  11,  15,  34,
+                    47,   8,  11,  28,  33,  21,  30,  26,   0,  25,  33,  -1,
+                    7,  17,  -1,  -1,  25,  46,  11,  10,  49,   0,  -1,  -1,
+                    2,  16,  43,  -1,  28,  -1,  13,  24,  17,  25,   0,   1,
+                    47,  33,  -1,  -1,   7,  11,  -1,  15,  -1,  37,  12,   0,
+            };
+}
+
+int* graph_15() {
+    // 4th case : Either a. Taking too long or b. Not working for n_cities = 15
     return new int[255]
             {
                     0, 29, 82, 46, 68, 52, 72, 42, 51, 55, 29, 74, 23, 72, 46,

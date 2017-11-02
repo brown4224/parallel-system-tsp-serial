@@ -8,22 +8,19 @@
 #include "stack.h"
 #include "graphs.h"
 
-
 using namespace std;
 using namespace std::chrono;
 
 int main() {
-
-      high_resolution_clock::time_point t1 = high_resolution_clock::now();
-
-
-
     int* graph = build_graph(n_cities);
 
+    // Graph maybe dynamic, start after
+    high_resolution_clock::time_point t1 = high_resolution_clock::now();
 
+    // Init
     tour_t* best_tour = new_tour();
     tour_t* tour = new_tour();
-    strack_t* stack = new_stack();
+    stack_t* stack = new_stack();
     freed_tours_t* freed_tours = new_freed_tour();
     int home_city = 0;
     tour->cities[0] = home_city;
@@ -48,7 +45,6 @@ int main() {
                         push_copy(stack, tour, freed_tours);
                         remove_city(graph, tour);
                     }
-
                 }
             }
         }
@@ -63,14 +59,11 @@ int main() {
     print_tour(best_tour);
     print_graph(graph);
 
-
     delete[] graph;
     delete freed_tours;
     delete best_tour;
     delete tour;
     delete stack;
-
-
 
     return 0;
 }
