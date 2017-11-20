@@ -6,8 +6,15 @@ CMakeFiles/tsp.dir/graphs.cpp.o: ../graphs.h
 
 CMakeFiles/tsp.dir/main.cpp.o: ../graphs.h
 CMakeFiles/tsp.dir/main.cpp.o: ../main.cpp
+CMakeFiles/tsp.dir/main.cpp.o: ../mpi_tsp.h
 CMakeFiles/tsp.dir/main.cpp.o: ../stack.h
 
+CMakeFiles/tsp.dir/mpi_tsp.cpp.o: ../graphs.h
+CMakeFiles/tsp.dir/mpi_tsp.cpp.o: ../mpi_tsp.cpp
+CMakeFiles/tsp.dir/mpi_tsp.cpp.o: ../mpi_tsp.h
+CMakeFiles/tsp.dir/mpi_tsp.cpp.o: ../stack.h
+
+CMakeFiles/tsp.dir/stack.cpp.o: ../mpi_tsp.h
 CMakeFiles/tsp.dir/stack.cpp.o: ../stack.cpp
 CMakeFiles/tsp.dir/stack.cpp.o: ../stack.h
 

@@ -1,10 +1,10 @@
-
 #include <vector>
 
 using namespace std;
 
 // use control values 4,6,15
-const int n_cities = 10;
+#pragma once
+    const int n_cities = 12;
 
 
 // +++++++++++++++++++++++++++++++++++++++++++++++++++ //
@@ -15,18 +15,19 @@ typedef struct tour_t{
     int cities[n_cities + 1];  // graph
     int size;  // number of cities
     int cost;  // cost of cities
-   ~tour_t(){};  // Deconstrutor
+   ~tour_t() = default;  // Deconstrutor
 
 } tour_t;
 
 
 // Conflicting typedef name with some xcode stuff
-typedef struct strack_t{
+typedef struct stack_t1 {
     // todo check if stack is n * n ?
     tour_t* list[n_cities * n_cities];
     int size;
-    ~strack_t(){} // Deconstrutor
-} strack_t;
+    ~stack_t1() = default; // Deconstrutor
+} stack_t1;
+
 
 
 typedef struct freed_tours_t{
@@ -41,47 +42,63 @@ typedef struct freed_tours_t{
      // Deconstrutor
 } freed_tours_t;
 
+
+// todo make a struct.h  ???
+typedef struct mpi_data_t{
+    int comm_sz;  // Number of process
+    int my_rank;
+    bool keep_alive;
+    bool alive;
+    int root;
+    ~mpi_data_t() = default;  // Deconstrutor
+
+} mpi_data_t;
+
+
 // +++++++++++++++++++++++++++++++++++++++++++++++++++ //
 // ****************** TOUR FUNCTIONS ***************** //
 // *************************************************** //
 
 void print_tour(tour_t* tour);
 void print_graph(int* graph);
-void copy_tour(tour_t* original, tour_t* target);
+void copy_tour(tour_t* original, tour_t* target, mpi_data_t* mpi_data);
 tour_t* new_tour();
-void free_cities(tour_t* tour);
+void free_cities(tour_t* tour, mpi_data_t* mpi_data);
 
 // +++++++++++++++++++++++++++++++++++++++++++++++++++ //
 // ****************** FREED TOURS ******************** //
 // *************************************************** //
 
 freed_tours_t* new_freed_tour();
-void resize_freed_tour(freed_tours_t* freed_tour, int new_size);
-void push_freed_tour(freed_tours_t* freed_tours ,tour_t* tour);
-tour_t* pop_freed_tour(freed_tours_t* freed_tours);
+void resize_freed_tour(freed_tours_t* freed_tour, int new_size, mpi_data_t* mpi_data);
+void push_freed_tour(freed_tours_t* freed_tours ,tour_t* tour, mpi_data_t* mpi_data);
+tour_t* pop_freed_tour(freed_tours_t* freed_tours, mpi_data_t* mpi_data);
 
 // +++++++++++++++++++++++++++++++++++++++++++++++++++ //
 // ****************** Stack       ******************** //
 // *************************************************** //
 
-strack_t* new_stack();
-tour_t* pop(strack_t* stack);
-void push_copy(strack_t* stack, tour_t* tour, freed_tours_t* freed_tours);
-int get_cost(int* graph, int row, int col);
+stack_t1* new_stack();
+tour_t* pop(stack_t1* stack, bool*, mpi_data_t* mpi_data);
+void push_copy(stack_t1* stack, tour_t* tour, freed_tours_t* freed_tours, mpi_data_t* mpi_data);
+int get_cost(int* graph, int row, int col, mpi_data_t* mpi_data);
 
 // +++++++++++++++++++++++++++++++++++++++++++++++++++ //
 // ****************** Cities       ******************** //
 // *************************************************** //
-int get_current_city(tour_t* tour);
-void add_city(int* graph, tour_t* tour,  int dest);
-void remove_city(int* graph, tour_t* tour);
+int get_current_city(tour_t* tour, mpi_data_t* mpi_data);
+void add_city(int* graph, tour_t* tour,  int dest, mpi_data_t* mpi_data);
+void remove_city(int* graph, tour_t* tour,mpi_data_t* mpi_data);
 
 
 // +++++++++++++++++++++++++++++++++++++++++++++++++++ //
 // ****************** Bool Functions ******************** //
 // *************************************************** //
-bool is_best_tour(tour_t *current, tour_t *best, int *graph, int home_city);
-bool is_neighbor(int* graph, int current_city, int neighbor);
-bool is_visited(tour_t* tour, int city);
+bool is_best_tour(tour_t *current, int* best_tour_cost, int *graph, int home_city, mpi_data_t* mpi_data);
+bool is_neighbor(int* graph, int current_city, int neighbor, mpi_data_t* mpi_data);
+bool is_visited(tour_t* tour, int city, mpi_data_t* mpi_data);
 
-
+// +++++++++++++++++++++++++++++++++++++++++++++++++++ //
+// ****************** Process Stack      ******************** //
+// *************************************************** //
+void process_stack(int *graph, stack_t1 *stack, int* best_tour_cost, tour_t *best_tour, freed_tours_t *freed_tours, int home_city, mpi_data_t* mpi_data);

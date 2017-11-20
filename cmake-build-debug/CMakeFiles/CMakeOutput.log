@@ -28,28 +28,28 @@ The CXX compiler identification is GNU, found in "/home/sean/Desktop/school/parr
 Determining if the C compiler works passed with the following output:
 Change Dir: /home/sean/Desktop/school/parralel-systems/tsp/cmake-build-debug/CMakeFiles/CMakeTmp
 
-Run Build Command:"/usr/bin/gmake" "cmTC_76ea6/fast"
-/usr/bin/gmake -f CMakeFiles/cmTC_76ea6.dir/build.make CMakeFiles/cmTC_76ea6.dir/build
+Run Build Command:"/usr/bin/gmake" "cmTC_f6d05/fast"
+/usr/bin/gmake -f CMakeFiles/cmTC_f6d05.dir/build.make CMakeFiles/cmTC_f6d05.dir/build
 gmake[1]: Entering directory `/home/sean/Desktop/school/parralel-systems/tsp/cmake-build-debug/CMakeFiles/CMakeTmp'
-Building C object CMakeFiles/cmTC_76ea6.dir/testCCompiler.c.o
-/usr/bin/cc    -o CMakeFiles/cmTC_76ea6.dir/testCCompiler.c.o   -c /home/sean/Desktop/school/parralel-systems/tsp/cmake-build-debug/CMakeFiles/CMakeTmp/testCCompiler.c
-Linking C executable cmTC_76ea6
-/home/sean/Desktop/clion/bin/cmake/bin/cmake -E cmake_link_script CMakeFiles/cmTC_76ea6.dir/link.txt --verbose=1
-/usr/bin/cc      CMakeFiles/cmTC_76ea6.dir/testCCompiler.c.o  -o cmTC_76ea6 
+Building C object CMakeFiles/cmTC_f6d05.dir/testCCompiler.c.o
+/usr/bin/cc    -o CMakeFiles/cmTC_f6d05.dir/testCCompiler.c.o   -c /home/sean/Desktop/school/parralel-systems/tsp/cmake-build-debug/CMakeFiles/CMakeTmp/testCCompiler.c
+Linking C executable cmTC_f6d05
+/home/sean/Desktop/clion/bin/cmake/bin/cmake -E cmake_link_script CMakeFiles/cmTC_f6d05.dir/link.txt --verbose=1
+/usr/bin/cc      CMakeFiles/cmTC_f6d05.dir/testCCompiler.c.o  -o cmTC_f6d05 
 gmake[1]: Leaving directory `/home/sean/Desktop/school/parralel-systems/tsp/cmake-build-debug/CMakeFiles/CMakeTmp'
 
 
 Detecting C compiler ABI info compiled with the following output:
 Change Dir: /home/sean/Desktop/school/parralel-systems/tsp/cmake-build-debug/CMakeFiles/CMakeTmp
 
-Run Build Command:"/usr/bin/gmake" "cmTC_72122/fast"
-/usr/bin/gmake -f CMakeFiles/cmTC_72122.dir/build.make CMakeFiles/cmTC_72122.dir/build
+Run Build Command:"/usr/bin/gmake" "cmTC_c3232/fast"
+/usr/bin/gmake -f CMakeFiles/cmTC_c3232.dir/build.make CMakeFiles/cmTC_c3232.dir/build
 gmake[1]: Entering directory `/home/sean/Desktop/school/parralel-systems/tsp/cmake-build-debug/CMakeFiles/CMakeTmp'
-Building C object CMakeFiles/cmTC_72122.dir/CMakeCCompilerABI.c.o
-/usr/bin/cc    -o CMakeFiles/cmTC_72122.dir/CMakeCCompilerABI.c.o   -c /home/sean/Desktop/clion/bin/cmake/share/cmake-3.8/Modules/CMakeCCompilerABI.c
-Linking C executable cmTC_72122
-/home/sean/Desktop/clion/bin/cmake/bin/cmake -E cmake_link_script CMakeFiles/cmTC_72122.dir/link.txt --verbose=1
-/usr/bin/cc     -v CMakeFiles/cmTC_72122.dir/CMakeCCompilerABI.c.o  -o cmTC_72122 
+Building C object CMakeFiles/cmTC_c3232.dir/CMakeCCompilerABI.c.o
+/usr/bin/cc    -o CMakeFiles/cmTC_c3232.dir/CMakeCCompilerABI.c.o   -c /home/sean/Desktop/clion/bin/cmake/share/cmake-3.8/Modules/CMakeCCompilerABI.c
+Linking C executable cmTC_c3232
+/home/sean/Desktop/clion/bin/cmake/bin/cmake -E cmake_link_script CMakeFiles/cmTC_c3232.dir/link.txt --verbose=1
+/usr/bin/cc     -v CMakeFiles/cmTC_c3232.dir/CMakeCCompilerABI.c.o  -o cmTC_c3232 
 Using built-in specs.
 COLLECT_GCC=/usr/bin/cc
 COLLECT_LTO_WRAPPER=/usr/libexec/gcc/x86_64-redhat-linux/4.8.5/lto-wrapper
@@ -59,8 +59,8 @@ Thread model: posix
 gcc version 4.8.5 20150623 (Red Hat 4.8.5-16) (GCC) 
 COMPILER_PATH=/usr/libexec/gcc/x86_64-redhat-linux/4.8.5/:/usr/libexec/gcc/x86_64-redhat-linux/4.8.5/:/usr/libexec/gcc/x86_64-redhat-linux/:/usr/lib/gcc/x86_64-redhat-linux/4.8.5/:/usr/lib/gcc/x86_64-redhat-linux/
 LIBRARY_PATH=/usr/lib/gcc/x86_64-redhat-linux/4.8.5/:/usr/lib/gcc/x86_64-redhat-linux/4.8.5/../../../../lib64/:/lib/../lib64/:/usr/lib/../lib64/:/usr/lib/gcc/x86_64-redhat-linux/4.8.5/../../../:/lib/:/usr/lib/
-COLLECT_GCC_OPTIONS='-v' '-o' 'cmTC_72122' '-mtune=generic' '-march=x86-64'
- /usr/libexec/gcc/x86_64-redhat-linux/4.8.5/collect2 --build-id --no-add-needed --eh-frame-hdr --hash-style=gnu -m elf_x86_64 -dynamic-linker /lib64/ld-linux-x86-64.so.2 -o cmTC_72122 /usr/lib/gcc/x86_64-redhat-linux/4.8.5/../../../../lib64/crt1.o /usr/lib/gcc/x86_64-redhat-linux/4.8.5/../../../../lib64/crti.o /usr/lib/gcc/x86_64-redhat-linux/4.8.5/crtbegin.o -L/usr/lib/gcc/x86_64-redhat-linux/4.8.5 -L/usr/lib/gcc/x86_64-redhat-linux/4.8.5/../../../../lib64 -L/lib/../lib64 -L/usr/lib/../lib64 -L/usr/lib/gcc/x86_64-redhat-linux/4.8.5/../../.. CMakeFiles/cmTC_72122.dir/CMakeCCompilerABI.c.o -lgcc --as-needed -lgcc_s --no-as-needed -lc -lgcc --as-needed -lgcc_s --no-as-needed /usr/lib/gcc/x86_64-redhat-linux/4.8.5/crtend.o /usr/lib/gcc/x86_64-redhat-linux/4.8.5/../../../../lib64/crtn.o
+COLLECT_GCC_OPTIONS='-v' '-o' 'cmTC_c3232' '-mtune=generic' '-march=x86-64'
+ /usr/libexec/gcc/x86_64-redhat-linux/4.8.5/collect2 --build-id --no-add-needed --eh-frame-hdr --hash-style=gnu -m elf_x86_64 -dynamic-linker /lib64/ld-linux-x86-64.so.2 -o cmTC_c3232 /usr/lib/gcc/x86_64-redhat-linux/4.8.5/../../../../lib64/crt1.o /usr/lib/gcc/x86_64-redhat-linux/4.8.5/../../../../lib64/crti.o /usr/lib/gcc/x86_64-redhat-linux/4.8.5/crtbegin.o -L/usr/lib/gcc/x86_64-redhat-linux/4.8.5 -L/usr/lib/gcc/x86_64-redhat-linux/4.8.5/../../../../lib64 -L/lib/../lib64 -L/usr/lib/../lib64 -L/usr/lib/gcc/x86_64-redhat-linux/4.8.5/../../.. CMakeFiles/cmTC_c3232.dir/CMakeCCompilerABI.c.o -lgcc --as-needed -lgcc_s --no-as-needed -lc -lgcc --as-needed -lgcc_s --no-as-needed /usr/lib/gcc/x86_64-redhat-linux/4.8.5/crtend.o /usr/lib/gcc/x86_64-redhat-linux/4.8.5/../../../../lib64/crtn.o
 gmake[1]: Leaving directory `/home/sean/Desktop/school/parralel-systems/tsp/cmake-build-debug/CMakeFiles/CMakeTmp'
 
 
@@ -68,14 +68,14 @@ Parsed C implicit link information from above output:
   link line regex: [^( *|.*[/\])(ld|([^/\]+-)?ld|collect2)[^/\]*( |$)]
   ignore line: [Change Dir: /home/sean/Desktop/school/parralel-systems/tsp/cmake-build-debug/CMakeFiles/CMakeTmp]
   ignore line: []
-  ignore line: [Run Build Command:"/usr/bin/gmake" "cmTC_72122/fast"]
-  ignore line: [/usr/bin/gmake -f CMakeFiles/cmTC_72122.dir/build.make CMakeFiles/cmTC_72122.dir/build]
+  ignore line: [Run Build Command:"/usr/bin/gmake" "cmTC_c3232/fast"]
+  ignore line: [/usr/bin/gmake -f CMakeFiles/cmTC_c3232.dir/build.make CMakeFiles/cmTC_c3232.dir/build]
   ignore line: [gmake[1]: Entering directory `/home/sean/Desktop/school/parralel-systems/tsp/cmake-build-debug/CMakeFiles/CMakeTmp']
-  ignore line: [Building C object CMakeFiles/cmTC_72122.dir/CMakeCCompilerABI.c.o]
-  ignore line: [/usr/bin/cc    -o CMakeFiles/cmTC_72122.dir/CMakeCCompilerABI.c.o   -c /home/sean/Desktop/clion/bin/cmake/share/cmake-3.8/Modules/CMakeCCompilerABI.c]
-  ignore line: [Linking C executable cmTC_72122]
-  ignore line: [/home/sean/Desktop/clion/bin/cmake/bin/cmake -E cmake_link_script CMakeFiles/cmTC_72122.dir/link.txt --verbose=1]
-  ignore line: [/usr/bin/cc     -v CMakeFiles/cmTC_72122.dir/CMakeCCompilerABI.c.o  -o cmTC_72122 ]
+  ignore line: [Building C object CMakeFiles/cmTC_c3232.dir/CMakeCCompilerABI.c.o]
+  ignore line: [/usr/bin/cc    -o CMakeFiles/cmTC_c3232.dir/CMakeCCompilerABI.c.o   -c /home/sean/Desktop/clion/bin/cmake/share/cmake-3.8/Modules/CMakeCCompilerABI.c]
+  ignore line: [Linking C executable cmTC_c3232]
+  ignore line: [/home/sean/Desktop/clion/bin/cmake/bin/cmake -E cmake_link_script CMakeFiles/cmTC_c3232.dir/link.txt --verbose=1]
+  ignore line: [/usr/bin/cc     -v CMakeFiles/cmTC_c3232.dir/CMakeCCompilerABI.c.o  -o cmTC_c3232 ]
   ignore line: [Using built-in specs.]
   ignore line: [COLLECT_GCC=/usr/bin/cc]
   ignore line: [COLLECT_LTO_WRAPPER=/usr/libexec/gcc/x86_64-redhat-linux/4.8.5/lto-wrapper]
@@ -85,8 +85,8 @@ Parsed C implicit link information from above output:
   ignore line: [gcc version 4.8.5 20150623 (Red Hat 4.8.5-16) (GCC) ]
   ignore line: [COMPILER_PATH=/usr/libexec/gcc/x86_64-redhat-linux/4.8.5/:/usr/libexec/gcc/x86_64-redhat-linux/4.8.5/:/usr/libexec/gcc/x86_64-redhat-linux/:/usr/lib/gcc/x86_64-redhat-linux/4.8.5/:/usr/lib/gcc/x86_64-redhat-linux/]
   ignore line: [LIBRARY_PATH=/usr/lib/gcc/x86_64-redhat-linux/4.8.5/:/usr/lib/gcc/x86_64-redhat-linux/4.8.5/../../../../lib64/:/lib/../lib64/:/usr/lib/../lib64/:/usr/lib/gcc/x86_64-redhat-linux/4.8.5/../../../:/lib/:/usr/lib/]
-  ignore line: [COLLECT_GCC_OPTIONS='-v' '-o' 'cmTC_72122' '-mtune=generic' '-march=x86-64']
-  link line: [ /usr/libexec/gcc/x86_64-redhat-linux/4.8.5/collect2 --build-id --no-add-needed --eh-frame-hdr --hash-style=gnu -m elf_x86_64 -dynamic-linker /lib64/ld-linux-x86-64.so.2 -o cmTC_72122 /usr/lib/gcc/x86_64-redhat-linux/4.8.5/../../../../lib64/crt1.o /usr/lib/gcc/x86_64-redhat-linux/4.8.5/../../../../lib64/crti.o /usr/lib/gcc/x86_64-redhat-linux/4.8.5/crtbegin.o -L/usr/lib/gcc/x86_64-redhat-linux/4.8.5 -L/usr/lib/gcc/x86_64-redhat-linux/4.8.5/../../../../lib64 -L/lib/../lib64 -L/usr/lib/../lib64 -L/usr/lib/gcc/x86_64-redhat-linux/4.8.5/../../.. CMakeFiles/cmTC_72122.dir/CMakeCCompilerABI.c.o -lgcc --as-needed -lgcc_s --no-as-needed -lc -lgcc --as-needed -lgcc_s --no-as-needed /usr/lib/gcc/x86_64-redhat-linux/4.8.5/crtend.o /usr/lib/gcc/x86_64-redhat-linux/4.8.5/../../../../lib64/crtn.o]
+  ignore line: [COLLECT_GCC_OPTIONS='-v' '-o' 'cmTC_c3232' '-mtune=generic' '-march=x86-64']
+  link line: [ /usr/libexec/gcc/x86_64-redhat-linux/4.8.5/collect2 --build-id --no-add-needed --eh-frame-hdr --hash-style=gnu -m elf_x86_64 -dynamic-linker /lib64/ld-linux-x86-64.so.2 -o cmTC_c3232 /usr/lib/gcc/x86_64-redhat-linux/4.8.5/../../../../lib64/crt1.o /usr/lib/gcc/x86_64-redhat-linux/4.8.5/../../../../lib64/crti.o /usr/lib/gcc/x86_64-redhat-linux/4.8.5/crtbegin.o -L/usr/lib/gcc/x86_64-redhat-linux/4.8.5 -L/usr/lib/gcc/x86_64-redhat-linux/4.8.5/../../../../lib64 -L/lib/../lib64 -L/usr/lib/../lib64 -L/usr/lib/gcc/x86_64-redhat-linux/4.8.5/../../.. CMakeFiles/cmTC_c3232.dir/CMakeCCompilerABI.c.o -lgcc --as-needed -lgcc_s --no-as-needed -lc -lgcc --as-needed -lgcc_s --no-as-needed /usr/lib/gcc/x86_64-redhat-linux/4.8.5/crtend.o /usr/lib/gcc/x86_64-redhat-linux/4.8.5/../../../../lib64/crtn.o]
     arg [/usr/libexec/gcc/x86_64-redhat-linux/4.8.5/collect2] ==> ignore
     arg [--build-id] ==> ignore
     arg [--no-add-needed] ==> ignore
@@ -97,7 +97,7 @@ Parsed C implicit link information from above output:
     arg [-dynamic-linker] ==> ignore
     arg [/lib64/ld-linux-x86-64.so.2] ==> ignore
     arg [-o] ==> ignore
-    arg [cmTC_72122] ==> ignore
+    arg [cmTC_c3232] ==> ignore
     arg [/usr/lib/gcc/x86_64-redhat-linux/4.8.5/../../../../lib64/crt1.o] ==> ignore
     arg [/usr/lib/gcc/x86_64-redhat-linux/4.8.5/../../../../lib64/crti.o] ==> ignore
     arg [/usr/lib/gcc/x86_64-redhat-linux/4.8.5/crtbegin.o] ==> ignore
@@ -106,7 +106,7 @@ Parsed C implicit link information from above output:
     arg [-L/lib/../lib64] ==> dir [/lib/../lib64]
     arg [-L/usr/lib/../lib64] ==> dir [/usr/lib/../lib64]
     arg [-L/usr/lib/gcc/x86_64-redhat-linux/4.8.5/../../..] ==> dir [/usr/lib/gcc/x86_64-redhat-linux/4.8.5/../../..]
-    arg [CMakeFiles/cmTC_72122.dir/CMakeCCompilerABI.c.o] ==> ignore
+    arg [CMakeFiles/cmTC_c3232.dir/CMakeCCompilerABI.c.o] ==> ignore
     arg [-lgcc] ==> lib [gcc]
     arg [--as-needed] ==> ignore
     arg [-lgcc_s] ==> lib [gcc_s]
@@ -137,14 +137,14 @@ Parsed C implicit link information from above output:
 Detecting C [-std=c11] compiler features compiled with the following output:
 Change Dir: /home/sean/Desktop/school/parralel-systems/tsp/cmake-build-debug/CMakeFiles/CMakeTmp
 
-Run Build Command:"/usr/bin/gmake" "cmTC_51cda/fast"
-/usr/bin/gmake -f CMakeFiles/cmTC_51cda.dir/build.make CMakeFiles/cmTC_51cda.dir/build
+Run Build Command:"/usr/bin/gmake" "cmTC_1836b/fast"
+/usr/bin/gmake -f CMakeFiles/cmTC_1836b.dir/build.make CMakeFiles/cmTC_1836b.dir/build
 gmake[1]: Entering directory `/home/sean/Desktop/school/parralel-systems/tsp/cmake-build-debug/CMakeFiles/CMakeTmp'
-Building C object CMakeFiles/cmTC_51cda.dir/feature_tests.c.o
-/usr/bin/cc   -std=c11 -o CMakeFiles/cmTC_51cda.dir/feature_tests.c.o   -c /home/sean/Desktop/school/parralel-systems/tsp/cmake-build-debug/CMakeFiles/feature_tests.c
-Linking C executable cmTC_51cda
-/home/sean/Desktop/clion/bin/cmake/bin/cmake -E cmake_link_script CMakeFiles/cmTC_51cda.dir/link.txt --verbose=1
-/usr/bin/cc      CMakeFiles/cmTC_51cda.dir/feature_tests.c.o  -o cmTC_51cda 
+Building C object CMakeFiles/cmTC_1836b.dir/feature_tests.c.o
+/usr/bin/cc   -std=c11 -o CMakeFiles/cmTC_1836b.dir/feature_tests.c.o   -c /home/sean/Desktop/school/parralel-systems/tsp/cmake-build-debug/CMakeFiles/feature_tests.c
+Linking C executable cmTC_1836b
+/home/sean/Desktop/clion/bin/cmake/bin/cmake -E cmake_link_script CMakeFiles/cmTC_1836b.dir/link.txt --verbose=1
+/usr/bin/cc      CMakeFiles/cmTC_1836b.dir/feature_tests.c.o  -o cmTC_1836b 
 gmake[1]: Leaving directory `/home/sean/Desktop/school/parralel-systems/tsp/cmake-build-debug/CMakeFiles/CMakeTmp'
 
 
@@ -157,14 +157,14 @@ gmake[1]: Leaving directory `/home/sean/Desktop/school/parralel-systems/tsp/cmak
 Detecting C [-std=c99] compiler features compiled with the following output:
 Change Dir: /home/sean/Desktop/school/parralel-systems/tsp/cmake-build-debug/CMakeFiles/CMakeTmp
 
-Run Build Command:"/usr/bin/gmake" "cmTC_59773/fast"
-/usr/bin/gmake -f CMakeFiles/cmTC_59773.dir/build.make CMakeFiles/cmTC_59773.dir/build
+Run Build Command:"/usr/bin/gmake" "cmTC_db9ab/fast"
+/usr/bin/gmake -f CMakeFiles/cmTC_db9ab.dir/build.make CMakeFiles/cmTC_db9ab.dir/build
 gmake[1]: Entering directory `/home/sean/Desktop/school/parralel-systems/tsp/cmake-build-debug/CMakeFiles/CMakeTmp'
-Building C object CMakeFiles/cmTC_59773.dir/feature_tests.c.o
-/usr/bin/cc   -std=c99 -o CMakeFiles/cmTC_59773.dir/feature_tests.c.o   -c /home/sean/Desktop/school/parralel-systems/tsp/cmake-build-debug/CMakeFiles/feature_tests.c
-Linking C executable cmTC_59773
-/home/sean/Desktop/clion/bin/cmake/bin/cmake -E cmake_link_script CMakeFiles/cmTC_59773.dir/link.txt --verbose=1
-/usr/bin/cc      CMakeFiles/cmTC_59773.dir/feature_tests.c.o  -o cmTC_59773 
+Building C object CMakeFiles/cmTC_db9ab.dir/feature_tests.c.o
+/usr/bin/cc   -std=c99 -o CMakeFiles/cmTC_db9ab.dir/feature_tests.c.o   -c /home/sean/Desktop/school/parralel-systems/tsp/cmake-build-debug/CMakeFiles/feature_tests.c
+Linking C executable cmTC_db9ab
+/home/sean/Desktop/clion/bin/cmake/bin/cmake -E cmake_link_script CMakeFiles/cmTC_db9ab.dir/link.txt --verbose=1
+/usr/bin/cc      CMakeFiles/cmTC_db9ab.dir/feature_tests.c.o  -o cmTC_db9ab 
 gmake[1]: Leaving directory `/home/sean/Desktop/school/parralel-systems/tsp/cmake-build-debug/CMakeFiles/CMakeTmp'
 
 
@@ -177,14 +177,14 @@ gmake[1]: Leaving directory `/home/sean/Desktop/school/parralel-systems/tsp/cmak
 Detecting C [-std=c90] compiler features compiled with the following output:
 Change Dir: /home/sean/Desktop/school/parralel-systems/tsp/cmake-build-debug/CMakeFiles/CMakeTmp
 
-Run Build Command:"/usr/bin/gmake" "cmTC_83431/fast"
-/usr/bin/gmake -f CMakeFiles/cmTC_83431.dir/build.make CMakeFiles/cmTC_83431.dir/build
+Run Build Command:"/usr/bin/gmake" "cmTC_7cbda/fast"
+/usr/bin/gmake -f CMakeFiles/cmTC_7cbda.dir/build.make CMakeFiles/cmTC_7cbda.dir/build
 gmake[1]: Entering directory `/home/sean/Desktop/school/parralel-systems/tsp/cmake-build-debug/CMakeFiles/CMakeTmp'
-Building C object CMakeFiles/cmTC_83431.dir/feature_tests.c.o
-/usr/bin/cc   -std=c90 -o CMakeFiles/cmTC_83431.dir/feature_tests.c.o   -c /home/sean/Desktop/school/parralel-systems/tsp/cmake-build-debug/CMakeFiles/feature_tests.c
-Linking C executable cmTC_83431
-/home/sean/Desktop/clion/bin/cmake/bin/cmake -E cmake_link_script CMakeFiles/cmTC_83431.dir/link.txt --verbose=1
-/usr/bin/cc      CMakeFiles/cmTC_83431.dir/feature_tests.c.o  -o cmTC_83431 
+Building C object CMakeFiles/cmTC_7cbda.dir/feature_tests.c.o
+/usr/bin/cc   -std=c90 -o CMakeFiles/cmTC_7cbda.dir/feature_tests.c.o   -c /home/sean/Desktop/school/parralel-systems/tsp/cmake-build-debug/CMakeFiles/feature_tests.c
+Linking C executable cmTC_7cbda
+/home/sean/Desktop/clion/bin/cmake/bin/cmake -E cmake_link_script CMakeFiles/cmTC_7cbda.dir/link.txt --verbose=1
+/usr/bin/cc      CMakeFiles/cmTC_7cbda.dir/feature_tests.c.o  -o cmTC_7cbda 
 gmake[1]: Leaving directory `/home/sean/Desktop/school/parralel-systems/tsp/cmake-build-debug/CMakeFiles/CMakeTmp'
 
 
@@ -195,28 +195,28 @@ gmake[1]: Leaving directory `/home/sean/Desktop/school/parralel-systems/tsp/cmak
 Determining if the CXX compiler works passed with the following output:
 Change Dir: /home/sean/Desktop/school/parralel-systems/tsp/cmake-build-debug/CMakeFiles/CMakeTmp
 
-Run Build Command:"/usr/bin/gmake" "cmTC_01195/fast"
-/usr/bin/gmake -f CMakeFiles/cmTC_01195.dir/build.make CMakeFiles/cmTC_01195.dir/build
+Run Build Command:"/usr/bin/gmake" "cmTC_8ffd0/fast"
+/usr/bin/gmake -f CMakeFiles/cmTC_8ffd0.dir/build.make CMakeFiles/cmTC_8ffd0.dir/build
 gmake[1]: Entering directory `/home/sean/Desktop/school/parralel-systems/tsp/cmake-build-debug/CMakeFiles/CMakeTmp'
-Building CXX object CMakeFiles/cmTC_01195.dir/testCXXCompiler.cxx.o
-/usr/bin/c++     -o CMakeFiles/cmTC_01195.dir/testCXXCompiler.cxx.o -c /home/sean/Desktop/school/parralel-systems/tsp/cmake-build-debug/CMakeFiles/CMakeTmp/testCXXCompiler.cxx
-Linking CXX executable cmTC_01195
-/home/sean/Desktop/clion/bin/cmake/bin/cmake -E cmake_link_script CMakeFiles/cmTC_01195.dir/link.txt --verbose=1
-/usr/bin/c++       CMakeFiles/cmTC_01195.dir/testCXXCompiler.cxx.o  -o cmTC_01195 
+Building CXX object CMakeFiles/cmTC_8ffd0.dir/testCXXCompiler.cxx.o
+/usr/bin/c++     -o CMakeFiles/cmTC_8ffd0.dir/testCXXCompiler.cxx.o -c /home/sean/Desktop/school/parralel-systems/tsp/cmake-build-debug/CMakeFiles/CMakeTmp/testCXXCompiler.cxx
+Linking CXX executable cmTC_8ffd0
+/home/sean/Desktop/clion/bin/cmake/bin/cmake -E cmake_link_script CMakeFiles/cmTC_8ffd0.dir/link.txt --verbose=1
+/usr/bin/c++       CMakeFiles/cmTC_8ffd0.dir/testCXXCompiler.cxx.o  -o cmTC_8ffd0 
 gmake[1]: Leaving directory `/home/sean/Desktop/school/parralel-systems/tsp/cmake-build-debug/CMakeFiles/CMakeTmp'
 
 
 Detecting CXX compiler ABI info compiled with the following output:
 Change Dir: /home/sean/Desktop/school/parralel-systems/tsp/cmake-build-debug/CMakeFiles/CMakeTmp
 
-Run Build Command:"/usr/bin/gmake" "cmTC_c7376/fast"
-/usr/bin/gmake -f CMakeFiles/cmTC_c7376.dir/build.make CMakeFiles/cmTC_c7376.dir/build
+Run Build Command:"/usr/bin/gmake" "cmTC_fc11a/fast"
+/usr/bin/gmake -f CMakeFiles/cmTC_fc11a.dir/build.make CMakeFiles/cmTC_fc11a.dir/build
 gmake[1]: Entering directory `/home/sean/Desktop/school/parralel-systems/tsp/cmake-build-debug/CMakeFiles/CMakeTmp'
-Building CXX object CMakeFiles/cmTC_c7376.dir/CMakeCXXCompilerABI.cpp.o
-/usr/bin/c++     -o CMakeFiles/cmTC_c7376.dir/CMakeCXXCompilerABI.cpp.o -c /home/sean/Desktop/clion/bin/cmake/share/cmake-3.8/Modules/CMakeCXXCompilerABI.cpp
-Linking CXX executable cmTC_c7376
-/home/sean/Desktop/clion/bin/cmake/bin/cmake -E cmake_link_script CMakeFiles/cmTC_c7376.dir/link.txt --verbose=1
-/usr/bin/c++      -v CMakeFiles/cmTC_c7376.dir/CMakeCXXCompilerABI.cpp.o  -o cmTC_c7376 
+Building CXX object CMakeFiles/cmTC_fc11a.dir/CMakeCXXCompilerABI.cpp.o
+/usr/bin/c++     -o CMakeFiles/cmTC_fc11a.dir/CMakeCXXCompilerABI.cpp.o -c /home/sean/Desktop/clion/bin/cmake/share/cmake-3.8/Modules/CMakeCXXCompilerABI.cpp
+Linking CXX executable cmTC_fc11a
+/home/sean/Desktop/clion/bin/cmake/bin/cmake -E cmake_link_script CMakeFiles/cmTC_fc11a.dir/link.txt --verbose=1
+/usr/bin/c++      -v CMakeFiles/cmTC_fc11a.dir/CMakeCXXCompilerABI.cpp.o  -o cmTC_fc11a 
 Using built-in specs.
 COLLECT_GCC=/usr/bin/c++
 COLLECT_LTO_WRAPPER=/usr/libexec/gcc/x86_64-redhat-linux/4.8.5/lto-wrapper
@@ -226,8 +226,8 @@ Thread model: posix
 gcc version 4.8.5 20150623 (Red Hat 4.8.5-16) (GCC) 
 COMPILER_PATH=/usr/libexec/gcc/x86_64-redhat-linux/4.8.5/:/usr/libexec/gcc/x86_64-redhat-linux/4.8.5/:/usr/libexec/gcc/x86_64-redhat-linux/:/usr/lib/gcc/x86_64-redhat-linux/4.8.5/:/usr/lib/gcc/x86_64-redhat-linux/
 LIBRARY_PATH=/usr/lib/gcc/x86_64-redhat-linux/4.8.5/:/usr/lib/gcc/x86_64-redhat-linux/4.8.5/../../../../lib64/:/lib/../lib64/:/usr/lib/../lib64/:/usr/lib/gcc/x86_64-redhat-linux/4.8.5/../../../:/lib/:/usr/lib/
-COLLECT_GCC_OPTIONS='-v' '-o' 'cmTC_c7376' '-shared-libgcc' '-mtune=generic' '-march=x86-64'
- /usr/libexec/gcc/x86_64-redhat-linux/4.8.5/collect2 --build-id --no-add-needed --eh-frame-hdr --hash-style=gnu -m elf_x86_64 -dynamic-linker /lib64/ld-linux-x86-64.so.2 -o cmTC_c7376 /usr/lib/gcc/x86_64-redhat-linux/4.8.5/../../../../lib64/crt1.o /usr/lib/gcc/x86_64-redhat-linux/4.8.5/../../../../lib64/crti.o /usr/lib/gcc/x86_64-redhat-linux/4.8.5/crtbegin.o -L/usr/lib/gcc/x86_64-redhat-linux/4.8.5 -L/usr/lib/gcc/x86_64-redhat-linux/4.8.5/../../../../lib64 -L/lib/../lib64 -L/usr/lib/../lib64 -L/usr/lib/gcc/x86_64-redhat-linux/4.8.5/../../.. CMakeFiles/cmTC_c7376.dir/CMakeCXXCompilerABI.cpp.o -lstdc++ -lm -lgcc_s -lgcc -lc -lgcc_s -lgcc /usr/lib/gcc/x86_64-redhat-linux/4.8.5/crtend.o /usr/lib/gcc/x86_64-redhat-linux/4.8.5/../../../../lib64/crtn.o
+COLLECT_GCC_OPTIONS='-v' '-o' 'cmTC_fc11a' '-shared-libgcc' '-mtune=generic' '-march=x86-64'
+ /usr/libexec/gcc/x86_64-redhat-linux/4.8.5/collect2 --build-id --no-add-needed --eh-frame-hdr --hash-style=gnu -m elf_x86_64 -dynamic-linker /lib64/ld-linux-x86-64.so.2 -o cmTC_fc11a /usr/lib/gcc/x86_64-redhat-linux/4.8.5/../../../../lib64/crt1.o /usr/lib/gcc/x86_64-redhat-linux/4.8.5/../../../../lib64/crti.o /usr/lib/gcc/x86_64-redhat-linux/4.8.5/crtbegin.o -L/usr/lib/gcc/x86_64-redhat-linux/4.8.5 -L/usr/lib/gcc/x86_64-redhat-linux/4.8.5/../../../../lib64 -L/lib/../lib64 -L/usr/lib/../lib64 -L/usr/lib/gcc/x86_64-redhat-linux/4.8.5/../../.. CMakeFiles/cmTC_fc11a.dir/CMakeCXXCompilerABI.cpp.o -lstdc++ -lm -lgcc_s -lgcc -lc -lgcc_s -lgcc /usr/lib/gcc/x86_64-redhat-linux/4.8.5/crtend.o /usr/lib/gcc/x86_64-redhat-linux/4.8.5/../../../../lib64/crtn.o
 gmake[1]: Leaving directory `/home/sean/Desktop/school/parralel-systems/tsp/cmake-build-debug/CMakeFiles/CMakeTmp'
 
 
@@ -235,14 +235,14 @@ Parsed CXX implicit link information from above output:
   link line regex: [^( *|.*[/\])(ld|([^/\]+-)?ld|collect2)[^/\]*( |$)]
   ignore line: [Change Dir: /home/sean/Desktop/school/parralel-systems/tsp/cmake-build-debug/CMakeFiles/CMakeTmp]
   ignore line: []
-  ignore line: [Run Build Command:"/usr/bin/gmake" "cmTC_c7376/fast"]
-  ignore line: [/usr/bin/gmake -f CMakeFiles/cmTC_c7376.dir/build.make CMakeFiles/cmTC_c7376.dir/build]
+  ignore line: [Run Build Command:"/usr/bin/gmake" "cmTC_fc11a/fast"]
+  ignore line: [/usr/bin/gmake -f CMakeFiles/cmTC_fc11a.dir/build.make CMakeFiles/cmTC_fc11a.dir/build]
   ignore line: [gmake[1]: Entering directory `/home/sean/Desktop/school/parralel-systems/tsp/cmake-build-debug/CMakeFiles/CMakeTmp']
-  ignore line: [Building CXX object CMakeFiles/cmTC_c7376.dir/CMakeCXXCompilerABI.cpp.o]
-  ignore line: [/usr/bin/c++     -o CMakeFiles/cmTC_c7376.dir/CMakeCXXCompilerABI.cpp.o -c /home/sean/Desktop/clion/bin/cmake/share/cmake-3.8/Modules/CMakeCXXCompilerABI.cpp]
-  ignore line: [Linking CXX executable cmTC_c7376]
-  ignore line: [/home/sean/Desktop/clion/bin/cmake/bin/cmake -E cmake_link_script CMakeFiles/cmTC_c7376.dir/link.txt --verbose=1]
-  ignore line: [/usr/bin/c++      -v CMakeFiles/cmTC_c7376.dir/CMakeCXXCompilerABI.cpp.o  -o cmTC_c7376 ]
+  ignore line: [Building CXX object CMakeFiles/cmTC_fc11a.dir/CMakeCXXCompilerABI.cpp.o]
+  ignore line: [/usr/bin/c++     -o CMakeFiles/cmTC_fc11a.dir/CMakeCXXCompilerABI.cpp.o -c /home/sean/Desktop/clion/bin/cmake/share/cmake-3.8/Modules/CMakeCXXCompilerABI.cpp]
+  ignore line: [Linking CXX executable cmTC_fc11a]
+  ignore line: [/home/sean/Desktop/clion/bin/cmake/bin/cmake -E cmake_link_script CMakeFiles/cmTC_fc11a.dir/link.txt --verbose=1]
+  ignore line: [/usr/bin/c++      -v CMakeFiles/cmTC_fc11a.dir/CMakeCXXCompilerABI.cpp.o  -o cmTC_fc11a ]
   ignore line: [Using built-in specs.]
   ignore line: [COLLECT_GCC=/usr/bin/c++]
   ignore line: [COLLECT_LTO_WRAPPER=/usr/libexec/gcc/x86_64-redhat-linux/4.8.5/lto-wrapper]
@@ -252,8 +252,8 @@ Parsed CXX implicit link information from above output:
   ignore line: [gcc version 4.8.5 20150623 (Red Hat 4.8.5-16) (GCC) ]
   ignore line: [COMPILER_PATH=/usr/libexec/gcc/x86_64-redhat-linux/4.8.5/:/usr/libexec/gcc/x86_64-redhat-linux/4.8.5/:/usr/libexec/gcc/x86_64-redhat-linux/:/usr/lib/gcc/x86_64-redhat-linux/4.8.5/:/usr/lib/gcc/x86_64-redhat-linux/]
   ignore line: [LIBRARY_PATH=/usr/lib/gcc/x86_64-redhat-linux/4.8.5/:/usr/lib/gcc/x86_64-redhat-linux/4.8.5/../../../../lib64/:/lib/../lib64/:/usr/lib/../lib64/:/usr/lib/gcc/x86_64-redhat-linux/4.8.5/../../../:/lib/:/usr/lib/]
-  ignore line: [COLLECT_GCC_OPTIONS='-v' '-o' 'cmTC_c7376' '-shared-libgcc' '-mtune=generic' '-march=x86-64']
-  link line: [ /usr/libexec/gcc/x86_64-redhat-linux/4.8.5/collect2 --build-id --no-add-needed --eh-frame-hdr --hash-style=gnu -m elf_x86_64 -dynamic-linker /lib64/ld-linux-x86-64.so.2 -o cmTC_c7376 /usr/lib/gcc/x86_64-redhat-linux/4.8.5/../../../../lib64/crt1.o /usr/lib/gcc/x86_64-redhat-linux/4.8.5/../../../../lib64/crti.o /usr/lib/gcc/x86_64-redhat-linux/4.8.5/crtbegin.o -L/usr/lib/gcc/x86_64-redhat-linux/4.8.5 -L/usr/lib/gcc/x86_64-redhat-linux/4.8.5/../../../../lib64 -L/lib/../lib64 -L/usr/lib/../lib64 -L/usr/lib/gcc/x86_64-redhat-linux/4.8.5/../../.. CMakeFiles/cmTC_c7376.dir/CMakeCXXCompilerABI.cpp.o -lstdc++ -lm -lgcc_s -lgcc -lc -lgcc_s -lgcc /usr/lib/gcc/x86_64-redhat-linux/4.8.5/crtend.o /usr/lib/gcc/x86_64-redhat-linux/4.8.5/../../../../lib64/crtn.o]
+  ignore line: [COLLECT_GCC_OPTIONS='-v' '-o' 'cmTC_fc11a' '-shared-libgcc' '-mtune=generic' '-march=x86-64']
+  link line: [ /usr/libexec/gcc/x86_64-redhat-linux/4.8.5/collect2 --build-id --no-add-needed --eh-frame-hdr --hash-style=gnu -m elf_x86_64 -dynamic-linker /lib64/ld-linux-x86-64.so.2 -o cmTC_fc11a /usr/lib/gcc/x86_64-redhat-linux/4.8.5/../../../../lib64/crt1.o /usr/lib/gcc/x86_64-redhat-linux/4.8.5/../../../../lib64/crti.o /usr/lib/gcc/x86_64-redhat-linux/4.8.5/crtbegin.o -L/usr/lib/gcc/x86_64-redhat-linux/4.8.5 -L/usr/lib/gcc/x86_64-redhat-linux/4.8.5/../../../../lib64 -L/lib/../lib64 -L/usr/lib/../lib64 -L/usr/lib/gcc/x86_64-redhat-linux/4.8.5/../../.. CMakeFiles/cmTC_fc11a.dir/CMakeCXXCompilerABI.cpp.o -lstdc++ -lm -lgcc_s -lgcc -lc -lgcc_s -lgcc /usr/lib/gcc/x86_64-redhat-linux/4.8.5/crtend.o /usr/lib/gcc/x86_64-redhat-linux/4.8.5/../../../../lib64/crtn.o]
     arg [/usr/libexec/gcc/x86_64-redhat-linux/4.8.5/collect2] ==> ignore
     arg [--build-id] ==> ignore
     arg [--no-add-needed] ==> ignore
@@ -264,7 +264,7 @@ Parsed CXX implicit link information from above output:
     arg [-dynamic-linker] ==> ignore
     arg [/lib64/ld-linux-x86-64.so.2] ==> ignore
     arg [-o] ==> ignore
-    arg [cmTC_c7376] ==> ignore
+    arg [cmTC_fc11a] ==> ignore
     arg [/usr/lib/gcc/x86_64-redhat-linux/4.8.5/../../../../lib64/crt1.o] ==> ignore
     arg [/usr/lib/gcc/x86_64-redhat-linux/4.8.5/../../../../lib64/crti.o] ==> ignore
     arg [/usr/lib/gcc/x86_64-redhat-linux/4.8.5/crtbegin.o] ==> ignore
@@ -273,7 +273,7 @@ Parsed CXX implicit link information from above output:
     arg [-L/lib/../lib64] ==> dir [/lib/../lib64]
     arg [-L/usr/lib/../lib64] ==> dir [/usr/lib/../lib64]
     arg [-L/usr/lib/gcc/x86_64-redhat-linux/4.8.5/../../..] ==> dir [/usr/lib/gcc/x86_64-redhat-linux/4.8.5/../../..]
-    arg [CMakeFiles/cmTC_c7376.dir/CMakeCXXCompilerABI.cpp.o] ==> ignore
+    arg [CMakeFiles/cmTC_fc11a.dir/CMakeCXXCompilerABI.cpp.o] ==> ignore
     arg [-lstdc++] ==> lib [stdc++]
     arg [-lm] ==> lib [m]
     arg [-lgcc_s] ==> lib [gcc_s]
@@ -302,14 +302,14 @@ Parsed CXX implicit link information from above output:
 Detecting CXX [-std=c++1y] compiler features compiled with the following output:
 Change Dir: /home/sean/Desktop/school/parralel-systems/tsp/cmake-build-debug/CMakeFiles/CMakeTmp
 
-Run Build Command:"/usr/bin/gmake" "cmTC_85781/fast"
-/usr/bin/gmake -f CMakeFiles/cmTC_85781.dir/build.make CMakeFiles/cmTC_85781.dir/build
+Run Build Command:"/usr/bin/gmake" "cmTC_17ea9/fast"
+/usr/bin/gmake -f CMakeFiles/cmTC_17ea9.dir/build.make CMakeFiles/cmTC_17ea9.dir/build
 gmake[1]: Entering directory `/home/sean/Desktop/school/parralel-systems/tsp/cmake-build-debug/CMakeFiles/CMakeTmp'
-Building CXX object CMakeFiles/cmTC_85781.dir/feature_tests.cxx.o
-/usr/bin/c++    -std=c++1y -o CMakeFiles/cmTC_85781.dir/feature_tests.cxx.o -c /home/sean/Desktop/school/parralel-systems/tsp/cmake-build-debug/CMakeFiles/feature_tests.cxx
-Linking CXX executable cmTC_85781
-/home/sean/Desktop/clion/bin/cmake/bin/cmake -E cmake_link_script CMakeFiles/cmTC_85781.dir/link.txt --verbose=1
-/usr/bin/c++       CMakeFiles/cmTC_85781.dir/feature_tests.cxx.o  -o cmTC_85781 
+Building CXX object CMakeFiles/cmTC_17ea9.dir/feature_tests.cxx.o
+/usr/bin/c++    -std=c++1y -o CMakeFiles/cmTC_17ea9.dir/feature_tests.cxx.o -c /home/sean/Desktop/school/parralel-systems/tsp/cmake-build-debug/CMakeFiles/feature_tests.cxx
+Linking CXX executable cmTC_17ea9
+/home/sean/Desktop/clion/bin/cmake/bin/cmake -E cmake_link_script CMakeFiles/cmTC_17ea9.dir/link.txt --verbose=1
+/usr/bin/c++       CMakeFiles/cmTC_17ea9.dir/feature_tests.cxx.o  -o cmTC_17ea9 
 gmake[1]: Leaving directory `/home/sean/Desktop/school/parralel-systems/tsp/cmake-build-debug/CMakeFiles/CMakeTmp'
 
 
@@ -375,14 +375,14 @@ gmake[1]: Leaving directory `/home/sean/Desktop/school/parralel-systems/tsp/cmak
 Detecting CXX [-std=c++11] compiler features compiled with the following output:
 Change Dir: /home/sean/Desktop/school/parralel-systems/tsp/cmake-build-debug/CMakeFiles/CMakeTmp
 
-Run Build Command:"/usr/bin/gmake" "cmTC_c7c64/fast"
-/usr/bin/gmake -f CMakeFiles/cmTC_c7c64.dir/build.make CMakeFiles/cmTC_c7c64.dir/build
+Run Build Command:"/usr/bin/gmake" "cmTC_1c9fe/fast"
+/usr/bin/gmake -f CMakeFiles/cmTC_1c9fe.dir/build.make CMakeFiles/cmTC_1c9fe.dir/build
 gmake[1]: Entering directory `/home/sean/Desktop/school/parralel-systems/tsp/cmake-build-debug/CMakeFiles/CMakeTmp'
-Building CXX object CMakeFiles/cmTC_c7c64.dir/feature_tests.cxx.o
-/usr/bin/c++    -std=c++11 -o CMakeFiles/cmTC_c7c64.dir/feature_tests.cxx.o -c /home/sean/Desktop/school/parralel-systems/tsp/cmake-build-debug/CMakeFiles/feature_tests.cxx
-Linking CXX executable cmTC_c7c64
-/home/sean/Desktop/clion/bin/cmake/bin/cmake -E cmake_link_script CMakeFiles/cmTC_c7c64.dir/link.txt --verbose=1
-/usr/bin/c++       CMakeFiles/cmTC_c7c64.dir/feature_tests.cxx.o  -o cmTC_c7c64 
+Building CXX object CMakeFiles/cmTC_1c9fe.dir/feature_tests.cxx.o
+/usr/bin/c++    -std=c++11 -o CMakeFiles/cmTC_1c9fe.dir/feature_tests.cxx.o -c /home/sean/Desktop/school/parralel-systems/tsp/cmake-build-debug/CMakeFiles/feature_tests.cxx
+Linking CXX executable cmTC_1c9fe
+/home/sean/Desktop/clion/bin/cmake/bin/cmake -E cmake_link_script CMakeFiles/cmTC_1c9fe.dir/link.txt --verbose=1
+/usr/bin/c++       CMakeFiles/cmTC_1c9fe.dir/feature_tests.cxx.o  -o cmTC_1c9fe 
 gmake[1]: Leaving directory `/home/sean/Desktop/school/parralel-systems/tsp/cmake-build-debug/CMakeFiles/CMakeTmp'
 
 
@@ -448,14 +448,14 @@ gmake[1]: Leaving directory `/home/sean/Desktop/school/parralel-systems/tsp/cmak
 Detecting CXX [-std=c++98] compiler features compiled with the following output:
 Change Dir: /home/sean/Desktop/school/parralel-systems/tsp/cmake-build-debug/CMakeFiles/CMakeTmp
 
-Run Build Command:"/usr/bin/gmake" "cmTC_53fb7/fast"
-/usr/bin/gmake -f CMakeFiles/cmTC_53fb7.dir/build.make CMakeFiles/cmTC_53fb7.dir/build
+Run Build Command:"/usr/bin/gmake" "cmTC_3ecc9/fast"
+/usr/bin/gmake -f CMakeFiles/cmTC_3ecc9.dir/build.make CMakeFiles/cmTC_3ecc9.dir/build
 gmake[1]: Entering directory `/home/sean/Desktop/school/parralel-systems/tsp/cmake-build-debug/CMakeFiles/CMakeTmp'
-Building CXX object CMakeFiles/cmTC_53fb7.dir/feature_tests.cxx.o
-/usr/bin/c++    -std=c++98 -o CMakeFiles/cmTC_53fb7.dir/feature_tests.cxx.o -c /home/sean/Desktop/school/parralel-systems/tsp/cmake-build-debug/CMakeFiles/feature_tests.cxx
-Linking CXX executable cmTC_53fb7
-/home/sean/Desktop/clion/bin/cmake/bin/cmake -E cmake_link_script CMakeFiles/cmTC_53fb7.dir/link.txt --verbose=1
-/usr/bin/c++       CMakeFiles/cmTC_53fb7.dir/feature_tests.cxx.o  -o cmTC_53fb7 
+Building CXX object CMakeFiles/cmTC_3ecc9.dir/feature_tests.cxx.o
+/usr/bin/c++    -std=c++98 -o CMakeFiles/cmTC_3ecc9.dir/feature_tests.cxx.o -c /home/sean/Desktop/school/parralel-systems/tsp/cmake-build-debug/CMakeFiles/feature_tests.cxx
+Linking CXX executable cmTC_3ecc9
+/home/sean/Desktop/clion/bin/cmake/bin/cmake -E cmake_link_script CMakeFiles/cmTC_3ecc9.dir/link.txt --verbose=1
+/usr/bin/c++       CMakeFiles/cmTC_3ecc9.dir/feature_tests.cxx.o  -o cmTC_3ecc9 
 gmake[1]: Leaving directory `/home/sean/Desktop/school/parralel-systems/tsp/cmake-build-debug/CMakeFiles/CMakeTmp'
 
 
@@ -516,3 +516,51 @@ gmake[1]: Leaving directory `/home/sean/Desktop/school/parralel-systems/tsp/cmak
     Feature record: CXX_FEATURE:0cxx_variable_templates
     Feature record: CXX_FEATURE:0cxx_variadic_macros
     Feature record: CXX_FEATURE:0cxx_variadic_templates
+Performing C SOURCE FILE Test OpenMP_FLAG_DETECTED succeeded with the following output:
+Change Dir: /home/sean/Desktop/school/parralel-systems/tsp/cmake-build-debug/CMakeFiles/CMakeTmp
+
+Run Build Command:"/usr/bin/gmake" "cmTC_39e13/fast"
+/usr/bin/gmake -f CMakeFiles/cmTC_39e13.dir/build.make CMakeFiles/cmTC_39e13.dir/build
+gmake[1]: Entering directory `/home/sean/Desktop/school/parralel-systems/tsp/cmake-build-debug/CMakeFiles/CMakeTmp'
+Building C object CMakeFiles/cmTC_39e13.dir/src.c.o
+/usr/bin/cc   -DOpenMP_FLAG_DETECTED -fopenmp   -o CMakeFiles/cmTC_39e13.dir/src.c.o   -c /home/sean/Desktop/school/parralel-systems/tsp/cmake-build-debug/CMakeFiles/CMakeTmp/src.c
+Linking C executable cmTC_39e13
+/home/sean/Desktop/clion/bin/cmake/bin/cmake -E cmake_link_script CMakeFiles/cmTC_39e13.dir/link.txt --verbose=1
+/usr/bin/cc  -DOpenMP_FLAG_DETECTED -fopenmp    CMakeFiles/cmTC_39e13.dir/src.c.o  -o cmTC_39e13 
+gmake[1]: Leaving directory `/home/sean/Desktop/school/parralel-systems/tsp/cmake-build-debug/CMakeFiles/CMakeTmp'
+
+Source file was:
+
+#include <omp.h>
+int main() {
+#ifdef _OPENMP
+  return 0;
+#else
+  breaks_on_purpose
+#endif
+}
+
+Performing C++ SOURCE FILE Test OpenMP_FLAG_DETECTED succeeded with the following output:
+Change Dir: /home/sean/Desktop/school/parralel-systems/tsp/cmake-build-debug/CMakeFiles/CMakeTmp
+
+Run Build Command:"/usr/bin/gmake" "cmTC_e3789/fast"
+/usr/bin/gmake -f CMakeFiles/cmTC_e3789.dir/build.make CMakeFiles/cmTC_e3789.dir/build
+gmake[1]: Entering directory `/home/sean/Desktop/school/parralel-systems/tsp/cmake-build-debug/CMakeFiles/CMakeTmp'
+Building CXX object CMakeFiles/cmTC_e3789.dir/src.cxx.o
+/usr/bin/c++    -DOpenMP_FLAG_DETECTED -fopenmp   -std=gnu++11 -o CMakeFiles/cmTC_e3789.dir/src.cxx.o -c /home/sean/Desktop/school/parralel-systems/tsp/cmake-build-debug/CMakeFiles/CMakeTmp/src.cxx
+Linking CXX executable cmTC_e3789
+/home/sean/Desktop/clion/bin/cmake/bin/cmake -E cmake_link_script CMakeFiles/cmTC_e3789.dir/link.txt --verbose=1
+/usr/bin/c++   -DOpenMP_FLAG_DETECTED -fopenmp    CMakeFiles/cmTC_e3789.dir/src.cxx.o  -o cmTC_e3789 
+gmake[1]: Leaving directory `/home/sean/Desktop/school/parralel-systems/tsp/cmake-build-debug/CMakeFiles/CMakeTmp'
+
+Source file was:
+
+#include <omp.h>
+int main() {
+#ifdef _OPENMP
+  return 0;
+#else
+  breaks_on_purpose
+#endif
+}
+
