@@ -1,4 +1,1 @@
-/home/sean/Desktop/clion/bin/cmake/bin/cmake -DCMAKE_BUILD_TYPE=Debug -G "CodeBlocks - Unix Makefiles" /home/sean/Desktop/school/parralel-systems/tsp
--- Configuring done
--- Generating done
--- Build files have been written to: /home/sean/Desktop/school/parralel-systems/tsp/cmake-build-debug
+Environment (MinGW/Cygwin) is not selected
