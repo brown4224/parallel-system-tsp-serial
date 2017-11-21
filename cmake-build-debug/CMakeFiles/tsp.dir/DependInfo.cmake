@@ -4,9 +4,9 @@ set(CMAKE_DEPENDS_LANGUAGES
   )
 # The set of files for implicit dependencies of each language:
 set(CMAKE_DEPENDS_CHECK_CXX
-  "/home/sean/Desktop/school/parralel-systems/tsp/graphs.cpp" "/home/sean/Desktop/school/parralel-systems/tsp/cmake-build-debug/CMakeFiles/tsp.dir/graphs.cpp.o"
-  "/home/sean/Desktop/school/parralel-systems/tsp/main.cpp" "/home/sean/Desktop/school/parralel-systems/tsp/cmake-build-debug/CMakeFiles/tsp.dir/main.cpp.o"
-  "/home/sean/Desktop/school/parralel-systems/tsp/stack.cpp" "/home/sean/Desktop/school/parralel-systems/tsp/cmake-build-debug/CMakeFiles/tsp.dir/stack.cpp.o"
+  "/cygdrive/c/Users/kshit/OneDrive/Documents/GitHub/parallel-system-tsp-serial/graphs.cpp" "/cygdrive/c/Users/kshit/OneDrive/Documents/GitHub/parallel-system-tsp-serial/cmake-build-debug/CMakeFiles/tsp.dir/graphs.cpp.o"
+  "/cygdrive/c/Users/kshit/OneDrive/Documents/GitHub/parallel-system-tsp-serial/main.cpp" "/cygdrive/c/Users/kshit/OneDrive/Documents/GitHub/parallel-system-tsp-serial/cmake-build-debug/CMakeFiles/tsp.dir/main.cpp.o"
+  "/cygdrive/c/Users/kshit/OneDrive/Documents/GitHub/parallel-system-tsp-serial/stack.cpp" "/cygdrive/c/Users/kshit/OneDrive/Documents/GitHub/parallel-system-tsp-serial/cmake-build-debug/CMakeFiles/tsp.dir/stack.cpp.o"
   )
 set(CMAKE_CXX_COMPILER_ID "GNU")
 

@@ -6,17 +6,17 @@
 
 #IncludeRegexTransform: 
 
-/home/sean/Desktop/school/parralel-systems/tsp/graphs.cpp
+/cygdrive/c/Users/kshit/OneDrive/Documents/GitHub/parallel-system-tsp-serial/graphs.cpp
 graphs.h
-/home/sean/Desktop/school/parralel-systems/tsp/graphs.h
+/cygdrive/c/Users/kshit/OneDrive/Documents/GitHub/parallel-system-tsp-serial/graphs.h
 iostream
 -
 assert.h
 -
 
-/home/sean/Desktop/school/parralel-systems/tsp/graphs.h
+/cygdrive/c/Users/kshit/OneDrive/Documents/GitHub/parallel-system-tsp-serial/graphs.h
 
-/home/sean/Desktop/school/parralel-systems/tsp/main.cpp
+/cygdrive/c/Users/kshit/OneDrive/Documents/GitHub/parallel-system-tsp-serial/main.cpp
 iostream
 -
 assert.h
@@ -30,15 +30,15 @@ chrono
 ctime
 -
 stack.h
-/home/sean/Desktop/school/parralel-systems/tsp/stack.h
+/cygdrive/c/Users/kshit/OneDrive/Documents/GitHub/parallel-system-tsp-serial/stack.h
 graphs.h
-/home/sean/Desktop/school/parralel-systems/tsp/graphs.h
+/cygdrive/c/Users/kshit/OneDrive/Documents/GitHub/parallel-system-tsp-serial/graphs.h
 omp.h
 -
 deque
 -
 
-/home/sean/Desktop/school/parralel-systems/tsp/stack.cpp
+/cygdrive/c/Users/kshit/OneDrive/Documents/GitHub/parallel-system-tsp-serial/stack.cpp
 vector
 -
 iostream
@@ -46,9 +46,9 @@ iostream
 assert.h
 -
 stack.h
-/home/sean/Desktop/school/parralel-systems/tsp/stack.h
+/cygdrive/c/Users/kshit/OneDrive/Documents/GitHub/parallel-system-tsp-serial/stack.h
 
-/home/sean/Desktop/school/parralel-systems/tsp/stack.h
+/cygdrive/c/Users/kshit/OneDrive/Documents/GitHub/parallel-system-tsp-serial/stack.h
 vector
 -
 

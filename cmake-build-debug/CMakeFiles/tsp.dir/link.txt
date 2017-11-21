@@ -1,1 +1,1 @@
-/usr/bin/c++   -fopenmp -g   CMakeFiles/tsp.dir/main.cpp.o CMakeFiles/tsp.dir/stack.cpp.o CMakeFiles/tsp.dir/graphs.cpp.o  -o tsp 
+/usr/bin/c++.exe  -fopenmp -g  -Wl,--enable-auto-import CMakeFiles/tsp.dir/main.cpp.o CMakeFiles/tsp.dir/stack.cpp.o CMakeFiles/tsp.dir/graphs.cpp.o  -o tsp.exe -Wl,--out-implib,libtsp.dll.a -Wl,--major-image-version,0,--minor-image-version,0 

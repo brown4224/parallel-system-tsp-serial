@@ -3,7 +3,8 @@ file(REMOVE_RECURSE
   "CMakeFiles/tsp.dir/stack.cpp.o"
   "CMakeFiles/tsp.dir/graphs.cpp.o"
   "tsp.pdb"
-  "tsp"
+  "tsp.exe"
+  "libtsp.dll.a"
 )
 
 # Per-language clean rules from dependency scanning.
