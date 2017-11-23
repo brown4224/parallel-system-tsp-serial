@@ -212,9 +212,11 @@ bool is_visited(tour_t* tour, int city){
     assert(city < n_cities);
 
     bool flag =  false;
-    for(int i =0; i< tour->size; i++){
-        if(tour->cities[i] == city)
-           flag = true;
-    }
+    if(tour->visited[city] == true)
+        flag = true;
+//    for(int i =0; i< tour->size; i++){
+//        if(tour->cities[i] == city)
+//           flag = true;
+//    }
     return flag;
 }
