@@ -53,7 +53,7 @@ stack_t1* scatter_tsp(mpi_data_t* mpi_data, int* graph, int& best_tour_cost, tou
     // Sending
     int num_sent = 0;
     int stack_size = 0;
-    int* stack_sent = nullptr;
+    int* stack_sent = NULL;
 
 
     if(mpi_data->my_rank == mpi_data->root){

@@ -1,0 +1,7 @@
+localhost slots=2
+compute-0-1 slots=2
+compute-0-3 slots=2
+compute-0-5 slots=2
+compute-0-6 slots=2
+compute-0-12 slots=2
+

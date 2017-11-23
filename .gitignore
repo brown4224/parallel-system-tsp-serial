@@ -2,3 +2,4 @@ cmake-build-debug/*
 *binary
 *.o
 tsp_serial_code
+callgrind*

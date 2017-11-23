@@ -102,7 +102,7 @@ int main(int argc, char *argv[]) {
 
     tour_t *best_tour = new_tour();
     best_tour->cost = INT_MAX;
-    vector<stack_t1 *> *local_stack = nullptr;
+    vector<stack_t1 *> *local_stack = NULL;
 
     // +++++++++++++++++++++++++++++++++++++++++++++++++++ //
     // ******************     MPI     ******************** //
@@ -135,7 +135,7 @@ int main(int argc, char *argv[]) {
          * Create local variables for each thread
          * Private variables denoted: ts_   ==> thread safe
          */
-        stack_t1 *ts_stack = nullptr;
+        stack_t1 *ts_stack = NULL;
         tour_t *ts_best_tour = new_tour();
         ts_best_tour->cost = INT_MAX;
         int ts_my_rank = 0;

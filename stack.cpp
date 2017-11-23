@@ -315,15 +315,15 @@ bool is_visited(tour_t *tour, int city, mpi_data_t* mpi_data) {
 // *************************************************** //
 
 void process_stack(int *graph, stack_t1 *stack, int* best_tour_cost, tour_t *best_tour, freed_tours_t *freed_tours, int home_city, mpi_data_t* mpi_data) {
-    if(graph == nullptr ||  stack == nullptr || best_tour == nullptr || freed_tours == nullptr || home_city < 0){
+    if(graph == NULL ||  stack == NULL || best_tour == NULL || freed_tours == NULL || home_city < 0){
         io_error_occur(mpi_data);
         io_error_handling(mpi_data);
     }
 
-//    assert (graph != nullptr);
-//    assert (stack != nullptr);
-//    assert(best_tour != nullptr);
-//    assert(freed_tours != nullptr);
+//    assert (graph != NULL);
+//    assert (stack != NULL);
+//    assert(best_tour != NULL);
+//    assert(freed_tours != NULL);
 //    assert(home_city >= 0);
 //
     tour_t* tour = pop(stack, mpi_data);
