@@ -2,7 +2,7 @@
 
 using namespace std;
 
-// use control values 4,6,15
+// use control values 4,6,12,15
 #pragma once
     const int n_cities = 12;
 
@@ -15,6 +15,7 @@ typedef struct tour_t{
     int cities[n_cities + 1];  // graph
     int size;  // number of cities
     int cost;  // cost of cities
+    bool visited[n_cities + 1];
    ~tour_t() = default;  // Deconstrutor
 
 } tour_t;

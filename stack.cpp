@@ -40,6 +40,8 @@ void copy_tour(tour_t *original, tour_t *target, mpi_data_t* mpi_data) {
     target->size = original->size;
     target->cost = original->cost;
     std::copy(original->cities, original->cities + original->size, target->cities);
+    copy(original->visited, original->visited + n_cities + 1, target->visited);
+
 
 }
 
@@ -47,8 +49,10 @@ tour_t *new_tour() {
     tour_t *tour = new tour_t;
     tour->size = 0;
     tour->cost = 0;
-    for (int i = 0; i < n_cities; i++)
+    for (int i = 0; i < n_cities; i++) {
         tour->cities[i] = -1;
+        tour->visited[i] = false;
+    }
     return tour;
 }
 
@@ -213,6 +217,7 @@ void add_city(int *graph, tour_t *tour, int dest, mpi_data_t* mpi_data) {
 //    assert(graph != NULL);
     tour->cost += get_cost(graph, get_current_city(tour, mpi_data), dest, mpi_data);
     tour->cities[tour->size] = dest;
+    tour->visited[dest] = true;
     tour->size++;
 
 }
@@ -222,15 +227,20 @@ void remove_city(int *graph, tour_t *tour, mpi_data_t* mpi_data) {
         io_error_occur(mpi_data);
         io_error_handling(mpi_data);
     }
+    int city = tour->cities[tour->size - 1];
+    int cost = get_cost(graph, tour->cities[tour->size - 2], city, mpi_data);
+    tour->visited[city] = false;
+    tour->cost -= cost;
+    tour->size--;
 
 
 //    assert(graph != NULL);
 //    assert(tour != NULL);
 //    assert(tour->size > 1);
 
-    int cost = get_cost(graph, tour->cities[tour->size - 2], tour->cities[tour->size - 1], mpi_data);
-    tour->cost -= cost;
-    tour->size--;
+//    int cost = get_cost(graph, tour->cities[tour->size - 2], tour->cities[tour->size - 1], mpi_data);
+//    tour->cost -= cost;
+//    tour->size--;
 }
 
 bool is_best_tour(tour_t *current, int* best_tour_cost, int *graph, int home_city, mpi_data_t* mpi_data) {
@@ -288,11 +298,14 @@ bool is_visited(tour_t *tour, int city, mpi_data_t* mpi_data) {
         return flag;
     */
 
-    bool flag = false;
-    for (int i = 0; i < tour->size; i++) {
-        if (tour->cities[i] == city)
-            flag = true;
-    }
+//    bool flag = false;
+//    for (int i = 0; i < tour->size; i++) {
+//        if (tour->cities[i] == city)
+//            flag = true;
+//    }
+    bool flag =  false;
+    if(tour->visited[city] == true)
+        flag = true;
     return flag;
 }
 

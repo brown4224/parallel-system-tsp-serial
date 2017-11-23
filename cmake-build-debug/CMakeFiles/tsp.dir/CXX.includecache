@@ -49,12 +49,6 @@ mpi.h
 -
 mpi_tsp.h
 /home/sean/Desktop/school/parralel-systems/tsp/mpi_tsp.h
-stack.h
-/home/sean/Desktop/school/parralel-systems/tsp/stack.h
-graphs.h
-/home/sean/Desktop/school/parralel-systems/tsp/graphs.h
-vector
--
 
 /home/sean/Desktop/school/parralel-systems/tsp/mpi_tsp.h
 stack.h

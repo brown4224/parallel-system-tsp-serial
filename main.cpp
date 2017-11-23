@@ -214,21 +214,23 @@ int local_size = local_stack->size();
 
         int min = results[0];
         for (int i = 1; i < mpi_data.comm_sz; i++) {
+            int val =i * size;
 
-            if (results[i * (n_cities + 2)] < min)
-                min = results[i];
+            if (results[val ] < min)
+                min = results[val];
         }
 
         printf("Cost: %d\n", min);
         printf("Size: %d\n", n_cities + 1);
+
+
         for (int i = 0; i < mpi_data.comm_sz; i++) {
-            int pos = i * (n_cities + 2);
-            if (results[pos] == min) {
-                //print
+            int pos = i * size;
+            if (results[pos] <= min) {
                 pos++;
-                printf("\n");
+                printf("Path: ");
                 for (int j = 0; j < n_cities + 1; j++)
-                    printf("%d, ", results[pos + j]);
+                        printf("%d, ", results[pos + j]);
             }
         }
 

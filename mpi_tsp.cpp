@@ -160,6 +160,29 @@ stack_t1* scatter_tsp(mpi_data_t* mpi_data, int* graph, int& best_tour_cost, tou
             stack->list[j]->cost = stack_received[pos];
             pos++;
             std::copy(stack_received + pos, stack_received + pos + stack_size,  stack->list[j]->cities);
+
+            // Mark Cities as visited
+            for(int counter = 0; counter < *stack_received; counter++){
+
+                if(stack->list[j]->cities[counter] >= 0){
+                    int temp = stack->list[j]->cities[counter];
+                    stack->list[j]->visited[temp] = true;
+                }
+
+
+//                if(mpi_data->my_rank == 0){
+//                    printf("Pos: %d, City: %d, MyRank: %d\n", counter, stack->list[j]->cities[counter], mpi_data->my_rank);
+//                    printf("Pos: %d, visited: %d, MyRank: %d\n", counter, stack->list[j]->visited[ stack->list[j]->cities[counter]], mpi_data->my_rank);
+//                }
+            }
+//
+//            int counter = 0;
+//            while (stack->list[j]->cities[counter] > -1){
+//                int temp = stack->list[j]->cities[counter];
+//                stack->list[j]->visited[temp] = true;
+//                counter++;
+//            }
+
         } else if(stack_received[pos] > 0){
             printf("An Error occurd Recieving the TSP stack");
             io_error_occur(mpi_data);
