@@ -21,6 +21,8 @@ void io_error_handling(mpi_data_t* mpi_data){
     MPI_Allreduce(&mpi_data->keep_alive, &mpi_data->alive, 1,MPI_C_BOOL, MPI_LAND, MPI_COMM_WORLD );
     if(!(mpi_data->alive)){
         printf("Abort process called.  MPI Node: %d shutting down!\n", mpi_data->my_rank);
+        int temp = 0;
+        mpi_tsp_async_recieve(mpi_data, &temp);  // Empty received messages
         MPI_Finalize();
         exit(1);
     }
@@ -143,6 +145,7 @@ stack_t1* scatter_tsp(mpi_data_t* mpi_data, int* graph, int& best_tour_cost, tou
 
 
     //*  SCATTER  *//
+
     MPI_Scatter(stack_sent, list_size, MPI_INT, &stack_received, list_size, MPI_INT, mpi_data->root, MPI_COMM_WORLD);
 
     if(mpi_data->my_rank == mpi_data->root){
@@ -202,5 +205,53 @@ void gather_best_tours(int* results, int size, tour_t* best_tour, int root){
     local_results[0] = best_tour->cost;
     std::copy(best_tour->cities, best_tour->cities + n_cities + 1, local_results + 1);
     MPI_Gather(&local_results, size, MPI_INT, results, size, MPI_INT, root,  MPI_COMM_WORLD);
+}
+
+
+int mpi_calculate_buffer_size_integer(int const mpi_comm_size) {
+    int data_size;
+    int message_size;
+
+    MPI_Pack_size(1, MPI_INT, MPI_COMM_WORLD, &data_size); // sets data size
+//    data_size = sizeof(int);
+    message_size = data_size + MPI_BSEND_OVERHEAD;
+    return ((mpi_comm_size - 1) * message_size);
+}
+
+void mpi_tsp_async_send(mpi_data_t*  mpi_data, int* best_tour_cost){
+
+    char buf;
+    int bsize;
+    int message = *best_tour_cost;
+    char buffer[mpi_data->bcast_buffer_size];
+    MPI_Buffer_attach(buffer, mpi_data->bcast_buffer_size);
+
+    for(int i=0; i < mpi_data->comm_sz; i++){
+        if(mpi_data->my_rank != i){
+            MPI_Bsend(&message, 1, MPI_INT, i, mpi_data->NEW_COST_TAG, MPI_COMM_WORLD);
+        }
+
+    }
+
+    MPI_Buffer_detach(&buf, &bsize);  //??
+
+}
+
+void mpi_tsp_async_recieve(mpi_data_t*  mpi_data, int* best_tour_cost){
+    int msg_arrive;
+    int msg_cost;
+    MPI_Status status;
+
+    MPI_Iprobe(MPI_ANY_SOURCE, mpi_data->NEW_COST_TAG, MPI_COMM_WORLD, &msg_arrive, &status);
+    while(msg_arrive){
+        MPI_Recv(&msg_cost, 1, MPI_INT, status.MPI_SOURCE, mpi_data->NEW_COST_TAG, MPI_COMM_WORLD,MPI_STATUS_IGNORE);
+
+        if(msg_cost < *best_tour_cost){
+            *best_tour_cost = msg_cost;
+        }
+
+
+        MPI_Iprobe(MPI_ANY_SOURCE, mpi_data->NEW_COST_TAG, MPI_COMM_WORLD, &msg_arrive, &status);
+    }
 }
 

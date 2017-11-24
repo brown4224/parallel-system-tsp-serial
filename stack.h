@@ -51,6 +51,8 @@ typedef struct mpi_data_t{
     bool keep_alive;
     bool alive;
     int root;
+    int bcast_buffer_size;
+    int NEW_COST_TAG;
     ~mpi_data_t() = default;  // Deconstrutor
 
 } mpi_data_t;

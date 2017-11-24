@@ -327,13 +327,21 @@ void process_stack(int *graph, stack_t1 *stack, int* best_tour_cost, tour_t *bes
 //    assert(home_city >= 0);
 //
     tour_t* tour = pop(stack, mpi_data);
-    if ( tour->size == n_cities) {
+    if ( tour->size == n_cities && tour->cost < *best_tour_cost) {
+        //todo:  UPdate best tour cost... Receive MPI
+#pragma omp critical
+        {
+            mpi_tsp_async_recieve(mpi_data, best_tour_cost);
+        }
+
         if (is_best_tour(tour, best_tour_cost, graph, home_city, mpi_data)) {
             // If best tour add home city and make new best tour
             add_city(graph, tour, home_city, mpi_data);
 #pragma omp critical
             {
                 *best_tour_cost = tour->cost;
+                //  Send MPI ASYNC
+                mpi_tsp_async_send(mpi_data, best_tour_cost);
 
             }
 

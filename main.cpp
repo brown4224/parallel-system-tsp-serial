@@ -110,14 +110,15 @@ int main(int argc, char *argv[]) {
     //////// MPI  INIT //////////////
 
     mpi_data_t mpi_data;
-    mpi_data.keep_alive = true;
-    mpi_data.alive = true;
-    mpi_data.root = 0;
-
-
     MPI_Init(NULL, NULL);
     MPI_Comm_size(MPI_COMM_WORLD, &mpi_data.comm_sz);
     MPI_Comm_rank(MPI_COMM_WORLD, &mpi_data.my_rank);
+    mpi_data.keep_alive = true;
+    mpi_data.alive = true;
+    mpi_data.root = 0;
+    mpi_data.NEW_COST_TAG = 1;
+//    mpi_data.bcast_buffer_size = 0;
+    mpi_data.bcast_buffer_size = mpi_calculate_buffer_size_integer(mpi_data.comm_sz);  //Used by MPI_Bsend
 
 
     stack_t1* stack = scatter_tsp( &mpi_data, graph, best_tour_cost,  best_tour, freed_tours, home_city);
@@ -201,7 +202,7 @@ int local_size = local_stack->size();
     io_error_handling(&mpi_data);
 
     // +++++++++++++++++++++++++++++++++++++++++++++++++++ //
-    // ******************     MPI     ******************** //
+    // ******************     MPI Results****************** //
     // *************************************************** //
     int size = n_cities + 2;
     int results [size * mpi_data.comm_sz];
@@ -244,7 +245,7 @@ int local_size = local_stack->size();
 
     }
 
-
+    mpi_tsp_async_recieve(&mpi_data, &best_tour_cost);  //Recieve old messages
     delete local_stack;
     delete[] graph;
     delete freed_tours;
