@@ -9,3 +9,5 @@ void gather_best_tours(int* results, int size, tour_t* best_tour, int root);
 int mpi_calculate_buffer_size_integer(int const mpi_comm_size);
 void mpi_tsp_async_recieve(mpi_data_t*  mpi_data, int* best_tour_cost);
 void mpi_tsp_async_send(mpi_data_t*  mpi_data, int* best_tour_cost);
+void mpi_tsp_print_best_tour(mpi_data_t*  mpi_data,  tour_t *best_tour);
+void mpi_tsp_sync_best_cost(int* best_tour_cost, mpi_data_t* mpi_data);

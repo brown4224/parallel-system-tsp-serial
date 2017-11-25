@@ -78,6 +78,7 @@ int get_number(char *s) {
 
 
 int main(int argc, char *argv[]) {
+    printf("Starting Program\n");
 
     high_resolution_clock::time_point t1 = high_resolution_clock::now();
     // +++++++++++++++++++++++++++++++++++++++++++++++++++ //
@@ -101,13 +102,14 @@ int main(int argc, char *argv[]) {
 
 
     tour_t *best_tour = new_tour();
-    best_tour->cost = INT_MAX;
+    best_tour->cost = best_tour_cost;
     vector<stack_t1 *> *local_stack = NULL;
 
     // +++++++++++++++++++++++++++++++++++++++++++++++++++ //
     // ******************     MPI     ******************** //
     // *************************************************** //
     //////// MPI  INIT //////////////
+    printf("Init: MPI\n");
 
     mpi_data_t mpi_data;
     MPI_Init(NULL, NULL);
@@ -117,12 +119,17 @@ int main(int argc, char *argv[]) {
     mpi_data.alive = true;
     mpi_data.root = 0;
     mpi_data.NEW_COST_TAG = 1;
-//    mpi_data.bcast_buffer_size = 0;
     mpi_data.bcast_buffer_size = mpi_calculate_buffer_size_integer(mpi_data.comm_sz);  //Used by MPI_Bsend
 
 
     stack_t1* stack = scatter_tsp( &mpi_data, graph, best_tour_cost,  best_tour, freed_tours, home_city);
     io_error_handling(&mpi_data);  // ALL Nodes check for error
+
+    if(mpi_data.root == mpi_data.root){
+        time_t  timev;
+        printf("MPI FINISHED SENDING DATA Time: %ld\n",  time(&timev));
+    }
+
 
 
     // +++++++++++++++++++++++++++++++++++++++++++++++++++ //
@@ -153,9 +160,10 @@ int main(int argc, char *argv[]) {
             ts_stack = stack;
             while (ts_stack->size < ts_thread_count) {
 
-                process_stack(graph, ts_stack, &best_tour_cost, ts_best_tour, freed_tours, home_city, &mpi_data);
+                breadth_first_process_stack( graph, ts_stack, &best_tour_cost, ts_best_tour, freed_tours, home_city, &mpi_data);
 
             }
+
             io_error_handling(&mpi_data);  // ALL Nodes check for error
 
             local_stack = new vector<stack_t1 *>(ts_stack->size, NULL);
@@ -165,8 +173,16 @@ int main(int argc, char *argv[]) {
                 local_stack->at(j)->size = 1;
 
             }
+            time_t  timev;
+            printf("Thread: %d, SYNC Best Cost Time: %ld\n", mpi_data.my_rank, time(&timev));
+            mpi_tsp_sync_best_cost(&best_tour_cost, &mpi_data);
 
             delete ts_stack;
+
+
+
+//            time_t  timev;
+            printf("Thread: %d, OMP Split data Time: %ld\n", mpi_data.my_rank, time(&timev));
         }
 
 
@@ -181,12 +197,17 @@ int local_size = local_stack->size();
 
 
             while (ts_stack->size > 0) {
-                process_stack(graph, ts_stack, &best_tour_cost, ts_best_tour, freed_tours, home_city, &mpi_data);
+                process_stack(depth_first, graph, ts_stack, &best_tour_cost, ts_best_tour, freed_tours, home_city, &mpi_data);
             }
 
-            delete ts_stack;
+//            delete ts_stack;
+//            time_t  ts_timev;
+//            printf("Thread: %d, Process: %d, Getting Next Job at Time %ld\n", mpi_data.my_rank, ts_my_rank, time(&ts_timev) );
+
 
         } // End For Loop
+        time_t  ts_timev2;
+        printf("Thread: %d, Process: %d, Out of work at Time %ld\n", mpi_data.my_rank, ts_my_rank, time(&ts_timev2) );
 
 
 
@@ -199,42 +220,18 @@ int local_size = local_stack->size();
                     delete ts_best_tour;  // <--- Fixed
 
     }
-    io_error_handling(&mpi_data);
+
 
     // +++++++++++++++++++++++++++++++++++++++++++++++++++ //
     // ******************     MPI Results****************** //
     // *************************************************** //
-    int size = n_cities + 2;
-    int results [size * mpi_data.comm_sz];
-    gather_best_tours(results, size,  best_tour, mpi_data.root);
+    time_t  timev;
+    printf("Thread: %d Finished at Time: %ld\n", mpi_data.my_rank, time(&timev));
+    io_error_handling(&mpi_data);
+    mpi_tsp_print_best_tour( &mpi_data,  best_tour);
 
 
-
-
-    if(mpi_data.my_rank == mpi_data.root) {
-
-        int min = results[0];
-        for (int i = 1; i < mpi_data.comm_sz; i++) {
-            int val =i * size;
-
-            if (results[val ] < min)
-                min = results[val];
-        }
-
-        printf("Cost: %d\n", min);
-        printf("Size: %d\n", n_cities + 1);
-
-
-        for (int i = 0; i < mpi_data.comm_sz; i++) {
-            int pos = i * size;
-            if (results[pos] <= min) {
-                pos++;
-                printf("Path: ");
-                for (int j = 0; j < n_cities + 1; j++)
-                        printf("%d, ", results[pos + j]);
-            }
-        }
-
+    if(mpi_data.my_rank == mpi_data.root){
         high_resolution_clock::time_point t2 = high_resolution_clock::now();
         duration<double> time_span = duration_cast<duration<double> >(t2 - t1);
 
@@ -242,7 +239,6 @@ int local_size = local_stack->size();
         std::cout << std::endl;
 
         print_graph(graph);
-
     }
 
     mpi_tsp_async_recieve(&mpi_data, &best_tour_cost);  //Recieve old messages

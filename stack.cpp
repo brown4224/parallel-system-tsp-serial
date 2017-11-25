@@ -80,16 +80,16 @@ freed_tours_t *new_freed_tour() {
     return freed_tour;
 }
 
-void resize_freed_tour(freed_tours_t *freed_tour, int new_size, mpi_data_t* mpi_data) {
-
-    if(freed_tour == NULL){
-        io_error_occur(mpi_data);
-        io_error_handling(mpi_data);
-    }
-//    assert(freed_tour != NULL);
-    freed_tour->list->resize(new_size, NULL);
-    freed_tour->limit = new_size;
-}
+//void resize_freed_tour(freed_tours_t *freed_tour, int new_size, mpi_data_t* mpi_data) {
+//
+//    if(freed_tour == NULL){
+//        io_error_occur(mpi_data);
+//        io_error_handling(mpi_data);
+//    }
+////    assert(freed_tour != NULL);
+//    freed_tour->list->resize(new_size, NULL);
+//    freed_tour->limit = new_size;
+//}
 
 void push_freed_tour(freed_tours_t *freed_tours, tour_t *tour,mpi_data_t* mpi_data) {
     delete (tour);
@@ -103,7 +103,7 @@ void push_freed_tour(freed_tours_t *freed_tours, tour_t *tour,mpi_data_t* mpi_da
 //
 //        // zero out tour & push on array
 //        free_cities(tour);
-//        freed_tours->list->push_back(tour);
+//        freed_tours->0l.ist->push_back(tour);
 //        freed_tours->size++;
 //    }
 
@@ -143,12 +143,25 @@ tour_t *pop_freed_tour(freed_tours_t *freed_tours, mpi_data_t* mpi_data) {
 stack_t1 *new_stack() {
     stack_t1 *stack = new stack_t1;
     stack->size = 0;
+    stack->start = 0;
+//    stack->end = 0;
     for (int i = 0; i < n_cities + 1; i++)
         stack->list[i] = NULL;
     return stack;
 }
 
-tour_t *pop(stack_t1 *stack, mpi_data_t* mpi_data) {
+tour_t* depth_first(stack_t1 *stack, mpi_data_t *mpi_data) {
+
+    if(stack == NULL || stack->size <= 0){
+        io_error_occur(mpi_data);
+        io_error_handling(mpi_data);
+    }
+//    assert(stack != NULL);
+//    assert(stack->size > 0);
+//    --stack->size;
+    return stack->list[--stack->size];
+}
+tour_t* breadth_first(stack_t1 *stack, mpi_data_t *mpi_data) {
 
     if(stack == NULL || stack->size <= 0){
         io_error_occur(mpi_data);
@@ -157,9 +170,14 @@ tour_t *pop(stack_t1 *stack, mpi_data_t* mpi_data) {
 //    assert(stack != NULL);
 //    assert(stack->size > 0);
 
-    return stack->list[--stack->size];
-}
+    tour_t *tour = new tour_t;
+     *tour = *stack->list[0];
+    std::move(stack->list + 1, stack->list + stack->size, stack->list);  // shift elements
 
+    --stack->size;
+    return tour;
+//    return stack->list[--stack->size];
+}
 
 void push_copy(stack_t1 *stack, tour_t *tour, freed_tours_t *freed_tours, mpi_data_t* mpi_data) {
 
@@ -314,7 +332,8 @@ bool is_visited(tour_t *tour, int city, mpi_data_t* mpi_data) {
 // ****************** Process Stack      ******************** //
 // *************************************************** //
 
-void process_stack(int *graph, stack_t1 *stack, int* best_tour_cost, tour_t *best_tour, freed_tours_t *freed_tours, int home_city, mpi_data_t* mpi_data) {
+
+void process_stack(tour_t*(&pop)(stack_t1 *stack, mpi_data_t* mpi_data ) , int *graph, stack_t1 *stack, int* best_tour_cost, tour_t *best_tour, freed_tours_t *freed_tours, int home_city, mpi_data_t* mpi_data) {
     if(graph == NULL ||  stack == NULL || best_tour == NULL || freed_tours == NULL || home_city < 0){
         io_error_occur(mpi_data);
         io_error_handling(mpi_data);
@@ -326,11 +345,14 @@ void process_stack(int *graph, stack_t1 *stack, int* best_tour_cost, tour_t *bes
 //    assert(freed_tours != NULL);
 //    assert(home_city >= 0);
 //
-    tour_t* tour = pop(stack, mpi_data);
+    tour_t* tour = pop(stack, mpi_data);  //  Function call to depth or breadth first search
     if ( tour->size == n_cities && tour->cost < *best_tour_cost) {
-        //todo:  UPdate best tour cost... Receive MPI
 #pragma omp critical
         {
+            time_t  ts_timev;
+            printf("Thread: %d,  Critical Section %ld\n", mpi_data->my_rank, time(&ts_timev) );
+
+
             mpi_tsp_async_recieve(mpi_data, best_tour_cost);
         }
 
@@ -344,21 +366,66 @@ void process_stack(int *graph, stack_t1 *stack, int* best_tour_cost, tour_t *bes
                 mpi_tsp_async_send(mpi_data, best_tour_cost);
 
             }
-
             copy_tour(tour, best_tour, mpi_data);
+
+//            mpi_tsp_async_send(mpi_data, &best_tour->cost);
+
+
         }
-    } else {
+    } else if(tour->size < n_cities) {
+
         for (int neighbor = n_cities - 1; neighbor >= 0; neighbor--) {
             if (is_neighbor(graph, tour->cities[tour->size - 1], neighbor, mpi_data)) {
+
                 if (!is_visited(tour, neighbor, mpi_data)) {  // not in books code
                     add_city(graph, tour, neighbor, mpi_data);
                     push_copy(stack, tour, freed_tours, mpi_data);
                     remove_city(graph, tour, mpi_data);
+
                 }
 
             }
         }
     }
+
+    push_freed_tour(freed_tours, tour, mpi_data);
+
+
+
+}
+
+void breadth_first_process_stack(int *graph, stack_t1 *stack, int* best_tour_cost, tour_t *best_tour, freed_tours_t *freed_tours, int home_city, mpi_data_t* mpi_data) {
+    if(graph == NULL ||  stack == NULL || best_tour == NULL || freed_tours == NULL || home_city < 0){
+        io_error_occur(mpi_data);
+        io_error_handling(mpi_data);
+    }
+
+//
+    tour_t* tour = breadth_first(stack, mpi_data);  //  Function call to depth or breadth first search
+    if ( tour->size == n_cities && tour->cost < *best_tour_cost) {
+
+        if (is_best_tour(tour, best_tour_cost, graph, home_city, mpi_data)) {
+            // If best tour add home city and make new best tour
+            add_city(graph, tour, home_city, mpi_data);
+            *best_tour_cost = tour->cost;
+            copy_tour(tour, best_tour, mpi_data);
+        }
+    } else if(tour->size < n_cities) {
+
+        for (int neighbor = n_cities - 1; neighbor >= 0; neighbor--) {
+            if (is_neighbor(graph, tour->cities[tour->size - 1], neighbor, mpi_data)) {
+
+                if (!is_visited(tour, neighbor, mpi_data)) {  // not in books code
+                    add_city(graph, tour, neighbor, mpi_data);
+                    push_copy(stack, tour, freed_tours, mpi_data);
+                    remove_city(graph, tour, mpi_data);
+
+                }
+
+            }
+        }
+    }
+
     push_freed_tour(freed_tours, tour, mpi_data);
 
 

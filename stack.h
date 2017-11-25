@@ -26,6 +26,8 @@ typedef struct stack_t1 {
     // todo check if stack is n * n ?
     tour_t* list[n_cities * n_cities];
     int size;
+    int start;
+//    int end;
     ~stack_t1() = default; // Deconstrutor
 } stack_t1;
 
@@ -82,7 +84,8 @@ tour_t* pop_freed_tour(freed_tours_t* freed_tours, mpi_data_t* mpi_data);
 // *************************************************** //
 
 stack_t1* new_stack();
-tour_t* pop(stack_t1* stack, bool*, mpi_data_t* mpi_data);
+tour_t* depth_first(stack_t1* stack, mpi_data_t* mpi_data);
+tour_t* breadth_first(stack_t1* stack, mpi_data_t* mpi_data);
 void push_copy(stack_t1* stack, tour_t* tour, freed_tours_t* freed_tours, mpi_data_t* mpi_data);
 int get_cost(int* graph, int row, int col, mpi_data_t* mpi_data);
 
@@ -104,4 +107,5 @@ bool is_visited(tour_t* tour, int city, mpi_data_t* mpi_data);
 // +++++++++++++++++++++++++++++++++++++++++++++++++++ //
 // ****************** Process Stack      ******************** //
 // *************************************************** //
-void process_stack(int *graph, stack_t1 *stack, int* best_tour_cost, tour_t *best_tour, freed_tours_t *freed_tours, int home_city, mpi_data_t* mpi_data);
+void process_stack(tour_t*(&pop)(stack_t1 *stack, mpi_data_t* mpi_data ), int *graph, stack_t1 *stack, int* best_tour_cost, tour_t *best_tour, freed_tours_t *freed_tours, int home_city, mpi_data_t* mpi_data);
+void breadth_first_process_stack( int *graph, stack_t1 *stack, int* best_tour_cost, tour_t *best_tour, freed_tours_t *freed_tours, int home_city, mpi_data_t* mpi_data);
