@@ -2,7 +2,10 @@
 #include "mpi_tsp.h"
 using namespace std;
 
+#ifdef _OPENMP
+#include <omp.h>
 
+#endif
 
 void io_error_occur(mpi_data_t* mpi_data){
 #pragma omp critical(keep_alive)
@@ -212,158 +215,9 @@ stack_t1* scatter_tsp(mpi_data_t* mpi_data, int* graph, int& best_tour_cost, tou
 }
 
 
-//
-//stack_t1* scatter_tsp(mpi_data_t* mpi_data, int* graph, int& best_tour_cost, tour_t* best_tour, freed_tours_t* freed_tours, int home_city){
-//
-//    // Sending
-//    int num_sent = 0;
-//    int stack_size = 0;
-//    int* stack_sent = NULL;
-//
-//
-//    if(mpi_data->my_rank == mpi_data->root){
-//        // Build the list...
-//        tour_t* ts_tour = new_tour();
-//        ts_tour->cities[0] = home_city;
-//        ts_tour->size = 1;
-//        stack_t1  *stack = new_stack();
-//        push_copy(stack, ts_tour, freed_tours, mpi_data);
-//
-//
-//        while (stack->size < mpi_data->comm_sz) {
-//
-//
-//
-//            process_stack(breadth_first, graph, stack, &best_tour_cost, best_tour, freed_tours, home_city, mpi_data);
-//        }
-//
-//
-//
-//        for(int s = 0; s < stack->size; s++){
-//            if(stack_size < stack->list[s]->size)
-//                stack_size = stack->list[s]->size;  // Find max stack size
-//        }
-//
-//
-//        stack_size += 2;  // offset for cost and size
-//
-//        // Calculations
-//        num_sent = (stack->size + mpi_data->comm_sz - 1) / mpi_data->comm_sz;  // Per node
-//        int arr_size =  stack_size *  num_sent;
-//        int total_size = arr_size * mpi_data->comm_sz;
-//        stack_sent = new int [total_size];  // need contigous memory
-//        for(int j = 0; j< total_size ; j++) {
-//            stack_sent[j] = 0;  // Zero Array
-//        }
-//
-//
-//        /**
-//         * Build an array to send to all clusters.
-//         * Make the array continues memory
-//         * Make the array evenly split between all node.
-//         *
-//         * Stack mapping:
-//         * 1st element:  tour size
-//         * 2nd element:  tour cost
-//         * 3rd element  --> (stack_size + 2):  tour cities
-//         * Tour data structure, init to -1 for cities by default.
-//         *
-//         * Note: If tour size is zero, there is no data and end of message.
-//         */
-//
-//        int node = 0; // todo do we off set and evenly distribute array????
-//        int offset  = 0;
-//        for(int s = 0; s < stack->size; s++){
-//            int counter = (node * arr_size )+ ( offset * stack_size);
-//
-//
-//            stack_sent[counter] = stack->list[s]->size;
-//            counter++;
-//
-//            stack_sent[counter] = stack->list[s]->cost;
-//            counter++;
-//            std::copy(stack->list[s]->cities, stack->list[s]->cities + stack_size - 2, stack_sent + counter);
-//
-//            node++;
-//            if(node % mpi_data->comm_sz == 0) {
-//                node = 0;
-//                offset++;
-//            }
-//
-//        }
-//
-//        delete stack;
-//    }
-//
-//
-//
-//    build_mpi_data_type(&num_sent, &stack_size, mpi_data->root);
-//    int list_size = num_sent * stack_size;
-//    int stack_received [list_size]; // allocate memory
-//    if (mpi_data->my_rank != mpi_data->root)
-//        stack_sent = new int[list_size];
-//
-//
-//
-//
-//    //*  SCATTER  *//
-//
-//    MPI_Scatter(stack_sent, list_size, MPI_INT, &stack_received, list_size, MPI_INT, mpi_data->root, MPI_COMM_WORLD);
-//
-//    if(mpi_data->my_rank == mpi_data->root){
-//        delete[] stack_sent;
-//    }
-//
-//    stack_t1* stack = new_stack();
-//    for(int j = 0; j< num_sent; j++){
-//        int pos = j * stack_size;
-//        if(stack_received[pos] > 0){
-//            stack->size++;
-//            stack->list[j] = new_tour();
-//            stack->list[j]->size = stack_received[pos];
-//            pos++;
-//            stack->list[j]->cost = stack_received[pos];
-//            pos++;
-//            std::copy(stack_received + pos, stack_received + pos + stack_size,  stack->list[j]->cities);
-//
-//            // Mark Cities as visited
-//            for(int counter = 0; counter < *stack_received; counter++){
-//
-//                if(stack->list[j]->cities[counter] >= 0){
-//                    int temp = stack->list[j]->cities[counter];
-//                    stack->list[j]->visited[temp] = true;
-//                }
-//
-//
-////                if(mpi_data->my_rank == 0){
-////                    printf("Pos: %d, City: %d, MyRank: %d\n", counter, stack->list[j]->cities[counter], mpi_data->my_rank);
-////                    printf("Pos: %d, visited: %d, MyRank: %d\n", counter, stack->list[j]->visited[ stack->list[j]->cities[counter]], mpi_data->my_rank);
-////                }
-//            }
-////
-////            int counter = 0;
-////            while (stack->list[j]->cities[counter] > -1){
-////                int temp = stack->list[j]->cities[counter];
-////                stack->list[j]->visited[temp] = true;
-////                counter++;
-////            }
-//
-//        } else if(stack_received[pos] > 0){
-//            printf("An Error occurd Recieving the TSP stack");
-//            io_error_occur(mpi_data);
-//            io_error_handling(mpi_data);
-//        }
-//        else{
-//            break;
-//        }
-//    }
-//
-//    return  stack;
-//}
 
 void mpi_tsp_sync_best_cost(int* best_tour_cost, mpi_data_t* mpi_data){
-//                mpi_tsp_async_send(mpi_data, best_tour_cost);
-//            mpi_tsp_async_recieve(mpi_data, best_tour_cost);
+
 
     int send_best_cost = *best_tour_cost;
     MPI_Allreduce(&send_best_cost, best_tour_cost, 1, MPI_INT, MPI_MIN , MPI_COMM_WORLD);
@@ -376,14 +230,16 @@ void gather_best_tours(int* results, int size, tour_t* best_tour, int root){
     MPI_Gather(&local_results, size, MPI_INT, results, size, MPI_INT, root,  MPI_COMM_WORLD);
 }
 
-
-int mpi_calculate_buffer_size_integer(int const mpi_comm_size) {
+//////////////////////////////////////////////////////////////////////////////////////////////////
+int mpi_calculate_buffer_size_integer(int const mpi_comm_size ) {
     int data_size;
     int message_size;
 
-    MPI_Pack_size(1, MPI_INT, MPI_COMM_WORLD, &data_size); // sets data size
-//    data_size = sizeof(int);
-    message_size = data_size + MPI_BSEND_OVERHEAD;
+
+    int size = n_cities + 5;
+
+    MPI_Pack_size(size, MPI_INT, MPI_COMM_WORLD, &data_size); // sets data size
+    message_size = data_size + (MPI_BSEND_OVERHEAD * 3);
     return ((mpi_comm_size - 1) * message_size);
 }
 
@@ -393,7 +249,7 @@ void mpi_tsp_async_send(mpi_data_t*  mpi_data, int* best_tour_cost){
     int bsize;
     int message = *best_tour_cost;
     char buffer[mpi_data->bcast_buffer_size];
-    MPI_Buffer_attach(buffer, mpi_data->bcast_buffer_size);
+    MPI_Buffer_attach(buffer, mpi_data->bcast_buffer_size );
 
     for(int i=0; i < mpi_data->comm_sz; i++){
         if(mpi_data->my_rank != i){
@@ -457,3 +313,167 @@ void mpi_tsp_print_best_tour(mpi_data_t*  mpi_data,  tour_t *best_tour) {
 
 
 }
+//////////////////////////////////////////////////////////////////
+//int mpi_calculate_buffer_size_tour(int const mpi_comm_size) {
+//    int data_size;
+//    int message_size;
+//
+//    MPI_Pack_size(n_cities + 2, MPI_INT, MPI_COMM_WORLD, &data_size); // sets data size
+////    data_size = sizeof(int);
+//    return message_size = data_size + MPI_BSEND_OVERHEAD;
+//
+//}
+
+
+void mpi_tsp_need_work_async_send(mpi_data_t*  mpi_data, int node, int flag){
+
+
+
+    char buf;
+    int bsize;
+    int* msg = new int [2];
+    msg[0]= node;
+    msg[1] = flag;
+
+
+    for(int i=0; i < mpi_data->comm_sz; i++){
+        if(mpi_data->my_rank != i){
+            MPI_Request request;
+            MPI_Status status;
+            MPI_Isend(msg, 2, MPI_INT, i, mpi_data->NEED_WORK_TAG, MPI_COMM_WORLD, &request);
+            MPI_Wait(&request, &status);
+        }
+
+    }
+    delete(msg);
+
+
+//    char buffer[mpi_data->bcast_buffer_size];
+////    MPI_Buffer_attach(buffer, mpi_data->bcast_buffer_size );
+//
+//    for(int i=0; i < mpi_data->comm_sz; i++){
+//        if(mpi_data->my_rank != i){
+////            MPI_Send(msg, 2, MPI_INT, i, mpi_data->NEED_WORK_TAG, MPI_COMM_WORLD);
+//            MPI_Bsend(msg, 2, MPI_INT, i, mpi_data->NEED_WORK_TAG, MPI_COMM_WORLD);
+//        }
+//
+//    }
+//
+////    MPI_Buffer_detach(&buf, &bsize);  //??
+//
+//
+
+
+
+
+
+//    char buf;
+//    int bsize;
+//    int* message = new int[2];
+//    message[0] = node;
+//    message[1] = flag;
+//    char buffer[mpi_data->bcast_buffer_size ];
+//    MPI_Buffer_attach(buffer, mpi_data->bcast_buffer_size );
+//    MPI_Bsend(message, 2, MPI_INT, 1, 1,MPI_COMM_WORLD);
+//
+////    for(int i=0; i < mpi_data->comm_sz; i++){
+////        if(mpi_data->my_rank != i){
+//////            MPI_Bsend()
+////
+////            MPI_Bsend(message, 1, MPI_INT, 1, 1,MPI_COMM_WORLD);
+////
+//////            MPI_Bsend(message, 2, MPI_INT, i, mpi_data->NEED_WORK_TAG, MPI_COMM_WORLD);
+////        }
+////
+////    }
+//
+//    MPI_Buffer_detach(&buf, &bsize);  //??
+//    delete(message);
+
+}
+
+void mpi_tsp_need_work_async_recieve(mpi_data_t*  mpi_data){
+//    printf("Requesting recieve work message, Node: %d\n", mpi_data->my_rank);
+    int msg_arrive;
+    int* msg = new int[2];
+    msg[0] = 0;
+    msg[1] = 0;
+    MPI_Request request;
+    MPI_Status status;
+
+
+
+
+#pragma omp critical
+        {
+            MPI_Iprobe(MPI_ANY_SOURCE, mpi_data->NEED_WORK_TAG, MPI_COMM_WORLD, &msg_arrive, &status);
+            while(msg_arrive){
+            MPI_Recv(msg, 2, MPI_INT, status.MPI_SOURCE, mpi_data->NEED_WORK_TAG, MPI_COMM_WORLD,MPI_STATUS_IGNORE);
+            int node = msg[0];
+            int flag = msg[1];
+            printf("Thread: %d, From: %d, Flag: %d\n", mpi_data->my_rank, node, flag);
+
+            mpi_data->mpi_need_work_list[node] = flag;
+            printf("Thread: %d, NOW From: %d, Flag: %d\n", mpi_data->my_rank, node, mpi_data->mpi_need_work_list[node]);
+            MPI_Iprobe(MPI_ANY_SOURCE, mpi_data->NEED_WORK_TAG, MPI_COMM_WORLD, &msg_arrive, &status);
+
+        }
+
+    }
+    delete(msg);
+}
+
+void mpi_tsp_load_balance_async_send(mpi_data_t*  mpi_data, int* dest, tour_t* tour){
+    int size = n_cities + 2;
+    int* payload = new int [size];
+    payload[0] = tour->size;
+    payload[1] = tour->cost;
+    std::copy(tour->cities, tour->cities + n_cities, payload + 2);
+
+    char buf;
+    int bsize;
+    char buffer[mpi_data->bcast_buffer_size ];
+    MPI_Buffer_attach(buffer, mpi_data->bcast_buffer_size );
+    MPI_Bsend(payload, size, MPI_INT, *dest, mpi_data->RECIEVE_LOAD_BALANCE_TAG, MPI_COMM_WORLD);
+
+
+    MPI_Buffer_detach(&buf, &bsize);  //??
+    delete(payload);
+
+    printf("Node: %d Sending Load Balance from Node: %d\n", mpi_data->my_rank, *dest);
+
+}
+
+void mpi_tsp_load_balance_async_recieve(mpi_data_t*  mpi_data, stack_t1* stack){
+
+    int msg_arrive;
+    MPI_Status status;
+    int msg_size = n_cities + 2;
+    int* payload = new int[msg_size];
+
+    MPI_Iprobe(MPI_ANY_SOURCE, mpi_data->RECIEVE_LOAD_BALANCE_TAG , MPI_COMM_WORLD, &msg_arrive, &status);
+    while(msg_arrive){
+        MPI_Recv(payload, msg_size, MPI_INT, status.MPI_SOURCE, mpi_data->RECIEVE_LOAD_BALANCE_TAG, MPI_COMM_WORLD,MPI_STATUS_IGNORE);
+
+        printf("Node: %d Receiving Load Balance from Node: %d\n", mpi_data->my_rank, status.MPI_SOURCE);
+#pragma omp critical
+        {
+            tour_t* new_tour = new tour_t;
+            new_tour->size = payload[0];
+            new_tour->cost = payload[1];
+            std::copy(payload + 2, payload + 2 + new_tour->size, new_tour->cities);
+            for(int i=0; i< new_tour->size; i++){
+                int city = new_tour->cities[i];
+                new_tour->visited[city] = true;
+            }
+            stack->list[stack->size] = new_tour;
+            stack->size++;
+        }
+
+
+
+        MPI_Iprobe(MPI_ANY_SOURCE, mpi_data->RECIEVE_LOAD_BALANCE_TAG , MPI_COMM_WORLD, &msg_arrive, &status);
+    }
+    delete(payload);
+}
+

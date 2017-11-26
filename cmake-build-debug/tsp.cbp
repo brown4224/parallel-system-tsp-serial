@@ -8,38 +8,38 @@
 		<Option virtualFolders="CMake Files\;"/>
 		<Build>
 			<Target title="all">
-				<Option working_dir="/home/sean/Desktop/school/parralel-systems/tsp/cmake-build-debug"/>
+				<Option working_dir="/home/sean/Desktop/school/parralel-systems/tsp/parallel-system-tsp-serial/cmake-build-debug"/>
 				<Option type="4"/>
 				<MakeCommands>
-					<Build command="/usr/bin/gmake -j4 -f &quot;/home/sean/Desktop/school/parralel-systems/tsp/cmake-build-debug/Makefile&quot;  VERBOSE=1 all"/>
-					<CompileFile command="/usr/bin/gmake -j4 -f &quot;/home/sean/Desktop/school/parralel-systems/tsp/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
-					<Clean command="/usr/bin/gmake -j4 -f &quot;/home/sean/Desktop/school/parralel-systems/tsp/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
-					<DistClean command="/usr/bin/gmake -j4 -f &quot;/home/sean/Desktop/school/parralel-systems/tsp/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<Build command="/usr/bin/gmake -j4 -f &quot;/home/sean/Desktop/school/parralel-systems/tsp/parallel-system-tsp-serial/cmake-build-debug/Makefile&quot;  VERBOSE=1 all"/>
+					<CompileFile command="/usr/bin/gmake -j4 -f &quot;/home/sean/Desktop/school/parralel-systems/tsp/parallel-system-tsp-serial/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/gmake -j4 -f &quot;/home/sean/Desktop/school/parralel-systems/tsp/parallel-system-tsp-serial/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/gmake -j4 -f &quot;/home/sean/Desktop/school/parralel-systems/tsp/parallel-system-tsp-serial/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
 				</MakeCommands>
 			</Target>
 			<Target title="rebuild_cache">
-				<Option working_dir="/home/sean/Desktop/school/parralel-systems/tsp/cmake-build-debug"/>
+				<Option working_dir="/home/sean/Desktop/school/parralel-systems/tsp/parallel-system-tsp-serial/cmake-build-debug"/>
 				<Option type="4"/>
 				<MakeCommands>
-					<Build command="/usr/bin/gmake -j4 -f &quot;/home/sean/Desktop/school/parralel-systems/tsp/cmake-build-debug/Makefile&quot;  VERBOSE=1 rebuild_cache"/>
-					<CompileFile command="/usr/bin/gmake -j4 -f &quot;/home/sean/Desktop/school/parralel-systems/tsp/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
-					<Clean command="/usr/bin/gmake -j4 -f &quot;/home/sean/Desktop/school/parralel-systems/tsp/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
-					<DistClean command="/usr/bin/gmake -j4 -f &quot;/home/sean/Desktop/school/parralel-systems/tsp/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<Build command="/usr/bin/gmake -j4 -f &quot;/home/sean/Desktop/school/parralel-systems/tsp/parallel-system-tsp-serial/cmake-build-debug/Makefile&quot;  VERBOSE=1 rebuild_cache"/>
+					<CompileFile command="/usr/bin/gmake -j4 -f &quot;/home/sean/Desktop/school/parralel-systems/tsp/parallel-system-tsp-serial/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/gmake -j4 -f &quot;/home/sean/Desktop/school/parralel-systems/tsp/parallel-system-tsp-serial/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/gmake -j4 -f &quot;/home/sean/Desktop/school/parralel-systems/tsp/parallel-system-tsp-serial/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
 				</MakeCommands>
 			</Target>
 			<Target title="edit_cache">
-				<Option working_dir="/home/sean/Desktop/school/parralel-systems/tsp/cmake-build-debug"/>
+				<Option working_dir="/home/sean/Desktop/school/parralel-systems/tsp/parallel-system-tsp-serial/cmake-build-debug"/>
 				<Option type="4"/>
 				<MakeCommands>
-					<Build command="/usr/bin/gmake -j4 -f &quot;/home/sean/Desktop/school/parralel-systems/tsp/cmake-build-debug/Makefile&quot;  VERBOSE=1 edit_cache"/>
-					<CompileFile command="/usr/bin/gmake -j4 -f &quot;/home/sean/Desktop/school/parralel-systems/tsp/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
-					<Clean command="/usr/bin/gmake -j4 -f &quot;/home/sean/Desktop/school/parralel-systems/tsp/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
-					<DistClean command="/usr/bin/gmake -j4 -f &quot;/home/sean/Desktop/school/parralel-systems/tsp/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<Build command="/usr/bin/gmake -j4 -f &quot;/home/sean/Desktop/school/parralel-systems/tsp/parallel-system-tsp-serial/cmake-build-debug/Makefile&quot;  VERBOSE=1 edit_cache"/>
+					<CompileFile command="/usr/bin/gmake -j4 -f &quot;/home/sean/Desktop/school/parralel-systems/tsp/parallel-system-tsp-serial/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/gmake -j4 -f &quot;/home/sean/Desktop/school/parralel-systems/tsp/parallel-system-tsp-serial/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/gmake -j4 -f &quot;/home/sean/Desktop/school/parralel-systems/tsp/parallel-system-tsp-serial/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
 				</MakeCommands>
 			</Target>
 			<Target title="tsp">
-				<Option output="/home/sean/Desktop/school/parralel-systems/tsp/cmake-build-debug/tsp" prefix_auto="0" extension_auto="0"/>
-				<Option working_dir="/home/sean/Desktop/school/parralel-systems/tsp/cmake-build-debug"/>
+				<Option output="/home/sean/Desktop/school/parralel-systems/tsp/parallel-system-tsp-serial/cmake-build-debug/tsp" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="/home/sean/Desktop/school/parralel-systems/tsp/parallel-system-tsp-serial/cmake-build-debug"/>
 				<Option object_output="./"/>
 				<Option type="1"/>
 				<Option compiler="gcc"/>
@@ -52,15 +52,15 @@
 					<Add directory="/usr/include"/>
 				</Compiler>
 				<MakeCommands>
-					<Build command="/usr/bin/gmake -j4 -f &quot;/home/sean/Desktop/school/parralel-systems/tsp/cmake-build-debug/Makefile&quot;  VERBOSE=1 tsp"/>
-					<CompileFile command="/usr/bin/gmake -j4 -f &quot;/home/sean/Desktop/school/parralel-systems/tsp/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
-					<Clean command="/usr/bin/gmake -j4 -f &quot;/home/sean/Desktop/school/parralel-systems/tsp/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
-					<DistClean command="/usr/bin/gmake -j4 -f &quot;/home/sean/Desktop/school/parralel-systems/tsp/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<Build command="/usr/bin/gmake -j4 -f &quot;/home/sean/Desktop/school/parralel-systems/tsp/parallel-system-tsp-serial/cmake-build-debug/Makefile&quot;  VERBOSE=1 tsp"/>
+					<CompileFile command="/usr/bin/gmake -j4 -f &quot;/home/sean/Desktop/school/parralel-systems/tsp/parallel-system-tsp-serial/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/gmake -j4 -f &quot;/home/sean/Desktop/school/parralel-systems/tsp/parallel-system-tsp-serial/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/gmake -j4 -f &quot;/home/sean/Desktop/school/parralel-systems/tsp/parallel-system-tsp-serial/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
 				</MakeCommands>
 			</Target>
 			<Target title="tsp/fast">
-				<Option output="/home/sean/Desktop/school/parralel-systems/tsp/cmake-build-debug/tsp" prefix_auto="0" extension_auto="0"/>
-				<Option working_dir="/home/sean/Desktop/school/parralel-systems/tsp/cmake-build-debug"/>
+				<Option output="/home/sean/Desktop/school/parralel-systems/tsp/parallel-system-tsp-serial/cmake-build-debug/tsp" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="/home/sean/Desktop/school/parralel-systems/tsp/parallel-system-tsp-serial/cmake-build-debug"/>
 				<Option object_output="./"/>
 				<Option type="1"/>
 				<Option compiler="gcc"/>
@@ -73,35 +73,35 @@
 					<Add directory="/usr/include"/>
 				</Compiler>
 				<MakeCommands>
-					<Build command="/usr/bin/gmake -j4 -f &quot;/home/sean/Desktop/school/parralel-systems/tsp/cmake-build-debug/Makefile&quot;  VERBOSE=1 tsp/fast"/>
-					<CompileFile command="/usr/bin/gmake -j4 -f &quot;/home/sean/Desktop/school/parralel-systems/tsp/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
-					<Clean command="/usr/bin/gmake -j4 -f &quot;/home/sean/Desktop/school/parralel-systems/tsp/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
-					<DistClean command="/usr/bin/gmake -j4 -f &quot;/home/sean/Desktop/school/parralel-systems/tsp/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<Build command="/usr/bin/gmake -j4 -f &quot;/home/sean/Desktop/school/parralel-systems/tsp/parallel-system-tsp-serial/cmake-build-debug/Makefile&quot;  VERBOSE=1 tsp/fast"/>
+					<CompileFile command="/usr/bin/gmake -j4 -f &quot;/home/sean/Desktop/school/parralel-systems/tsp/parallel-system-tsp-serial/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/gmake -j4 -f &quot;/home/sean/Desktop/school/parralel-systems/tsp/parallel-system-tsp-serial/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/gmake -j4 -f &quot;/home/sean/Desktop/school/parralel-systems/tsp/parallel-system-tsp-serial/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
 				</MakeCommands>
 			</Target>
 		</Build>
-		<Unit filename="/home/sean/Desktop/school/parralel-systems/tsp/graphs.cpp">
+		<Unit filename="/home/sean/Desktop/school/parralel-systems/tsp/parallel-system-tsp-serial/graphs.cpp">
 			<Option target="tsp"/>
 		</Unit>
-		<Unit filename="/home/sean/Desktop/school/parralel-systems/tsp/graphs.h">
+		<Unit filename="/home/sean/Desktop/school/parralel-systems/tsp/parallel-system-tsp-serial/graphs.h">
 			<Option target="tsp"/>
 		</Unit>
-		<Unit filename="/home/sean/Desktop/school/parralel-systems/tsp/main.cpp">
+		<Unit filename="/home/sean/Desktop/school/parralel-systems/tsp/parallel-system-tsp-serial/main.cpp">
 			<Option target="tsp"/>
 		</Unit>
-		<Unit filename="/home/sean/Desktop/school/parralel-systems/tsp/mpi_tsp.cpp">
+		<Unit filename="/home/sean/Desktop/school/parralel-systems/tsp/parallel-system-tsp-serial/mpi_tsp.cpp">
 			<Option target="tsp"/>
 		</Unit>
-		<Unit filename="/home/sean/Desktop/school/parralel-systems/tsp/mpi_tsp.h">
+		<Unit filename="/home/sean/Desktop/school/parralel-systems/tsp/parallel-system-tsp-serial/mpi_tsp.h">
 			<Option target="tsp"/>
 		</Unit>
-		<Unit filename="/home/sean/Desktop/school/parralel-systems/tsp/stack.cpp">
+		<Unit filename="/home/sean/Desktop/school/parralel-systems/tsp/parallel-system-tsp-serial/stack.cpp">
 			<Option target="tsp"/>
 		</Unit>
-		<Unit filename="/home/sean/Desktop/school/parralel-systems/tsp/stack.h">
+		<Unit filename="/home/sean/Desktop/school/parralel-systems/tsp/parallel-system-tsp-serial/stack.h">
 			<Option target="tsp"/>
 		</Unit>
-		<Unit filename="/home/sean/Desktop/school/parralel-systems/tsp/CMakeLists.txt">
+		<Unit filename="/home/sean/Desktop/school/parralel-systems/tsp/parallel-system-tsp-serial/CMakeLists.txt">
 			<Option virtualFolder="CMake Files\"/>
 		</Unit>
 	</Project>
