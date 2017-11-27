@@ -1,10 +1,10 @@
 #include <mpi.h>
 #include "mpi_tsp.h"
+
 using namespace std;
 
 
-
-void io_error_occur(mpi_data_t* mpi_data){
+void io_error_occur(mpi_data_t *mpi_data) {
 #pragma omp critical(keep_alive)
     {
         mpi_data->keep_alive = false;
@@ -15,11 +15,10 @@ void io_error_occur(mpi_data_t* mpi_data){
 
 }
 
-// Input:  takes a void pointer
-// Checks to see if a any threads have had errors.  If error exist, shut down cluster and clear files and memory
-void io_error_handling(mpi_data_t* mpi_data){
-    MPI_Allreduce(&mpi_data->keep_alive, &mpi_data->alive, 1,MPI_C_BOOL, MPI_LAND, MPI_COMM_WORLD );
-    if(!(mpi_data->alive)){
+
+void io_error_handling(mpi_data_t *mpi_data) {
+    MPI_Allreduce(&mpi_data->keep_alive, &mpi_data->alive, 1, MPI_C_BOOL, MPI_LAND, MPI_COMM_WORLD);
+    if (!(mpi_data->alive)) {
         printf("Abort process called.  MPI Node: %d shutting down!\n", mpi_data->my_rank);
         int temp = 0;
         mpi_tsp_async_recieve(mpi_data, &temp);  // Empty received messages
@@ -29,8 +28,6 @@ void io_error_handling(mpi_data_t* mpi_data){
 }
 
 
-// Input: 2 pointers to integer files and cluster root
-// Groups values together and broadcast
 void build_mpi_data_type(int *data_1, int *data_2, int root) {
 
     MPI_Datatype custom_type = NULL;
@@ -50,35 +47,35 @@ void build_mpi_data_type(int *data_1, int *data_2, int root) {
 }
 
 
-stack_t1* scatter_tsp(mpi_data_t* mpi_data, int* graph, int& best_tour_cost, tour_t* best_tour, freed_tours_t* freed_tours, int home_city){
+stack_t1 *
+scatter_tsp(mpi_data_t *mpi_data, int *graph, int &best_tour_cost, tour_t *best_tour, freed_tours_t *freed_tours,
+            int home_city) {
 
     // Sending
     int num_sent = 0;
     int stack_size = 0;
-    int* stack_sent = NULL;
+    int *stack_sent = NULL;
 
 
-    if(mpi_data->my_rank == mpi_data->root){
+    if (mpi_data->my_rank == mpi_data->root) {
         // Build the list...
-        tour_t* ts_tour = new_tour();
+        tour_t *ts_tour = new_tour();
         ts_tour->cities[0] = home_city;
         ts_tour->size = 1;
-        stack_t1  *stack = new_stack();
+        stack_t1 *stack = new_stack();
         push_copy(stack, ts_tour, freed_tours, mpi_data);
 
 
         while (stack->size < mpi_data->comm_sz) {
 
 
-
             breadth_first_process_stack(graph, stack, &best_tour_cost, best_tour, freed_tours, home_city, mpi_data);
         }
 
-
-
-        for(int s = 0; s < stack->size; s++){
-            if(stack_size < stack->list[s]->size)
-                stack_size = stack->list[s]->size;  // Find max stack size
+        // Find max stack size
+        for (int s = 0; s < stack->size; s++) {
+            if (stack_size < stack->list[s]->size)
+                stack_size = stack->list[s]->size;
         }
 
 
@@ -86,10 +83,10 @@ stack_t1* scatter_tsp(mpi_data_t* mpi_data, int* graph, int& best_tour_cost, tou
 
         // Calculations
         num_sent = (stack->size + mpi_data->comm_sz - 1) / mpi_data->comm_sz;  // Per node
-        int arr_size =  stack_size *  num_sent;
+        int arr_size = stack_size * num_sent;
         int total_size = arr_size * mpi_data->comm_sz;
-        stack_sent = new int [total_size];  // need contigous memory
-        for(int j = 0; j< total_size ; j++) {
+        stack_sent = new int[total_size];  // need contigous memory
+        for (int j = 0; j < total_size; j++) {
             stack_sent[j] = 0;  // Zero Array
         }
 
@@ -108,7 +105,8 @@ stack_t1* scatter_tsp(mpi_data_t* mpi_data, int* graph, int& best_tour_cost, tou
          * Note: If tour size is zero, there is no data and end of message.
          */
 
-//        int node = 0; // todo do we off set and evenly distribute array????
+        /* Front loaded on process ZERO */
+//        int node = 0; //
 //        int offset  = 0;
 //        for(int s = 0; s < stack->size; s++){
 //            int counter = (node * arr_size )+ ( offset * stack_size);
@@ -131,9 +129,9 @@ stack_t1* scatter_tsp(mpi_data_t* mpi_data, int* graph, int& best_tour_cost, tou
 
 
         int node = mpi_data->comm_sz - 1; // todo do we off set and evenly distribute array????
-        int offset  = 0;
-        for(int s = 0; s < stack->size; s++){
-            int counter = (node * arr_size )+ ( offset * stack_size);
+        int offset = 0;
+        for (int s = 0; s < stack->size; s++) {
+            int counter = (node * arr_size) + (offset * stack_size);
 
 
             stack_sent[counter] = stack->list[s]->size;
@@ -144,7 +142,7 @@ stack_t1* scatter_tsp(mpi_data_t* mpi_data, int* graph, int& best_tour_cost, tou
             std::copy(stack->list[s]->cities, stack->list[s]->cities + stack_size - 2, stack_sent + counter);
 
             node--;
-            if(node % mpi_data->comm_sz == -1) {
+            if (node % mpi_data->comm_sz == -1) {
                 node = mpi_data->comm_sz - 1;
                 offset++;
             }
@@ -155,10 +153,9 @@ stack_t1* scatter_tsp(mpi_data_t* mpi_data, int* graph, int& best_tour_cost, tou
     }
 
 
-
     build_mpi_data_type(&num_sent, &stack_size, mpi_data->root);
     int list_size = num_sent * stack_size;
-    int stack_received [list_size]; // allocate memory
+    int stack_received[list_size]; // allocate memory
     if (mpi_data->my_rank != mpi_data->root)
         stack_sent = new int[list_size];
 
@@ -166,31 +163,31 @@ stack_t1* scatter_tsp(mpi_data_t* mpi_data, int* graph, int& best_tour_cost, tou
 
 
     //*  SCATTER  *//
-
+    /*  Broadcast best tour cost to minimize processing*/
     MPI_Scatter(stack_sent, list_size, MPI_INT, &stack_received, list_size, MPI_INT, mpi_data->root, MPI_COMM_WORLD);
     MPI_Bcast(&best_tour_cost, 1, MPI_INT, mpi_data->root, MPI_COMM_WORLD);
 
 
-    if(mpi_data->my_rank == mpi_data->root){
+    if (mpi_data->my_rank == mpi_data->root) {
         delete[] stack_sent;
     }
 
-    stack_t1* stack = new_stack();
-    for(int j = 0; j< num_sent; j++){
+    stack_t1 *stack = new_stack();
+    for (int j = 0; j < num_sent; j++) {
         int pos = j * stack_size;
-        if(stack_received[pos] > 0){
+        if (stack_received[pos] > 0) {
             stack->size++;
             stack->list[j] = new_tour();
             stack->list[j]->size = stack_received[pos];
             pos++;
             stack->list[j]->cost = stack_received[pos];
             pos++;
-            std::copy(stack_received + pos, stack_received + pos + stack_size,  stack->list[j]->cities);
+            std::copy(stack_received + pos, stack_received + pos + stack_size, stack->list[j]->cities);
 
             // Mark Cities as visited
-            for(int counter = 0; counter < *stack_received; counter++){
+            for (int counter = 0; counter < *stack_received; counter++) {
 
-                if(stack->list[j]->cities[counter] >= 0){
+                if (stack->list[j]->cities[counter] >= 0) {
                     int temp = stack->list[j]->cities[counter];
                     stack->list[j]->visited[temp] = true;
                 }
@@ -198,182 +195,30 @@ stack_t1* scatter_tsp(mpi_data_t* mpi_data, int* graph, int& best_tour_cost, tou
             }
 
 
-        } else if(stack_received[pos] > 0){
+        } else if (stack_received[pos] > 0) {
             printf("An Error occurd Recieving the TSP stack");
             io_error_occur(mpi_data);
             io_error_handling(mpi_data);
-        }
-        else{
+        } else {
             break;
         }
     }
 
-    return  stack;
+    return stack;
 }
 
 
-//
-//stack_t1* scatter_tsp(mpi_data_t* mpi_data, int* graph, int& best_tour_cost, tour_t* best_tour, freed_tours_t* freed_tours, int home_city){
-//
-//    // Sending
-//    int num_sent = 0;
-//    int stack_size = 0;
-//    int* stack_sent = NULL;
-//
-//
-//    if(mpi_data->my_rank == mpi_data->root){
-//        // Build the list...
-//        tour_t* ts_tour = new_tour();
-//        ts_tour->cities[0] = home_city;
-//        ts_tour->size = 1;
-//        stack_t1  *stack = new_stack();
-//        push_copy(stack, ts_tour, freed_tours, mpi_data);
-//
-//
-//        while (stack->size < mpi_data->comm_sz) {
-//
-//
-//
-//            process_stack(breadth_first, graph, stack, &best_tour_cost, best_tour, freed_tours, home_city, mpi_data);
-//        }
-//
-//
-//
-//        for(int s = 0; s < stack->size; s++){
-//            if(stack_size < stack->list[s]->size)
-//                stack_size = stack->list[s]->size;  // Find max stack size
-//        }
-//
-//
-//        stack_size += 2;  // offset for cost and size
-//
-//        // Calculations
-//        num_sent = (stack->size + mpi_data->comm_sz - 1) / mpi_data->comm_sz;  // Per node
-//        int arr_size =  stack_size *  num_sent;
-//        int total_size = arr_size * mpi_data->comm_sz;
-//        stack_sent = new int [total_size];  // need contigous memory
-//        for(int j = 0; j< total_size ; j++) {
-//            stack_sent[j] = 0;  // Zero Array
-//        }
-//
-//
-//        /**
-//         * Build an array to send to all clusters.
-//         * Make the array continues memory
-//         * Make the array evenly split between all node.
-//         *
-//         * Stack mapping:
-//         * 1st element:  tour size
-//         * 2nd element:  tour cost
-//         * 3rd element  --> (stack_size + 2):  tour cities
-//         * Tour data structure, init to -1 for cities by default.
-//         *
-//         * Note: If tour size is zero, there is no data and end of message.
-//         */
-//
-//        int node = 0; // todo do we off set and evenly distribute array????
-//        int offset  = 0;
-//        for(int s = 0; s < stack->size; s++){
-//            int counter = (node * arr_size )+ ( offset * stack_size);
-//
-//
-//            stack_sent[counter] = stack->list[s]->size;
-//            counter++;
-//
-//            stack_sent[counter] = stack->list[s]->cost;
-//            counter++;
-//            std::copy(stack->list[s]->cities, stack->list[s]->cities + stack_size - 2, stack_sent + counter);
-//
-//            node++;
-//            if(node % mpi_data->comm_sz == 0) {
-//                node = 0;
-//                offset++;
-//            }
-//
-//        }
-//
-//        delete stack;
-//    }
-//
-//
-//
-//    build_mpi_data_type(&num_sent, &stack_size, mpi_data->root);
-//    int list_size = num_sent * stack_size;
-//    int stack_received [list_size]; // allocate memory
-//    if (mpi_data->my_rank != mpi_data->root)
-//        stack_sent = new int[list_size];
-//
-//
-//
-//
-//    //*  SCATTER  *//
-//
-//    MPI_Scatter(stack_sent, list_size, MPI_INT, &stack_received, list_size, MPI_INT, mpi_data->root, MPI_COMM_WORLD);
-//
-//    if(mpi_data->my_rank == mpi_data->root){
-//        delete[] stack_sent;
-//    }
-//
-//    stack_t1* stack = new_stack();
-//    for(int j = 0; j< num_sent; j++){
-//        int pos = j * stack_size;
-//        if(stack_received[pos] > 0){
-//            stack->size++;
-//            stack->list[j] = new_tour();
-//            stack->list[j]->size = stack_received[pos];
-//            pos++;
-//            stack->list[j]->cost = stack_received[pos];
-//            pos++;
-//            std::copy(stack_received + pos, stack_received + pos + stack_size,  stack->list[j]->cities);
-//
-//            // Mark Cities as visited
-//            for(int counter = 0; counter < *stack_received; counter++){
-//
-//                if(stack->list[j]->cities[counter] >= 0){
-//                    int temp = stack->list[j]->cities[counter];
-//                    stack->list[j]->visited[temp] = true;
-//                }
-//
-//
-////                if(mpi_data->my_rank == 0){
-////                    printf("Pos: %d, City: %d, MyRank: %d\n", counter, stack->list[j]->cities[counter], mpi_data->my_rank);
-////                    printf("Pos: %d, visited: %d, MyRank: %d\n", counter, stack->list[j]->visited[ stack->list[j]->cities[counter]], mpi_data->my_rank);
-////                }
-//            }
-////
-////            int counter = 0;
-////            while (stack->list[j]->cities[counter] > -1){
-////                int temp = stack->list[j]->cities[counter];
-////                stack->list[j]->visited[temp] = true;
-////                counter++;
-////            }
-//
-//        } else if(stack_received[pos] > 0){
-//            printf("An Error occurd Recieving the TSP stack");
-//            io_error_occur(mpi_data);
-//            io_error_handling(mpi_data);
-//        }
-//        else{
-//            break;
-//        }
-//    }
-//
-//    return  stack;
-//}
-
-void mpi_tsp_sync_best_cost(int* best_tour_cost, mpi_data_t* mpi_data){
-//                mpi_tsp_async_send(mpi_data, best_tour_cost);
-//            mpi_tsp_async_recieve(mpi_data, best_tour_cost);
-
+void mpi_tsp_sync_best_cost(int *best_tour_cost, mpi_data_t *mpi_data) {
     int send_best_cost = *best_tour_cost;
-    MPI_Allreduce(&send_best_cost, best_tour_cost, 1, MPI_INT, MPI_MIN , MPI_COMM_WORLD);
+    MPI_Allreduce(&send_best_cost, best_tour_cost, 1, MPI_INT, MPI_MIN, MPI_COMM_WORLD);
 
 }
-void gather_best_tours(int* results, int size, tour_t* best_tour, int root){
+
+void gather_best_tours(int *results, int size, tour_t *best_tour, int root) {
     int local_results[size];
     local_results[0] = best_tour->cost;
     std::copy(best_tour->cities, best_tour->cities + n_cities + 1, local_results + 1);
-    MPI_Gather(&local_results, size, MPI_INT, results, size, MPI_INT, root,  MPI_COMM_WORLD);
+    MPI_Gather(&local_results, size, MPI_INT, results, size, MPI_INT, root, MPI_COMM_WORLD);
 }
 
 
@@ -382,12 +227,11 @@ int mpi_calculate_buffer_size_integer(int const mpi_comm_size) {
     int message_size;
 
     MPI_Pack_size(1, MPI_INT, MPI_COMM_WORLD, &data_size); // sets data size
-//    data_size = sizeof(int);
     message_size = data_size + MPI_BSEND_OVERHEAD;
     return ((mpi_comm_size - 1) * message_size);
 }
 
-void mpi_tsp_async_send(mpi_data_t*  mpi_data, int* best_tour_cost){
+void mpi_tsp_async_send(mpi_data_t *mpi_data, int *best_tour_cost) {
 
     char buf;
     int bsize;
@@ -395,8 +239,8 @@ void mpi_tsp_async_send(mpi_data_t*  mpi_data, int* best_tour_cost){
     char buffer[mpi_data->bcast_buffer_size];
     MPI_Buffer_attach(buffer, mpi_data->bcast_buffer_size);
 
-    for(int i=0; i < mpi_data->comm_sz; i++){
-        if(mpi_data->my_rank != i){
+    for (int i = 0; i < mpi_data->comm_sz; i++) {
+        if (mpi_data->my_rank != i) {
             MPI_Bsend(&message, 1, MPI_INT, i, mpi_data->NEW_COST_TAG, MPI_COMM_WORLD);
         }
 
@@ -406,16 +250,16 @@ void mpi_tsp_async_send(mpi_data_t*  mpi_data, int* best_tour_cost){
 
 }
 
-void mpi_tsp_async_recieve(mpi_data_t*  mpi_data, int* best_tour_cost){
+void mpi_tsp_async_recieve(mpi_data_t *mpi_data, int *best_tour_cost) {
     int msg_arrive;
     int msg_cost;
     MPI_Status status;
 
     MPI_Iprobe(MPI_ANY_SOURCE, mpi_data->NEW_COST_TAG, MPI_COMM_WORLD, &msg_arrive, &status);
-    while(msg_arrive){
-        MPI_Recv(&msg_cost, 1, MPI_INT, status.MPI_SOURCE, mpi_data->NEW_COST_TAG, MPI_COMM_WORLD,MPI_STATUS_IGNORE);
+    while (msg_arrive) {
+        MPI_Recv(&msg_cost, 1, MPI_INT, status.MPI_SOURCE, mpi_data->NEW_COST_TAG, MPI_COMM_WORLD, MPI_STATUS_IGNORE);
 
-        if(msg_cost < *best_tour_cost){
+        if (msg_cost < *best_tour_cost) {
             *best_tour_cost = msg_cost;
         }
 
@@ -424,7 +268,7 @@ void mpi_tsp_async_recieve(mpi_data_t*  mpi_data, int* best_tour_cost){
     }
 }
 
-void mpi_tsp_print_best_tour(mpi_data_t*  mpi_data,  tour_t *best_tour) {
+void mpi_tsp_print_best_tour(mpi_data_t *mpi_data, tour_t *best_tour) {
     int size = n_cities + 2;
     int results[size * mpi_data->comm_sz];
     gather_best_tours(results, size, best_tour, mpi_data->root);

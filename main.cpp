@@ -10,9 +10,13 @@
  *
  * Program:
  * Running the file:
- * Run the script "compile_serial_code.sh" to ensure we are running the same commands.
- * arg 1 : number of cities in graph.
- * Example : ./main_program 4
+ * Run the script "compile_mpi_code.sh" to ensure we are running the same commands.
+ * arg 1 : number of mpi nodes
+ * arg 2 : number of omp threads.
+ * Example : mpiCC -g -Wall -fopenmp main.cpp stack.cpp graphs.cpp mpi_tsp.cpp -o tsp_mpi_code -std=c++0x
+            mpiexec -n 10  tsp_mpi_code  4
+     OR
+            mpirun --hostfile host_file -np 10 tsp_mpi_code 4
  *
  * Description:
  * This program uses C++ for serial program. It takes the cities from the graph and calculates
@@ -26,7 +30,30 @@
  *
  * 3: best_tour is updated.
  *
- * Error Handling : Used assert() in functions to ensure correct data is being passed.
+ * Error Handling : Used functions in the 'mpi_tsp' file.
+ *
+ *
+ * PART 2:  MPI
+ *
+ * The program takes a single tour in a stack and does a breadth first traversal to generate enough tours for the cluster
+ * The tours are then copied to an array which is padded to make delivery manageable,  this is in part due to the nested
+ * tour structure data structure.  The Visited City list is rebuilt by the client and the current best tour is distributed to
+ * all to the cluster nodes.
+ *
+ * Throught the algorithm, I am trying to minimize the number of calls to the best tour function.  This is done by
+ * distributing the best tour forcefully to all the nodes at the beginning of the algorithm and then later by using async methods.
+ *
+ * The second phase of the algorithm is to use OMP and again a breadth first method seeds the tour for the other threads.
+ * The list is copied to a list which uses the OMP for loop.
+ * The best tour is sent to all the nodes via 'mpi all reduce'
+ *
+ * The OMP threads then process the stack until all work has been complete.  The next tour is given to a tour which is not working
+ *
+ * Note:  I am currently working on the dynamic mpi portion of the algorithm but I am running into sig faults from the
+ * asyn message passing.  Based on my tests, I felt our algorith would benifit more from load balancing MPI then OMP.
+ * This is some what of a time management call...
+ *
+ *
  * */
 
 #include <iostream>
@@ -40,12 +67,14 @@
 #include "stack.h"
 #include "graphs.h"
 #include "mpi_tsp.h"
-#ifdef _OPENMP
-
-#include <omp.h>
 #include <deque>
 //#include <cmath>
 #include <math.h>
+
+#ifdef _OPENMP
+
+#include <omp.h>
+
 #endif
 
 using namespace std;
@@ -63,8 +92,6 @@ void get_rank_thread_count(int *my_rank, int *thread_count) {
 }
 
 
-
-
 int get_number(char *s) {
     char *temp;
     int number = strtol(s, &temp, 10);
@@ -76,9 +103,7 @@ int get_number(char *s) {
 }
 
 
-
 int main(int argc, char *argv[]) {
-    printf("Starting Program\n");
 
     high_resolution_clock::time_point t1 = high_resolution_clock::now();
     // +++++++++++++++++++++++++++++++++++++++++++++++++++ //
@@ -103,14 +128,13 @@ int main(int argc, char *argv[]) {
 
     tour_t *best_tour = new_tour();
     best_tour->cost = best_tour_cost;
-    vector<stack_t1 *> *local_stack = NULL;
+    stack_t1** local_stack = NULL;
+    int local_stack_size = 0;
 
     // +++++++++++++++++++++++++++++++++++++++++++++++++++ //
     // ******************     MPI     ******************** //
     // *************************************************** //
     //////// MPI  INIT //////////////
-    printf("Init: MPI\n");
-
     mpi_data_t mpi_data;
     MPI_Init(NULL, NULL);
     MPI_Comm_size(MPI_COMM_WORLD, &mpi_data.comm_sz);
@@ -122,22 +146,15 @@ int main(int argc, char *argv[]) {
     mpi_data.bcast_buffer_size = mpi_calculate_buffer_size_integer(mpi_data.comm_sz);  //Used by MPI_Bsend
 
 
-    stack_t1* stack = scatter_tsp( &mpi_data, graph, best_tour_cost,  best_tour, freed_tours, home_city);
+    stack_t1 *stack = scatter_tsp(&mpi_data, graph, best_tour_cost, best_tour, freed_tours, home_city);
     io_error_handling(&mpi_data);  // ALL Nodes check for error
-
-    if(mpi_data.root == mpi_data.root){
-        time_t  timev;
-        printf("MPI FINISHED SENDING DATA Time: %ld\n",  time(&timev));
-    }
-
-
 
     // +++++++++++++++++++++++++++++++++++++++++++++++++++ //
     // ****************** Parallel  ******************** //
     // *************************************************** //
 
     int z;
-# pragma omp parallel  num_threads(thread_count_request) default(none) private(z) shared( mpi_data, graph, stack, local_stack, best_tour, best_tour_cost, home_city, freed_tours)
+# pragma omp parallel  num_threads(thread_count_request) default(none) private(z) shared( mpi_data, graph, stack, local_stack,local_stack_size, best_tour, best_tour_cost, home_city, freed_tours)
     {
         /**
          * Create local variables for each thread
@@ -160,29 +177,24 @@ int main(int argc, char *argv[]) {
             ts_stack = stack;
             while (ts_stack->size < ts_thread_count) {
 
-                breadth_first_process_stack( graph, ts_stack, &best_tour_cost, ts_best_tour, freed_tours, home_city, &mpi_data);
+                breadth_first_process_stack(graph, ts_stack, &best_tour_cost, ts_best_tour, freed_tours, home_city,
+                                            &mpi_data);
 
             }
 
-            io_error_handling(&mpi_data);  // ALL Nodes check for error
 
-            local_stack = new vector<stack_t1 *>(ts_stack->size, NULL);
+            local_stack_size = ts_stack->size;
+            local_stack = new stack_t1* [ts_stack->size];
             for (int j = 0; j < ts_stack->size; j++) {
-                local_stack->at(j) = new_stack();
-                local_stack->at(j)->list[0] = ts_stack->list[j];
-                local_stack->at(j)->size = 1;
+                local_stack[j] = new_stack();
+                local_stack[j]->list[0] = ts_stack->list[j];
+                local_stack[j]->size = 1;
 
             }
-            time_t  timev;
-            printf("Thread: %d, SYNC Best Cost Time: %ld\n", mpi_data.my_rank, time(&timev));
+
             mpi_tsp_sync_best_cost(&best_tour_cost, &mpi_data);
 
             delete ts_stack;
-
-
-
-//            time_t  timev;
-            printf("Thread: %d, OMP Split data Time: %ld\n", mpi_data.my_rank, time(&timev));
         }
 
 
@@ -190,26 +202,18 @@ int main(int argc, char *argv[]) {
         /**
          * Each thread takes the stack and processes their section
          */
-int local_size = local_stack->size();
+        int local_size = local_stack_size;
 #pragma omp for schedule(static, local_size / ts_thread_count )
-        for (z = 0; z < local_size; z++){
-            ts_stack = local_stack->at(z);
+        for (z = 0; z < local_size; z++) {
+            ts_stack = local_stack[z];
 
 
             while (ts_stack->size > 0) {
-                process_stack(depth_first, graph, ts_stack, &best_tour_cost, ts_best_tour, freed_tours, home_city, &mpi_data);
+                process_stack(depth_first, graph, ts_stack, &best_tour_cost, ts_best_tour, freed_tours, home_city,
+                              &mpi_data);
             }
 
-//            delete ts_stack;
-//            time_t  ts_timev;
-//            printf("Thread: %d, Process: %d, Getting Next Job at Time %ld\n", mpi_data.my_rank, ts_my_rank, time(&ts_timev) );
-
-
         } // End For Loop
-        time_t  ts_timev2;
-        printf("Thread: %d, Process: %d, Out of work at Time %ld\n", mpi_data.my_rank, ts_my_rank, time(&ts_timev2) );
-
-
 
 #pragma omp critical
         {
@@ -217,7 +221,7 @@ int local_size = local_stack->size();
                 copy_tour(ts_best_tour, best_tour, &mpi_data); // Reduce: best tour
             }
         }
-                    delete ts_best_tour;  // <--- Fixed
+        delete ts_best_tour;  // <--- Fixed
 
     }
 
@@ -225,13 +229,12 @@ int local_size = local_stack->size();
     // +++++++++++++++++++++++++++++++++++++++++++++++++++ //
     // ******************     MPI Results****************** //
     // *************************************************** //
-    time_t  timev;
-    printf("Thread: %d Finished at Time: %ld\n", mpi_data.my_rank, time(&timev));
+
     io_error_handling(&mpi_data);
-    mpi_tsp_print_best_tour( &mpi_data,  best_tour);
+    mpi_tsp_print_best_tour(&mpi_data, best_tour);
 
 
-    if(mpi_data.my_rank == mpi_data.root){
+    if (mpi_data.my_rank == mpi_data.root) {
         high_resolution_clock::time_point t2 = high_resolution_clock::now();
         duration<double> time_span = duration_cast<duration<double> >(t2 - t1);
 
