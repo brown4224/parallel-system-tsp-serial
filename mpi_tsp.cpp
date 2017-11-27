@@ -243,13 +243,19 @@ int mpi_calculate_buffer_size_integer(int const mpi_comm_size ) {
     return ((mpi_comm_size - 1) * message_size);
 }
 
+void attach_buffer(){
+    int size = 1024 * 1024* 1024;
+    char* buffer= new char [size];
+    MPI_Buffer_attach(buffer, size);
+}
+
 void mpi_tsp_async_send(mpi_data_t*  mpi_data, int* best_tour_cost){
 
-    char buf;
-    int bsize;
+//    char buf;
+//    int bsize;
     int message = *best_tour_cost;
-    char buffer[mpi_data->bcast_buffer_size];
-    MPI_Buffer_attach(buffer, mpi_data->bcast_buffer_size );
+//    char buffer[mpi_data->bcast_buffer_size];
+//    MPI_Buffer_attach(buffer, mpi_data->bcast_buffer_size );
 
     for(int i=0; i < mpi_data->comm_sz; i++){
         if(mpi_data->my_rank != i){
@@ -258,7 +264,7 @@ void mpi_tsp_async_send(mpi_data_t*  mpi_data, int* best_tour_cost){
 
     }
 
-    MPI_Buffer_detach(&buf, &bsize);  //??
+//    MPI_Buffer_detach(&buf, &bsize);  //??
 
 }
 
@@ -338,10 +344,11 @@ void mpi_tsp_need_work_async_send(mpi_data_t*  mpi_data, int node, int flag){
 
     for(int i=0; i < mpi_data->comm_sz; i++){
         if(mpi_data->my_rank != i){
-            MPI_Request request;
-            MPI_Status status;
-            MPI_Isend(msg, 2, MPI_INT, i, mpi_data->NEED_WORK_TAG, MPI_COMM_WORLD, &request);
-            MPI_Wait(&request, &status);
+            MPI_Bsend(msg,2, MPI_INT, i, mpi_data->NEED_WORK_TAG, MPI_COMM_WORLD);
+//            MPI_Request request;
+//            MPI_Status status;
+//            MPI_Isend(msg, 2, MPI_INT, i, mpi_data->NEED_WORK_TAG, MPI_COMM_WORLD, &request);
+//            MPI_Wait(&request, &status);
         }
 
     }
@@ -429,18 +436,18 @@ void mpi_tsp_load_balance_async_send(mpi_data_t*  mpi_data, int* dest, tour_t* t
     payload[0] = tour->size;
     payload[1] = tour->cost;
     std::copy(tour->cities, tour->cities + n_cities, payload + 2);
+    printf("Node: %d Sending Load Balance from Node: %d\n", mpi_data->my_rank, *dest);
 
-    char buf;
-    int bsize;
-    char buffer[mpi_data->bcast_buffer_size ];
-    MPI_Buffer_attach(buffer, mpi_data->bcast_buffer_size );
+//    char buf;
+//    int bsize;
+//    char buffer[mpi_data->bcast_buffer_size ];
+//    MPI_Buffer_attach(buffer, mpi_data->bcast_buffer_size );
     MPI_Bsend(payload, size, MPI_INT, *dest, mpi_data->RECIEVE_LOAD_BALANCE_TAG, MPI_COMM_WORLD);
 
 
-    MPI_Buffer_detach(&buf, &bsize);  //??
+//    MPI_Buffer_detach(&buf, &bsize);  //??
     delete(payload);
 
-    printf("Node: %d Sending Load Balance from Node: %d\n", mpi_data->my_rank, *dest);
 
 }
 
