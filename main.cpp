@@ -202,13 +202,14 @@ void process_data(int *graph, int *best_tour_cost, tour_t *best_tour, freed_tour
                                 int dest = to_send[i];
                                 // Send tour
                                 tour_t *send_tour = breadth_first(ts_stack, mpi_data);
-                                if (send_tour->cost < *best_tour_cost) {
-                                    mpi_tsp_load_balance_async_send(mpi_data, &dest, send_tour);
+//                                if (send_tour->cost < *best_tour_cost) {
+                                    mpi_tsp_load_balance_async_send(mpi_data,(int) dest, send_tour);
                                     mpi_tsp_need_work_async_send(mpi_data, (int) dest, 0);
                                     mpi_data->mpi_need_work_list[dest] = 0;
-                                    push_freed_tour(freed_tours, send_tour, mpi_data);
 
-                                }
+//                                }
+//                                                                    push_freed_tour(freed_tours, send_tour, mpi_data);
+
                             }
                         }
                     }

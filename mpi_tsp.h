@@ -21,6 +21,6 @@ void mpi_tsp_need_work_async_send(mpi_data_t*  mpi_data, int node, int flag);
 
 void mpi_tsp_need_work_async_recieve(mpi_data_t*  mpi_data);
 
-void mpi_tsp_load_balance_async_send(mpi_data_t*  mpi_data, int* dest, tour_t* tour);
+void mpi_tsp_load_balance_async_send(mpi_data_t*  mpi_data, int dest, tour_t* tour);
 
 void mpi_tsp_load_balance_async_recieve(mpi_data_t*  mpi_data, stack_t1* stack);

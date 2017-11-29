@@ -245,7 +245,8 @@ void attach_buffer(int const mpi_comm_size) {
     MPI_Pack_size(size, MPI_INT, MPI_COMM_WORLD, &data_size); // sets data size
     message_size = data_size + (MPI_BSEND_OVERHEAD * 3);
     int buff_size = (mpi_comm_size * message_size);
-    buff_size *= buff_size;
+    buff_size = buff_size * buff_size  ;
+    buff_size = 1024 * 1024;
     char *buffer = new char[buff_size];
     MPI_Buffer_attach(buffer, buff_size);
 }
@@ -371,17 +372,17 @@ void mpi_tsp_need_work_async_recieve(mpi_data_t *mpi_data) {
     delete (msg);
 }
 
-void mpi_tsp_load_balance_async_send(mpi_data_t *mpi_data, int *dest, tour_t *tour) {
+void mpi_tsp_load_balance_async_send(mpi_data_t *mpi_data, int dest, tour_t *tour) {
     int size = n_cities + 3;
     int *payload = new int[size];
     for (int i = 0; i < size; i++) payload[i] = -1;
     payload[0] = tour->size;
     payload[1] = tour->cost;
-    std::copy(tour->cities, tour->cities + size, payload + 2);
+    std::copy(tour->cities, tour->cities + tour->size, payload + 2);
 
 #pragma omp critical(mpi_lock)
     {
-        MPI_Bsend(payload, size, MPI_INT, *dest, mpi_data->RECIEVE_LOAD_BALANCE_TAG, MPI_COMM_WORLD);
+        MPI_Bsend(payload, size, MPI_INT, dest, mpi_data->RECIEVE_LOAD_BALANCE_TAG, MPI_COMM_WORLD);
     }
     delete (payload);
 }
