@@ -48,7 +48,7 @@ tour_t *new_tour() {
     tour_t *tour = new tour_t;
     tour->size = 0;
     tour->cost = 0;
-    for (int i = 0; i < n_cities; i++) {
+    for (int i = 0; i < n_cities + 1; i++) {
         tour->cities[i] = -1;
         tour->visited[i] = false;
     }
@@ -276,36 +276,39 @@ process_stack(tour_t *(&pop)(stack_t1 *stack, mpi_data_t *mpi_data), int *graph,
 
 
     tour_t *tour = pop(stack, mpi_data);  //  Function call to depth or breadth first search
-    if (tour->size == n_cities && tour->cost < *best_tour_cost) {
-#pragma omp critical
-        {
-            mpi_tsp_async_recieve(mpi_data, best_tour_cost);
-        }
+    if (tour->cost < *best_tour_cost) {
 
-        if (is_best_tour(tour, best_tour_cost, graph, home_city, mpi_data)) {
-            add_city(graph, tour, home_city, mpi_data);
+        if (tour->size == n_cities && tour->cost < *best_tour_cost) {
 #pragma omp critical
             {
-                *best_tour_cost = tour->cost;
-                mpi_tsp_async_send(mpi_data, best_tour_cost);
-
+                mpi_tsp_async_recieve(mpi_data, best_tour_cost);
             }
-            copy_tour(tour, best_tour, mpi_data);
 
-
-        }
-    } else if (tour->size < n_cities) {
-
-        for (int neighbor = n_cities - 1; neighbor >= 0; neighbor--) {
-            if (is_neighbor(graph, tour->cities[tour->size - 1], neighbor, mpi_data)) {
-
-                if (!is_visited(tour, neighbor, mpi_data)) {
-                    add_city(graph, tour, neighbor, mpi_data);
-                    push_copy(stack, tour, freed_tours, mpi_data);
-                    remove_city(graph, tour, mpi_data);
+            if (is_best_tour(tour, best_tour_cost, graph, home_city, mpi_data)) {
+                add_city(graph, tour, home_city, mpi_data);
+#pragma omp critical
+                {
+                    *best_tour_cost = tour->cost;
+                    mpi_tsp_async_send(mpi_data, best_tour_cost);
 
                 }
+                copy_tour(tour, best_tour, mpi_data);
 
+
+            }
+        } else if (tour->size < n_cities) {
+
+            for (int neighbor = n_cities - 1; neighbor >= 0; neighbor--) {
+                if (is_neighbor(graph, tour->cities[tour->size - 1], neighbor, mpi_data)) {
+
+                    if (!is_visited(tour, neighbor, mpi_data)) {
+                        add_city(graph, tour, neighbor, mpi_data);
+                        push_copy(stack, tour, freed_tours, mpi_data);
+                        remove_city(graph, tour, mpi_data);
+
+                    }
+
+                }
             }
         }
     }
@@ -324,28 +327,33 @@ void breadth_first_process_stack(int *graph, stack_t1 *stack, int *best_tour_cos
 
 
     tour_t *tour = breadth_first(stack, mpi_data);
-    if (tour->size == n_cities && tour->cost < *best_tour_cost) {
 
-        if (is_best_tour(tour, best_tour_cost, graph, home_city, mpi_data)) {
-            add_city(graph, tour, home_city, mpi_data);
-            *best_tour_cost = tour->cost;
-            copy_tour(tour, best_tour, mpi_data);
-        }
-    } else if (tour->size < n_cities) {
+    if(tour->cost < *best_tour_cost){
+        if (tour->size == n_cities) {
 
-        for (int neighbor = n_cities - 1; neighbor >= 0; neighbor--) {
-            if (is_neighbor(graph, tour->cities[tour->size - 1], neighbor, mpi_data)) {
+            if (is_best_tour(tour, best_tour_cost, graph, home_city, mpi_data)) {
+                add_city(graph, tour, home_city, mpi_data);
+                *best_tour_cost = tour->cost;
+                copy_tour(tour, best_tour, mpi_data);
+            }
+        } else if (tour->size < n_cities) {
 
-                if (!is_visited(tour, neighbor, mpi_data)) {
-                    add_city(graph, tour, neighbor, mpi_data);
-                    push_copy(stack, tour, freed_tours, mpi_data);
-                    remove_city(graph, tour, mpi_data);
+            for (int neighbor = n_cities - 1; neighbor >= 0; neighbor--) {
+                if (is_neighbor(graph, tour->cities[tour->size - 1], neighbor, mpi_data)) {
+
+                    if (!is_visited(tour, neighbor, mpi_data)) {
+                        add_city(graph, tour, neighbor, mpi_data);
+                        push_copy(stack, tour, freed_tours, mpi_data);
+                        remove_city(graph, tour, mpi_data);
+
+                    }
 
                 }
-
             }
         }
     }
+
+
 
     push_freed_tour(freed_tours, tour, mpi_data);
 

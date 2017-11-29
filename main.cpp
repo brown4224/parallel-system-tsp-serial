@@ -209,8 +209,8 @@ int main(int argc, char *argv[]) {
 
 
             while (ts_stack->size > 0) {
-                process_stack(depth_first, graph, ts_stack, &best_tour_cost, ts_best_tour, freed_tours, home_city,
-                              &mpi_data);
+                process_stack(depth_first, graph, ts_stack, &best_tour_cost, ts_best_tour, freed_tours, home_city, &mpi_data);
+
             }
 
         } // End For Loop
