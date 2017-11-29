@@ -49,7 +49,7 @@ tour_t *new_tour() {
     tour_t *tour = new tour_t;
     tour->size = 0;
     tour->cost = 0;
-    for (int i = 0; i < n_cities; i++) {
+    for (int i = 0; i < n_cities + 1; i++) {
         tour->cities[i] = -1;
         tour->visited[i] = false;
     }
@@ -349,8 +349,8 @@ void process_stack(tour_t*(&pop)(stack_t1 *stack, mpi_data_t* mpi_data ) , int *
     if ( tour->size == n_cities && tour->cost < *best_tour_cost) {
 #pragma omp critical
         {
-            time_t  ts_timev;
-            printf("Thread: %d,  Critical Section %ld\n", mpi_data->my_rank, time(&ts_timev) );
+//            time_t  ts_timev;
+//            printf("Thread: %d,  Critical Section %ld\n", mpi_data->my_rank, time(&ts_timev) );
 
 
             mpi_tsp_async_recieve(mpi_data, best_tour_cost);

@@ -251,11 +251,9 @@ void attach_buffer(){
 
 void mpi_tsp_async_send(mpi_data_t*  mpi_data, int* best_tour_cost){
 
-//    char buf;
-//    int bsize;
+
     int message = *best_tour_cost;
-//    char buffer[mpi_data->bcast_buffer_size];
-//    MPI_Buffer_attach(buffer, mpi_data->bcast_buffer_size );
+
 
     for(int i=0; i < mpi_data->comm_sz; i++){
         if(mpi_data->my_rank != i){
@@ -264,7 +262,6 @@ void mpi_tsp_async_send(mpi_data_t*  mpi_data, int* best_tour_cost){
 
     }
 
-//    MPI_Buffer_detach(&buf, &bsize);  //??
 
 }
 
@@ -320,15 +317,7 @@ void mpi_tsp_print_best_tour(mpi_data_t*  mpi_data,  tour_t *best_tour) {
 
 }
 //////////////////////////////////////////////////////////////////
-//int mpi_calculate_buffer_size_tour(int const mpi_comm_size) {
-//    int data_size;
-//    int message_size;
-//
-//    MPI_Pack_size(n_cities + 2, MPI_INT, MPI_COMM_WORLD, &data_size); // sets data size
-////    data_size = sizeof(int);
-//    return message_size = data_size + MPI_BSEND_OVERHEAD;
-//
-//}
+
 
 
 void mpi_tsp_need_work_async_send(mpi_data_t*  mpi_data, int node, int flag){
@@ -344,58 +333,16 @@ void mpi_tsp_need_work_async_send(mpi_data_t*  mpi_data, int node, int flag){
 
     for(int i=0; i < mpi_data->comm_sz; i++){
         if(mpi_data->my_rank != i){
-            MPI_Bsend(msg,2, MPI_INT, i, mpi_data->NEED_WORK_TAG, MPI_COMM_WORLD);
-//            MPI_Request request;
-//            MPI_Status status;
-//            MPI_Isend(msg, 2, MPI_INT, i, mpi_data->NEED_WORK_TAG, MPI_COMM_WORLD, &request);
-//            MPI_Wait(&request, &status);
+#pragma omp critical
+            {
+                MPI_Bsend(msg, 2, MPI_INT, i, mpi_data->NEED_WORK_TAG, MPI_COMM_WORLD);
+            }
+
         }
 
     }
     delete(msg);
 
-
-//    char buffer[mpi_data->bcast_buffer_size];
-////    MPI_Buffer_attach(buffer, mpi_data->bcast_buffer_size );
-//
-//    for(int i=0; i < mpi_data->comm_sz; i++){
-//        if(mpi_data->my_rank != i){
-////            MPI_Send(msg, 2, MPI_INT, i, mpi_data->NEED_WORK_TAG, MPI_COMM_WORLD);
-//            MPI_Bsend(msg, 2, MPI_INT, i, mpi_data->NEED_WORK_TAG, MPI_COMM_WORLD);
-//        }
-//
-//    }
-//
-////    MPI_Buffer_detach(&buf, &bsize);  //??
-//
-//
-
-
-
-
-
-//    char buf;
-//    int bsize;
-//    int* message = new int[2];
-//    message[0] = node;
-//    message[1] = flag;
-//    char buffer[mpi_data->bcast_buffer_size ];
-//    MPI_Buffer_attach(buffer, mpi_data->bcast_buffer_size );
-//    MPI_Bsend(message, 2, MPI_INT, 1, 1,MPI_COMM_WORLD);
-//
-////    for(int i=0; i < mpi_data->comm_sz; i++){
-////        if(mpi_data->my_rank != i){
-//////            MPI_Bsend()
-////
-////            MPI_Bsend(message, 1, MPI_INT, 1, 1,MPI_COMM_WORLD);
-////
-//////            MPI_Bsend(message, 2, MPI_INT, i, mpi_data->NEED_WORK_TAG, MPI_COMM_WORLD);
-////        }
-////
-////    }
-//
-//    MPI_Buffer_detach(&buf, &bsize);  //??
-//    delete(message);
 
 }
 
@@ -418,10 +365,10 @@ void mpi_tsp_need_work_async_recieve(mpi_data_t*  mpi_data){
             MPI_Recv(msg, 2, MPI_INT, status.MPI_SOURCE, mpi_data->NEED_WORK_TAG, MPI_COMM_WORLD,MPI_STATUS_IGNORE);
             int node = msg[0];
             int flag = msg[1];
-            printf("Thread: %d, From: %d, Flag: %d\n", mpi_data->my_rank, node, flag);
+//            printf("Thread: %d, From: %d, Flag: %d\n", mpi_data->my_rank, node, flag);
 
             mpi_data->mpi_need_work_list[node] = flag;
-            printf("Thread: %d, NOW From: %d, Flag: %d\n", mpi_data->my_rank, node, mpi_data->mpi_need_work_list[node]);
+//            printf("Thread: %d, NOW From: %d, Flag: %d\n", mpi_data->my_rank, node, mpi_data->mpi_need_work_list[node]);
             MPI_Iprobe(MPI_ANY_SOURCE, mpi_data->NEED_WORK_TAG, MPI_COMM_WORLD, &msg_arrive, &status);
 
         }
@@ -431,49 +378,45 @@ void mpi_tsp_need_work_async_recieve(mpi_data_t*  mpi_data){
 }
 
 void mpi_tsp_load_balance_async_send(mpi_data_t*  mpi_data, int* dest, tour_t* tour){
-    int size = n_cities + 2;
+    int size = n_cities + 3;
     int* payload = new int [size];
+    for(int i=0; i< size; i++) payload[i] = -1;
     payload[0] = tour->size;
     payload[1] = tour->cost;
-    std::copy(tour->cities, tour->cities + n_cities, payload + 2);
-    printf("Node: %d Sending Load Balance from Node: %d\n", mpi_data->my_rank, *dest);
+    std::copy(tour->cities, tour->cities + size, payload + 2);
+//    printf("Node: %d Sending Load Balance from Node: %d\n", mpi_data->my_rank, *dest);
 
-//    char buf;
-//    int bsize;
-//    char buffer[mpi_data->bcast_buffer_size ];
-//    MPI_Buffer_attach(buffer, mpi_data->bcast_buffer_size );
-    MPI_Bsend(payload, size, MPI_INT, *dest, mpi_data->RECIEVE_LOAD_BALANCE_TAG, MPI_COMM_WORLD);
-
-
-//    MPI_Buffer_detach(&buf, &bsize);  //??
+#pragma omp critical
+    {
+        MPI_Bsend(payload, size, MPI_INT, *dest, mpi_data->RECIEVE_LOAD_BALANCE_TAG, MPI_COMM_WORLD);
+    }
     delete(payload);
-
-
 }
 
 void mpi_tsp_load_balance_async_recieve(mpi_data_t*  mpi_data, stack_t1* stack){
 
     int msg_arrive;
     MPI_Status status;
-    int msg_size = n_cities + 2;
+    int msg_size = n_cities + 3;
     int* payload = new int[msg_size];
+    for(int i=0; i< msg_size; i++) payload[i] = -1;
 
     MPI_Iprobe(MPI_ANY_SOURCE, mpi_data->RECIEVE_LOAD_BALANCE_TAG , MPI_COMM_WORLD, &msg_arrive, &status);
     while(msg_arrive){
         MPI_Recv(payload, msg_size, MPI_INT, status.MPI_SOURCE, mpi_data->RECIEVE_LOAD_BALANCE_TAG, MPI_COMM_WORLD,MPI_STATUS_IGNORE);
 
-        printf("Node: %d Receiving Load Balance from Node: %d\n", mpi_data->my_rank, status.MPI_SOURCE);
+//        printf("Node: %d Receiving Load Balance from Node: %d\n", mpi_data->my_rank, status.MPI_SOURCE);
 #pragma omp critical
         {
-            tour_t* new_tour = new tour_t;
-            new_tour->size = payload[0];
-            new_tour->cost = payload[1];
-            std::copy(payload + 2, payload + 2 + new_tour->size, new_tour->cities);
-            for(int i=0; i< new_tour->size; i++){
-                int city = new_tour->cities[i];
-                new_tour->visited[city] = true;
+            tour_t* tour = new_tour();
+            tour->size = payload[0];
+            tour->cost = payload[1];
+            std::copy(payload + 2, payload + 2 + tour->size, tour->cities);
+            for(int i=0; i< tour->size; i++){
+                int city = tour->cities[i];
+                tour->visited[city] = true;
             }
-            stack->list[stack->size] = new_tour;
+            stack->list[stack->size] = tour;
             stack->size++;
         }
 
