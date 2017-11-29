@@ -23,11 +23,8 @@ typedef struct tour_t{
 
 // Conflicting typedef name with some xcode stuff
 typedef struct stack_t1 {
-    // todo check if stack is n * n ?
     tour_t* list[n_cities * n_cities];
     int size;
-    int start;
-//    int end;
     ~stack_t1() = default; // Deconstrutor
 } stack_t1;
 
@@ -46,16 +43,12 @@ typedef struct freed_tours_t{
 } freed_tours_t;
 
 
-// todo make a struct.h  ???
 typedef struct mpi_data_t{
     int comm_sz;  // Number of process
     int my_rank;
     bool keep_alive;
     bool alive;
     int root;
-//    int bcast_buffer_size;
-//    int bcast_buffer_need_work_size;
-//    int bcast_buffer_tour_size;
     int NEW_COST_TAG;
     int NEED_WORK_TAG;
     int RECIEVE_LOAD_BALANCE_TAG;

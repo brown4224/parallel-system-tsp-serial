@@ -42,8 +42,8 @@
       <file leaf-file-name="mpi_tsp.cpp" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/mpi_tsp.cpp">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="202">
-              <caret line="249" column="0" lean-forward="false" selection-start-line="249" selection-start-column="2" selection-end-line="257" selection-end-column="3" />
+            <state relative-caret-position="3820">
+              <caret line="401" column="0" lean-forward="true" selection-start-line="401" selection-start-column="0" selection-end-line="401" selection-end-column="0" />
               <folding>
                 <element signature="e#0#16#0" expanded="true" />
               </folding>
@@ -51,11 +51,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="main.cpp" pinned="false" current-in-tab="true">
+      <file leaf-file-name="main.cpp" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/main.cpp">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="634">
-              <caret line="196" column="0" lean-forward="true" selection-start-line="196" selection-start-column="0" selection-end-line="196" selection-end-column="0" />
+            <state relative-caret-position="814">
+              <caret line="339" column="0" lean-forward="false" selection-start-line="339" selection-start-column="0" selection-end-line="345" selection-end-column="36" />
               <folding>
                 <element signature="e#1152#1169#0" expanded="true" />
               </folding>
@@ -66,8 +66,8 @@
       <file leaf-file-name="stack.h" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/stack.h">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="486">
-              <caret line="67" column="52" lean-forward="true" selection-start-line="67" selection-start-column="52" selection-end-line="67" selection-end-column="52" />
+            <state relative-caret-position="450">
+              <caret line="25" column="0" lean-forward="false" selection-start-line="25" selection-start-column="0" selection-end-line="25" selection-end-column="0" />
               <folding />
             </state>
           </provider>
@@ -76,18 +76,18 @@
       <file leaf-file-name="graphs.cpp" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/graphs.cpp">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="594">
+            <state relative-caret-position="-54">
               <caret line="35" column="0" lean-forward="false" selection-start-line="35" selection-start-column="0" selection-end-line="35" selection-end-column="0" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="stack.cpp" pinned="false" current-in-tab="false">
+      <file leaf-file-name="stack.cpp" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/stack.cpp">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="580">
-              <caret line="355" column="33" lean-forward="false" selection-start-line="355" selection-start-column="0" selection-end-line="356" selection-end-column="0" />
+            <state relative-caret-position="-158">
+              <caret line="282" column="37" lean-forward="true" selection-start-line="282" selection-start-column="37" selection-end-line="282" selection-end-column="37" />
               <folding />
             </state>
           </provider>
@@ -96,8 +96,8 @@
       <file leaf-file-name="mpi_tsp.h" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/mpi_tsp.h">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="522">
-              <caret line="29" column="0" lean-forward="true" selection-start-line="29" selection-start-column="0" selection-end-line="29" selection-end-column="0" />
+            <state relative-caret-position="144">
+              <caret line="8" column="0" lean-forward="false" selection-start-line="8" selection-start-column="0" selection-end-line="8" selection-end-column="0" />
               <folding />
             </state>
           </provider>
@@ -127,11 +127,11 @@
         <option value="$PROJECT_DIR$/mpi.cpp" />
         <option value="$PROJECT_DIR$/graphs.h" />
         <option value="$PROJECT_DIR$/graphs.cpp" />
+        <option value="$PROJECT_DIR$/main.cpp" />
+        <option value="$PROJECT_DIR$/mpi_tsp.cpp" />
+        <option value="$PROJECT_DIR$/mpi_tsp.h" />
         <option value="$PROJECT_DIR$/stack.h" />
         <option value="$PROJECT_DIR$/stack.cpp" />
-        <option value="$PROJECT_DIR$/mpi_tsp.h" />
-        <option value="$PROJECT_DIR$/mpi_tsp.cpp" />
-        <option value="$PROJECT_DIR$/main.cpp" />
       </list>
     </option>
   </component>
@@ -230,12 +230,12 @@
       <workItem from="1511664749495" duration="7127000" />
       <workItem from="1511703651431" duration="9641000" />
       <workItem from="1511820224688" duration="3224000" />
-      <workItem from="1511976410490" duration="6466000" />
+      <workItem from="1511976410490" duration="7343000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="112692000" />
+    <option name="totallyTimeSpent" value="113569000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="2629" y="297" width="2560" height="1378" extended-state="6" />
@@ -668,55 +668,55 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/graphs.cpp">
+    <entry file="file://$PROJECT_DIR$/main.cpp">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="594">
-          <caret line="35" column="0" lean-forward="false" selection-start-line="35" selection-start-column="0" selection-end-line="35" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/mpi_tsp.h">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="522">
-          <caret line="29" column="0" lean-forward="true" selection-start-line="29" selection-start-column="0" selection-end-line="29" selection-end-column="0" />
-          <folding />
+        <state relative-caret-position="814">
+          <caret line="339" column="0" lean-forward="false" selection-start-line="339" selection-start-column="0" selection-end-line="345" selection-end-column="36" />
+          <folding>
+            <element signature="e#1152#1169#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/mpi_tsp.cpp">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="202">
-          <caret line="249" column="0" lean-forward="false" selection-start-line="249" selection-start-column="2" selection-end-line="257" selection-end-column="3" />
+        <state relative-caret-position="3820">
+          <caret line="401" column="0" lean-forward="true" selection-start-line="401" selection-start-column="0" selection-end-line="401" selection-end-column="0" />
           <folding>
             <element signature="e#0#16#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/mpi_tsp.h">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="144">
+          <caret line="8" column="0" lean-forward="false" selection-start-line="8" selection-start-column="0" selection-end-line="8" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/graphs.cpp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-54">
+          <caret line="35" column="0" lean-forward="false" selection-start-line="35" selection-start-column="0" selection-end-line="35" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/stack.h">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="486">
-          <caret line="67" column="52" lean-forward="true" selection-start-line="67" selection-start-column="52" selection-end-line="67" selection-end-column="52" />
+        <state relative-caret-position="450">
+          <caret line="25" column="0" lean-forward="false" selection-start-line="25" selection-start-column="0" selection-end-line="25" selection-end-column="0" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/stack.cpp">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="580">
-          <caret line="355" column="33" lean-forward="false" selection-start-line="355" selection-start-column="0" selection-end-line="356" selection-end-column="0" />
+        <state relative-caret-position="-158">
+          <caret line="282" column="37" lean-forward="true" selection-start-line="282" selection-start-column="37" selection-end-line="282" selection-end-column="37" />
           <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/main.cpp">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="634">
-          <caret line="196" column="0" lean-forward="true" selection-start-line="196" selection-start-column="0" selection-end-line="196" selection-end-column="0" />
-          <folding>
-            <element signature="e#1152#1169#0" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
