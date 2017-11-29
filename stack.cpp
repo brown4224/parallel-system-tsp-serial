@@ -347,25 +347,26 @@ void process_stack(tour_t*(&pop)(stack_t1 *stack, mpi_data_t* mpi_data ) , int *
 //
     tour_t* tour = pop(stack, mpi_data);  //  Function call to depth or breadth first search
     if ( tour->size == n_cities && tour->cost < *best_tour_cost) {
-#pragma omp critical
-        {
+//#pragma omp critical
+//        {
 //            time_t  ts_timev;
 //            printf("Thread: %d,  Critical Section %ld\n", mpi_data->my_rank, time(&ts_timev) );
 
 
             mpi_tsp_async_recieve(mpi_data, best_tour_cost);
-        }
+//        }
 
         if (is_best_tour(tour, best_tour_cost, graph, home_city, mpi_data)) {
             // If best tour add home city and make new best tour
             add_city(graph, tour, home_city, mpi_data);
-#pragma omp critical
+#pragma omp critical(best_tour)
             {
                 *best_tour_cost = tour->cost;
                 //  Send MPI ASYNC
-                mpi_tsp_async_send(mpi_data, best_tour_cost);
 
             }
+            mpi_tsp_async_send(mpi_data, best_tour_cost);
+
             copy_tour(tour, best_tour, mpi_data);
 
 //            mpi_tsp_async_send(mpi_data, &best_tour->cost);

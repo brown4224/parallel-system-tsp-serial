@@ -53,9 +53,9 @@ typedef struct mpi_data_t{
     bool keep_alive;
     bool alive;
     int root;
-    int bcast_buffer_size;
-    int bcast_buffer_need_work_size;
-    int bcast_buffer_tour_size;
+//    int bcast_buffer_size;
+//    int bcast_buffer_need_work_size;
+//    int bcast_buffer_tour_size;
     int NEW_COST_TAG;
     int NEED_WORK_TAG;
     int RECIEVE_LOAD_BALANCE_TAG;

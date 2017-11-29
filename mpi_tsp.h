@@ -14,7 +14,9 @@ void mpi_tsp_sync_best_cost(int* best_tour_cost, mpi_data_t* mpi_data);
 
 
 //////////////////////////////////////////////////////////////////////
-int mpi_calculate_buffer_size_tour(int const mpi_comm_size) ;
+void attach_buffer(int const mpi_comm_size );
+void detach_buffer(mpi_data_t* mpi_data,stack_t1* stack ,int best_tour_cost );
+
 
 
 void mpi_tsp_need_work_async_send(mpi_data_t*  mpi_data, int node, int flag);
@@ -24,4 +26,4 @@ void mpi_tsp_need_work_async_recieve(mpi_data_t*  mpi_data);
 void mpi_tsp_load_balance_async_send(mpi_data_t*  mpi_data, int* dest, tour_t* tour);
 
 void mpi_tsp_load_balance_async_recieve(mpi_data_t*  mpi_data, stack_t1* stack);
-void attach_buffer();
+//void attach_buffer();
