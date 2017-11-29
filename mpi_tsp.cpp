@@ -249,6 +249,7 @@ void attach_buffer(){
     MPI_Buffer_attach(buffer, size);
 }
 
+
 void mpi_tsp_async_send(mpi_data_t*  mpi_data, int* best_tour_cost){
 
 
@@ -303,15 +304,15 @@ void mpi_tsp_print_best_tour(mpi_data_t*  mpi_data,  tour_t *best_tour) {
         printf("Size: %d\n", n_cities + 1);
 
 
-        for (int i = 0; i < mpi_data->comm_sz; i++) {
-            int pos = i * size;
-            if (results[pos] <= min) {
-                pos++;
-                printf("Path: ");
-                for (int j = 0; j < n_cities + 1; j++)
-                    printf("%d, ", results[pos + j]);
-            }
-        }
+//        for (int i = 0; i < mpi_data->comm_sz; i++) {
+//            int pos = i * size;
+//            if (results[pos] <= min) {
+//                pos++;
+//                printf("Path: ");
+//                for (int j = 0; j < n_cities + 1; j++)
+//                    printf("%d, ", results[pos + j]);
+//            }
+//        }
     }
 
 
@@ -322,10 +323,6 @@ void mpi_tsp_print_best_tour(mpi_data_t*  mpi_data,  tour_t *best_tour) {
 
 void mpi_tsp_need_work_async_send(mpi_data_t*  mpi_data, int node, int flag){
 
-
-
-    char buf;
-    int bsize;
     int* msg = new int [2];
     msg[0]= node;
     msg[1] = flag;
@@ -352,7 +349,6 @@ void mpi_tsp_need_work_async_recieve(mpi_data_t*  mpi_data){
     int* msg = new int[2];
     msg[0] = 0;
     msg[1] = 0;
-    MPI_Request request;
     MPI_Status status;
 
 

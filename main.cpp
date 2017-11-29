@@ -70,37 +70,32 @@ int tsp_ceil(float num) {
 }
 bool is_done(mpi_data_t* mpi_data){
 //        /****** PRINT LIST    ********/
-//    if(mpi_data->my_rank == 0){
-        printf("\n Node: %d, Size: %d, printing LOOP:", mpi_data->my_rank, mpi_data->comm_sz);
-        for(int i = 0; i< mpi_data->comm_sz; i++){
-            printf(" %d,", mpi_data->mpi_need_work_list[i] );
-        }
-        printf("\n");
-//    }
+//        printf("\n Node: %d, Size: %d, printing LOOP:", mpi_data->my_rank, mpi_data->comm_sz);
+//        for(int i = 0; i< mpi_data->comm_sz; i++){
+//            printf(" %d,", mpi_data->mpi_need_work_list[i] );
+//        }
+//        printf("\n");
+
 
     /****** Shutdown    ********/
 
-//    int counter = mpi_data->comm_sz -2;
-    int counter = tsp_ceil(mpi_data->comm_sz / 2.0);
+    int counter = mpi_data->comm_sz - 2;
+//    int counter = tsp_ceil(mpi_data->comm_sz / 2.0);  // 50% of cluster
 
-//#pragma omp critical
-//    {
+
         for(int i = 0; i< mpi_data->comm_sz; i++){
             if(mpi_data->mpi_need_work_list[i] == 1){
                 --counter;
             }
         }
-//    }
-//    if(mpi_data->my_rank == 0) {
 
-        printf("Node: %d,  Counter: %d\n", mpi_data->my_rank, counter);
-//    }
+//        printf("Node: %d,  Counter: %d\n", mpi_data->my_rank, counter);
+
 
     if(counter > 0)
         return false;
     else
         return true;
-//
 
 }
 
@@ -161,8 +156,8 @@ void process_data(int* graph, int* best_tour_cost, tour_t *best_tour,freed_tours
 
             }
             if(flag){
-                time_t  timev;
-                printf("Thread: %d, SYNC Best Cost Time: %ld\n", mpi_data->my_rank, time(&timev));
+//                time_t  timev;
+//                printf("Thread: %d, SYNC Best Cost Time: %ld\n", mpi_data->my_rank, time(&timev));
                 mpi_tsp_sync_best_cost(best_tour_cost, mpi_data);
             }
 
@@ -171,8 +166,8 @@ void process_data(int* graph, int* best_tour_cost, tour_t *best_tour,freed_tours
 
 
 
-            time_t  timev;
-            printf("Thread: %d, OMP Split data Time: %ld\n", mpi_data->my_rank, time(&timev));
+//            time_t  timev;
+//            printf("Thread: %d, OMP Split data Time: %ld\n", mpi_data->my_rank, time(&timev));
         }
 
 
@@ -208,43 +203,26 @@ void process_data(int* graph, int* best_tour_cost, tour_t *best_tour,freed_tours
                                 int dest = to_send[i];
 
                                 // Send tour
-                                tour_t send_tour = *breadth_first(ts_stack, mpi_data);
-                                mpi_tsp_load_balance_async_send(mpi_data, &dest, &send_tour);
+                                tour_t* send_tour = breadth_first(ts_stack, mpi_data);
 
 
-                                mpi_tsp_need_work_async_send(mpi_data, (int) dest, 0);
-                                mpi_data->mpi_need_work_list[dest] = 0;
-                                printf("Node: %d Sending Data to Node: %d\n", mpi_data->my_rank, i);
+                                if(send_tour->cost < *best_tour_cost){
+                                    mpi_tsp_load_balance_async_send(mpi_data, &dest, send_tour);
 
-//                                pop_freed_tour(send_tour, &freed_tours);
+
+                                    mpi_tsp_need_work_async_send(mpi_data, (int) dest, 0);
+                                    mpi_data->mpi_need_work_list[dest] = 0;
+//                                    printf("Node: %d Sending Data to Node: %d\n", mpi_data->my_rank, i);
+                                    push_freed_tour(freed_tours, send_tour, mpi_data);
+
+                                }
+
+
+
                             }
                         }
 
 
-
-//                    printf("Node: %d Checking...\n", mpi_data->my_rank);
-
-//                    for(int i = 0; i < mpi_data->comm_sz; i++){
-//                        if(i != mpi_data->my_rank && mpi_data->mpi_need_work_list[i] == 1){
-////                              printf("Node: %d Checking...\n", mpi_data->my_rank);
-//
-//                            if(ts_stack->size > 2){
-//                                printf("Node: %d Preparing data for Node: %d\n", mpi_data->my_rank, i);
-//
-////                                mpi_tsp_need_work_async_send(mpi_data, (int) i, 0);
-////                                mpi_data->mpi_need_work_list[i] = 0;
-////                                 printf("Node: %d Sending Data to Node: %d\n", mpi_data->my_rank, i);
-////
-////                                // Send tour
-////                                tour_t* send_tour = breadth_first(ts_stack, mpi_data);
-////                                mpi_tsp_load_balance_async_send(mpi_data, i, send_tour);
-////                                delete(send_tour);
-////                            // UPDATE LIST and continue
-////                                mpi_tsp_need_work_async_recieve(mpi_data);
-//                            }
-//
-//                        }
-//                    }
                     }
 
 
@@ -282,7 +260,7 @@ void process_data(int* graph, int* best_tour_cost, tour_t *best_tour,freed_tours
 
 
 int main(int argc, char *argv[]) {
-    printf("Starting Program\n");
+//    printf("Starting Program\n");
 
     high_resolution_clock::time_point t1 = high_resolution_clock::now();
     // +++++++++++++++++++++++++++++++++++++++++++++++++++ //
@@ -313,7 +291,7 @@ int main(int argc, char *argv[]) {
     // ******************     MPI     ******************** //
     // *************************************************** //
     //////// MPI  INIT //////////////
-    printf("Init: MPI\n");
+//    printf("Init: MPI\n");
 
     mpi_data_t mpi_data;
     MPI_Init(NULL, NULL);
@@ -325,35 +303,31 @@ int main(int argc, char *argv[]) {
     mpi_data.NEW_COST_TAG = 1;
     mpi_data.NEED_WORK_TAG = 2;
     mpi_data.RECIEVE_LOAD_BALANCE_TAG = 3;
-    mpi_data.bcast_buffer_size = mpi_calculate_buffer_size_integer(mpi_data.comm_sz);  //Used by MPI_Bsend
-//    mpi_data.bcast_buffer_size = mpi_calculate_buffer_size_integer(mpi_data.comm_sz, 1);  //Used by MPI_Bsend
-//    mpi_data.bcast_buffer_need_work_size = mpi_calculate_buffer_size_integer(mpi_data.comm_sz, 2);  //Used by MPI_Bsend
-//    mpi_data.bcast_buffer_tour_size = mpi_calculate_buffer_size_tour(mpi_data.comm_sz);  //Used by MPI_Bsend
     mpi_data.mpi_need_work_list = new int [mpi_data.comm_sz];
     for(int i = 0; i< mpi_data.comm_sz; i++) mpi_data.mpi_need_work_list[i] = 0;
+    attach_buffer();
 
 
 
 
     stack_t1* stack = scatter_tsp( &mpi_data, graph, best_tour_cost,  best_tour, freed_tours, home_city);
     io_error_handling(&mpi_data);  // ALL Nodes check for error
-    mpi_tsp_need_work_async_recieve(&mpi_data);
-    mpi_tsp_load_balance_async_recieve(&mpi_data, stack);
+//    mpi_tsp_need_work_async_recieve(&mpi_data);
+//    mpi_tsp_load_balance_async_recieve(&mpi_data, stack);
+//
+//    mpi_tsp_async_recieve(&mpi_data, &best_tour_cost);  //Recieve old messages
+//    for(int i = 0; i< mpi_data.comm_sz; i++) mpi_data.mpi_need_work_list[i] = 0;
 
-    mpi_tsp_async_recieve(&mpi_data, &best_tour_cost);  //Recieve old messages
-    for(int i = 0; i< mpi_data.comm_sz; i++) mpi_data.mpi_need_work_list[i] = 0;
 
-
-    if(mpi_data.root == mpi_data.root){
-        time_t  timev;
-        printf("MPI FINISHED SENDING DATA Time: %ld\n",  time(&timev));
-    }
+//    if(mpi_data.root == mpi_data.root){
+//        time_t  timev;
+//        printf("MPI FINISHED SENDING DATA Time: %ld\n",  time(&timev));
+//    }
 
 //    bool flag = true;
 //    process_data(graph, &best_tour_cost, best_tour,freed_tours, home_city, &mpi_data,   local_stack,  stack,thread_count_request, flag);
 //
     // *************************************************** //
-    void attach_buffer();
     bool done = false;
     bool flag = true;
     while(!done){
@@ -363,6 +337,7 @@ int main(int argc, char *argv[]) {
                 flag = false;
 
             stack = new_stack();
+            
 
             mpi_tsp_need_work_async_recieve(&mpi_data);
                             mpi_data.mpi_need_work_list[mpi_data.my_rank] = true;
@@ -430,13 +405,13 @@ int main(int argc, char *argv[]) {
         print_graph(graph);
     }
 
-//    mpi_tsp_need_work_async_recieve(&mpi_data);
-//    mpi_tsp_load_balance_async_recieve(&mpi_data, stack);
-//
-//    mpi_tsp_async_recieve(&mpi_data, &best_tour_cost);  //Recieve old messages
-//    char buf;
-//    int bsize;
-//    MPI_Buffer_detach(&buf, &bsize);  //??
+    char buf;
+    int bsize;
+    //Recieve old messages
+    mpi_tsp_need_work_async_recieve(&mpi_data);
+    mpi_tsp_load_balance_async_recieve(&mpi_data, stack);
+    mpi_tsp_async_recieve(&mpi_data, &best_tour_cost);
+    MPI_Buffer_detach(&buf, &bsize);
 
 
     delete local_stack;
