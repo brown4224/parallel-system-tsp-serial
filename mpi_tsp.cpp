@@ -9,6 +9,7 @@ using namespace std;
 
 #endif
 
+
 void io_error_occur(mpi_data_t *mpi_data) {
 #pragma omp critical(keep_alive)
     {
@@ -20,8 +21,7 @@ void io_error_occur(mpi_data_t *mpi_data) {
 
 }
 
-// Input:  takes a void pointer
-// Checks to see if a any threads have had errors.  If error exist, shut down cluster and clear files and memory
+
 void io_error_handling(mpi_data_t *mpi_data) {
     MPI_Allreduce(&mpi_data->keep_alive, &mpi_data->alive, 1, MPI_C_BOOL, MPI_LAND, MPI_COMM_WORLD);
     if (!(mpi_data->alive)) {
@@ -38,8 +38,6 @@ void io_error_handling(mpi_data_t *mpi_data) {
 }
 
 
-// Input: 2 pointers to integer files and cluster root
-// Groups values together and broadcast
 void build_mpi_data_type(int *data_1, int *data_2, int root) {
 
     MPI_Datatype custom_type = NULL;
@@ -245,7 +243,7 @@ void attach_buffer(int const mpi_comm_size) {
     MPI_Pack_size(size, MPI_INT, MPI_COMM_WORLD, &data_size); // sets data size
     message_size = data_size + (MPI_BSEND_OVERHEAD * 3);
     int buff_size = (mpi_comm_size * message_size);
-    buff_size = buff_size * buff_size  ;
+    buff_size = buff_size * buff_size;
     buff_size = 1024 * 1024;
     char *buffer = new char[buff_size];
     MPI_Buffer_attach(buffer, buff_size);
@@ -319,8 +317,6 @@ void mpi_tsp_print_best_tour(mpi_data_t *mpi_data, tour_t *best_tour) {
 
 
 }
-//////////////////////////////////////////////////////////////////
-
 
 
 void mpi_tsp_need_work_async_send(mpi_data_t *mpi_data, int node, int flag) {
