@@ -66,7 +66,7 @@ scatter_tsp(mpi_data_t *mpi_data, int *graph, int &best_tour_cost, tour_t *best_
         push_copy(stack, ts_tour, freed_tours, mpi_data);
 
 
-        while (stack->size < mpi_data->comm_sz) {
+        while (stack->size <  mpi_data->comm_sz) {
 
 
             breadth_first_process_stack(graph, stack, &best_tour_cost, best_tour, freed_tours, home_city, mpi_data);
@@ -237,7 +237,7 @@ void mpi_tsp_async_send(mpi_data_t *mpi_data, int *best_tour_cost) {
     int bsize;
     int message = *best_tour_cost;
     char buffer[mpi_data->bcast_buffer_size];
-    MPI_Buffer_attach(buffer, mpi_data->bcast_buffer_size);
+    MPI_Buffer_attach(&buffer, mpi_data->bcast_buffer_size);
 
     for (int i = 0; i < mpi_data->comm_sz; i++) {
         if (mpi_data->my_rank != i) {

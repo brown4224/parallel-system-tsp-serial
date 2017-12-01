@@ -53,6 +53,8 @@
  * asyn message passing.  Based on my tests, I felt our algorith would benifit more from load balancing MPI then OMP.
  * This is some what of a time management call...
  *
+ * Since the last submission I added one line of code to check if the tour is less then the best tour for every loop trip
+ *
  *
  * */
 
@@ -175,7 +177,7 @@ int main(int argc, char *argv[]) {
              */
 
             ts_stack = stack;
-            while (ts_stack->size < ts_thread_count) {
+            while (ts_stack->size < ts_thread_count && ts_stack->size > 0) {
 
                 breadth_first_process_stack(graph, ts_stack, &best_tour_cost, ts_best_tour, freed_tours, home_city,
                                             &mpi_data);

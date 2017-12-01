@@ -33,12 +33,12 @@ int mpi_calculate_buffer_size_integer(int const mpi_comm_size);
 
 
 // INPUT:  mpi pointer and best tour cost
-//  Asyn receives all best tour messages
+//  Async receives all best tour messages
 void mpi_tsp_async_recieve(mpi_data_t *mpi_data, int *best_tour_cost);
 
 
 // INPUT:  mpi pointer and best tour cost
-//  Asyn  sends best tour cost and continues
+//  Async  sends best tour cost and continues
 void mpi_tsp_async_send(mpi_data_t *mpi_data, int *best_tour_cost);
 
 // INPUT: MPI pointer and best tour
