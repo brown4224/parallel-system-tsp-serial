@@ -191,7 +191,7 @@ void process_data(int *graph, int *best_tour_cost, tour_t *best_tour, freed_tour
         for (int i = 0; i < mpi_data->comm_sz; i++) to_send[i] = 0;
         int to_send_size = 0;
         int load_balance_counter = 0;
-        int threshold = 10000;  // only check so many iterations
+        int threshold = 500;  // only check so many iterations
 
 #pragma omp single
         {
@@ -211,14 +211,16 @@ void process_data(int *graph, int *best_tour_cost, tour_t *best_tour, freed_tour
 
 
             local_stack = new vector<stack_t1 *>(ts_stack->size, NULL);
-            for (int j = 0; j < ts_stack->size; j++) {
-                local_stack->at(j) = new_stack();
-                local_stack->at(j)->list[0] = ts_stack->list[j];
-                local_stack->at(j)->size = 1;
+            if (ts_stack > 0) {
+                for (int j = 0; j < ts_stack->size; j++) {
+                    local_stack->at(j) = new_stack();
+                    local_stack->at(j)->list[0] = ts_stack->list[j];
+                    local_stack->at(j)->size = 1;
 
-            }
-            if (flag) {
-                mpi_tsp_sync_best_cost(best_tour_cost, mpi_data);
+                }
+                if (flag) {
+                    mpi_tsp_sync_best_cost(best_tour_cost, mpi_data);
+                }
             }
 
 
@@ -231,76 +233,79 @@ void process_data(int *graph, int *best_tour_cost, tour_t *best_tour, freed_tour
         /**
          * Each thread takes the stack and processes their section
          */
-        int local_size = local_stack->size();
+
+        if (local_stack->size() > 0) {
+            int local_size = local_stack->size();
 #pragma omp for schedule(static, local_size / ts_thread_count )
-        for (z = 0; z < local_size; z++) {
-            ts_stack = local_stack->at(z);
+            for (z = 0; z < local_size; z++) {
+                ts_stack = local_stack->at(z);
 
 
-            while (ts_stack->size > 0) {
+                while (ts_stack->size > 0) {
 
 
-                /* Check for messages and send work */
-                if (ts_my_rank == 0) {
-                    load_balance_counter++;
+                    /* Check for messages and send work */
+                    if (ts_my_rank == 0) {
+                        load_balance_counter++;
 
 
-                    if (load_balance_counter % threshold == 0) {
-                        mpi_tsp_async_recieve(mpi_data, best_tour_cost);
-                        mpi_tsp_need_work_async_recieve(mpi_data);
+                        if (load_balance_counter % threshold == 0) {
+                            mpi_tsp_async_recieve(mpi_data, best_tour_cost);
+                            mpi_tsp_need_work_async_recieve(mpi_data);
 //                        if (is_active(mpi_data)) {
 
-                        //  Group messages in an array
-                        to_send_size = 0;
-                        for (int i = 0; i < mpi_data->comm_sz; i++) {
-                            if (mpi_data->mpi_need_work_list[i] == 1 && mpi_data->my_rank != i) {
-                                to_send[to_send_size] = i;
-                                to_send_size++;
+                            //  Group messages in an array
+                            to_send_size = 0;
+                            for (int i = 0; i < mpi_data->comm_sz; i++) {
+                                if (mpi_data->mpi_need_work_list[i] == 1 && mpi_data->my_rank != i) {
+                                    to_send[to_send_size] = i;
+                                    to_send_size++;
+                                }
                             }
-                        }
 
 
-                        // Process array and send a tour if there is work
-                        for (int i = 0; i < to_send_size; i++) {
-                            if (ts_stack->size > 2) {
-                                int dest = to_send[i];
-                                // Send tour
-                                tour_t *send_tour = breadth_first(ts_stack, mpi_data);
-                                if (send_tour->cost < *best_tour_cost) {
-                                    mpi_tsp_load_balance_async_send(mpi_data, (int) dest, send_tour);
-                                    mpi_tsp_need_work_async_send(mpi_data, (int) dest, 0);
-                                    mpi_data->mpi_need_work_list[dest] = 0;
+                            // Process array and send a tour if there is work
+                            for (int i = 0; i < to_send_size; i++) {
+                                if (ts_stack->size > 2) {
+                                    int dest = to_send[i];
+                                    // Send tour
+                                    tour_t *send_tour = breadth_first(ts_stack, mpi_data);
+                                    if (send_tour->cost < *best_tour_cost) {
+                                        mpi_tsp_load_balance_async_send(mpi_data, (int) dest, send_tour);
+//                                    mpi_tsp_need_work_async_send(mpi_data, (int) dest, 0);  //  <-- this caused to many messages
+                                        mpi_data->mpi_need_work_list[dest] = 0;
+
+                                    }
+                                    push_freed_tour(freed_tours, send_tour, mpi_data);
 
                                 }
-                                push_freed_tour(freed_tours, send_tour, mpi_data);
-
                             }
-                        }
 
 
 //                        }
+                        }
+                    }
+
+
+                    //  Continue processing
+                    if (ts_stack->size > 0) {
+                        process_stack(depth_first, graph, ts_stack, best_tour_cost, ts_best_tour, freed_tours,
+                                      home_city,
+                                      mpi_data);
+
                     }
                 }
+            } // End For Loop
 
 
-                //  Continue processing
-                if (ts_stack->size > 0) {
-                    process_stack(depth_first, graph, ts_stack, best_tour_cost, ts_best_tour, freed_tours,
-                                  home_city,
-                                  mpi_data);
-
+#pragma omp critical(best_tour)
+            {
+                if (ts_best_tour->cost > 0 && ts_best_tour->cost < best_tour->cost) {
+                    copy_tour(ts_best_tour, best_tour, mpi_data); // Reduce: best tour
                 }
             }
-        } // End For Loop
-
-
-#pragma omp critical
-        {
-            if (ts_best_tour->cost > 0 && ts_best_tour->cost < best_tour->cost) {
-                copy_tour(ts_best_tour, best_tour, mpi_data); // Reduce: best tour
-            }
+            delete ts_best_tour;  // <--- Fixed
         }
-        delete ts_best_tour;  // <--- Fixed
     }
 }
 
@@ -359,6 +364,8 @@ int main(int argc, char *argv[]) {
     bool flag = true;
     while (!done) {
         if (stack->size > 0) {
+//            mpi_data.mpi_need_work_list[mpi_data.my_rank] = true;
+
             //  Process data and check for messages
             process_data(graph, &best_tour_cost, best_tour, freed_tours, home_city, &mpi_data, local_stack, stack,
                          thread_count_request, flag);
@@ -368,7 +375,7 @@ int main(int argc, char *argv[]) {
             //MPI NODE Out of work, Notify other nodes
             stack = new_stack();
             mpi_tsp_need_work_async_recieve(&mpi_data);
-            mpi_data.mpi_need_work_list[mpi_data.my_rank] = true;
+//            mpi_data.mpi_need_work_list[mpi_data.my_rank] = true;
             mpi_tsp_need_work_async_send(&mpi_data, (int) mpi_data.my_rank, 1);  // <-- needs the cast
 
 

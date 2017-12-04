@@ -263,6 +263,7 @@ void mpi_tsp_async_send(mpi_data_t *mpi_data, int *best_tour_cost) {
             }
 
         }
+
     }
 
 
@@ -334,6 +335,7 @@ void mpi_tsp_need_work_async_send(mpi_data_t *mpi_data, int node, int flag) {
             }
 
         }
+        mpi_data->mpi_need_work_list[node] = flag;
 
     }
     delete (msg);
